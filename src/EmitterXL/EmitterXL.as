@@ -69,9 +69,11 @@ package EmitterXL
 				// This is a particle we are adding. Set the appropriate shits.
 				var particle:FlxParticle = FlxParticle(object);
 				
-				var red:Number = (Math.random() * 0x66) << 16;
-				red += 0x110000;
-				var green:Number = 0x000000 << 8;
+				//var red:Number = (Math.random() * 0x66) << 16;
+				//red += 0x110000;
+				var red:Number = 0x000000;
+				var green:Number = (Math.random() * 0x66) << 8;
+				green += 0x11;
 				var blue:Number = Math.random() * 0xAA;
 				blue += 0x11;
 				

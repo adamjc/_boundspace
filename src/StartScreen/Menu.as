@@ -57,7 +57,7 @@ package StartScreen
 		protected var emitter:EmitterXL.EmitterXL;
 		
 		protected var logo:FlxSprite;
-		[Embed(source = "../../assets/temp-logo.png")] protected var logoGraphic:Class;
+		[Embed(source = "../../assets/bound-space-logo.png")] protected var logoGraphic:Class;
 		protected var logoTimer:Number;
 		protected var initialLogoTimer:Number;
 		
@@ -74,17 +74,17 @@ package StartScreen
 			emitter.setSize(BoundSpace.SceneWidth, 1);			
 			emitter.setYSpeed(10, 100);
 			emitter.setXSpeed(0, 0);
+			emitter.z = -10;
 			
 			for (var i:int = 0; i < 100; i++)
 			{
 				var particle:FlxParticle = new FlxParticle();
 				particle.makeGraphic(4, 4, 0xFFFFFFFF);
 				particle.exists = false;
-				particle.z = 1;
+				particle.z = -10;
 				emitter.add(particle);
 				emitter.minRotation = 0;
 				emitter.maxRotation = 0;
-				emitter.z = 1;
 			}							
 			
 			this.add(emitter);
@@ -94,11 +94,11 @@ package StartScreen
 		}
 		
 		protected var _flashed:Boolean;
-		protected function updateTween(tween)
+		protected function updateTween(tween):void
 		{
 			if (!_flashed && tween.totalProgress() >= 0.35)
 			{
-				FlxG.flash();
+				FlxG.shake(0.0025, 0.1);
 				_flashed = true;
 			}
 		}
