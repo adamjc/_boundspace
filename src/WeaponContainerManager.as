@@ -47,7 +47,7 @@ package
 			// Pick randomly a new PowerCore to add.
 			//var r:int = Math.random() * ((weaponContainers.length - 1) + 0.5);	
 			var r:int = Math.random() * 10;
-			trace (r);
+
 			var w:WeaponContainer;
 			if (r > 8)
 			{

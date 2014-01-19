@@ -23,12 +23,14 @@ package CreditsScreen
 		protected var basicallyEverything:CreditsItem;
 		protected var music:CreditsItem;
 		
+		
+		
 		public function CreditsScreen() 
 		{
 			basicallyEverything	= new CreditsItem("Basically Everything", "Adam Cook \n @_AdamC");
 			music = new CreditsItem("Music", "Not for Nothing \n @notfornothing", basicallyEverything.x, basicallyEverything.y + ITEM_PADDING);
 			
-			endOfCredits = music.y - 200;
+			endOfCredits = music.y + 200;
 			
 			items = new FlxGroup();
 			items.add(basicallyEverything);
@@ -58,7 +60,7 @@ package CreditsScreen
 				items.members[i].y = items.members[i - 1] ? items.members[i - 1].y + ITEM_PADDING : y;
 			}
 						
-			endOfCredits = music.y - 200;
+			endOfCredits = music.y + 200;
 		}
 		
 		override public function kill():void

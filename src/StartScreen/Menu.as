@@ -57,14 +57,12 @@ package StartScreen
 		protected var emitter:EmitterXL.EmitterXL;
 		
 		protected var logo:FlxSprite;
-		[Embed(source = "../../assets/bound-space-logo.png")] protected var logoGraphic:Class;
+		[Embed(source = "../../assets/bound-space-logo-cartoony.png")] protected var logoGraphic:Class;
 		protected var logoTimer:Number;
 		protected var initialLogoTimer:Number;
 		
 		public function Menu() 
-		{						
-			
-			
+		{												
 			loadButtons();							
 			
 			menuArray = [mainMenuUpdate, optionsMenuUpdate, achievementsMenuUpdate, creditsScreenUpdate];
@@ -115,20 +113,21 @@ package StartScreen
 			logo.scaleX = 0;
 			logo.scaleY = 0;
 			logo.x = (BoundSpace.SceneWidth / 2) - (logo.width / 2);
-			//logo.x = BoundSpace.SceneWidth / 2;
 			var maxWidth:Number = logo.width;
 			var maxHeight:Number = logo.height;
 			logo.scale = new FlxPoint(0, 0);
-			logo.y = 20;			
+			logo.y = 40;			
 			logo.z = 1000;			
 			add(logo);
 			initialLogoTimer = 0;
+			logo.antialiasing = true;
 			
 			TweenMax.to(logo, 1, {	x: (BoundSpace.SceneWidth / 2) - (logo.width / 2),
-									scaleX:1, 
+									scaleX: 1, 
 									scaleY: 1, 
 									ease: Bounce.easeOut,
 									onUpdate: updateTween,
+									angle: -10,
 									onUpdateParams:["{self}"]
 								 }
 			);
@@ -226,6 +225,7 @@ package StartScreen
 						if ((i - 1) >= 0)
 						{
 							TweenMax.to(buttonArray[i], BUTTON_MOVE_DURATION, { x: buttonPositions[i - 1].x } );
+							TweenMax.to(buttonArray[i].getButton(), 0.1, { alpha: 0.5 } );
 						}
 						else // We are tweening the first button, which does not have a location in buttonPositions[].
 						{
@@ -233,8 +233,11 @@ package StartScreen
 										0.1, 
 										{ x: -MenuButton.WIDTH, 
 										  onComplete: firstButtonTweenedLeft, 
-										  onCompleteParams: [buttonArray] } 
+										  onCompleteParams: [buttonArray]
+										} 
 							);
+							
+							TweenMax.to(buttonArray[i].getButton(), 0.1, { alpha: 0.5 } );
 						}						
 					}
 				}
@@ -250,6 +253,7 @@ package StartScreen
 						if ((i + 1) < NUMBER_OF_BUTTONS_ON_SCREEN)
 						{
 							TweenMax.to(buttonArray[i], BUTTON_MOVE_DURATION, { x: buttonPositions[i + 1].x } );
+							TweenMax.to(buttonArray[i].getButton(), 0.1, { alpha: 0.5 } );
 						}
 						else // We are tweening the last button, which does not have a location in buttonPositions[].
 						{
@@ -257,8 +261,11 @@ package StartScreen
 										0.1, 
 										{ x: BoundSpace.SceneWidth + MenuButton.WIDTH,
 										  onComplete: firstButtonTweenedRight, 
-										  onCompleteParams: [buttonArray] } 
+										  onCompleteParams: [buttonArray]
+										} 
 							);
+							
+							TweenMax.to(buttonArray[i].getButton(), 0.1, { alpha: 0.5 } );
 						}						
 					}
 				}				
@@ -273,6 +280,8 @@ package StartScreen
 				var buttonsTriggerMethod:String = b.getTrigger();
 				b[buttonsTriggerMethod](this);
 			}
+			
+			buttonArray[1].getButton().alpha = 1;
 		}
 
 		/**
@@ -280,7 +289,6 @@ package StartScreen
 		 */
 		public function hideMainMenu():void
 		{
-			//buttonsBackground.kill();
 			logo.kill();
 			
 			for each (var b:MenuButton in buttonArray)

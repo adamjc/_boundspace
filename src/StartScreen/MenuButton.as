@@ -25,13 +25,16 @@ package StartScreen
 		
 		protected var buttonImage:FlxSprite;
 				
+		[Embed(source = "../../assets/Hooge0553.ttf", fontName = "DefaultFont", embedAsCFF="false")] private var FontClass:Class;
+		
 		public function MenuButton(text:String, x:int, y:int, trigger:String = null) 
 		{
 			this.x = x;
 			this.y = y;
 			buttonText = new FlxText(x, y, WIDTH, text);
-			buttonText.setFormat(null, 16, FlxG.WHITE, "center");
+			buttonText.setFormat("DefaultFont", 16, FlxG.WHITE, "center");
 			if (trigger) { this.trigger = trigger; }
+			buttonText.alpha = 0.5;
 		}
 		
 		public function getButton():FlxText

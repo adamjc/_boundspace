@@ -256,7 +256,6 @@ package
 				if (FlxG.keys.justPressed("E"))
 				{			
 					Achievements.achievements |= gameCompletedOnce;			
-					trace(Achievements.achievements);
 				}
 				
 				if (FlxG.keys.justPressed("F"))

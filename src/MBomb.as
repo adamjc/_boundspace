@@ -53,14 +53,13 @@ package
 		{
 			var a:Array = Registry.enemies.members;
 			var i:int;		
-			trace(this.x + ":" + this.y);
+
 			for (i = 0; i < a.length; i++)
 			{
 				if (a[i])
 				{
 					if (this.intersects(a[i]))
 					{
-						trace("intersecting!");
 						a[i].enemyHit(DAMAGE * Registry.player.chargeBarNumber);	
 					}
 				}

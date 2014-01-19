@@ -13,7 +13,8 @@ package
 		 * Constructor.
 		 */
 		
-		[Embed(source = "../assets/portal.png")] public var portalImage:Class;
+		//[Embed(source = "../assets/portal.png")] public var portalImage:Class;
+		[Embed(source = "../assets/portal-replace.png")] public var portalImage:Class;
 		 
 		public function Portal(name:int) 
 		{
@@ -28,7 +29,8 @@ package
 				y = Registry.PORTAL_2_POS.y;
 			}
 			
-			var graphic:FlxSprite = loadGraphic(portalImage, true, false, 50, 50);
+			//var graphic:FlxSprite = loadGraphic(portalImage, true, false, 50, 50);
+			var graphic:FlxSprite = loadGraphic(portalImage, true, false, 52, 54);
 			
 			var array:Array = new Array();
 			

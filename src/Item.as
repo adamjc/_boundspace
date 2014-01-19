@@ -87,7 +87,6 @@ package
 		public var timer:Number = TIMER;
 		public function droppedCooldown():void
 		{
-			trace("hi");
 			if (timer <= 0)
 			{
 				timer = TIMER;

@@ -80,23 +80,26 @@ package
 			// Add stage information.
 			stageText = new FlxText(TEXT_X, STAGE_TEXT_Y, 50);
 			stageText.text = BASE_STAGE_TEXT;
-			stageText.scale.x = 2;
-			stageText.scale.y = 2;
+			//stageText.scale.x = 2;
+			//stageText.scale.y = 2;
 			stageText.z = Registry.UI_TEXT_Z_LEVEL;
+			stageText.setFormat("DefaultFont", 16);
 			Registry.game.add(stageText);
 			
 			// Add wave information.
 			waveText = new FlxText(TEXT_X, WAVE_TEXT_Y, 50);
 			waveText.text = BASE_WAVE_TEXT;
-			waveText.scale.x = 2;
-			waveText.scale.y = 2;
+			//waveText.scale.x = 2;
+			//waveText.scale.y = 2;
+			waveText.setFormat("DefaultFont", 16);
 			waveText.z = Registry.UI_TEXT_Z_LEVEL;
 			Registry.game.add(waveText);
 			
 			// Add credits information.
 			creditsText = new FlxText(CREDITS_TEXT_X, CREDITS_TEXT_Y, 50);
-			creditsText.scale.x = 2;
-			creditsText.scale.y = 2;
+			//creditsText.scale.x = 2;
+			//creditsText.scale.y = 2;
+			creditsText.setFormat("DefaultFont", 16);
 			creditsText.z = Registry.UI_TEXT_Z_LEVEL;
 			Registry.game.add(creditsText);
 			
@@ -110,8 +113,9 @@ package
 			var hwidth:int = ARMOUR_BAR_CONTAINER_END_X - ARMOUR_BAR_CONTAINER_START_X;
 			healthBarText = new FlxText(ARMOUR_BAR_CONTAINER_START_X + (hwidth / 2), ARMOUR_BAR_START_Y + 2, 200, Registry.player.armour.toString()); 
 			healthBarText.x -= healthBarText.width / 2;
-			healthBarText.scale.x = 2;
-			healthBarText.scale.y = 2;
+			//healthBarText.scale.x = 2;
+			//healthBarText.scale.y = 2;
+			healthBarText.setFormat("DefaultFont", 16);
 			healthBarText.z = Registry.UI_TEXT_Z_LEVEL;
 			Registry.game.add(healthBarText);
 			healthBarText.alignment = "center";
@@ -121,8 +125,9 @@ package
 			Registry.game.add(shieldBar);
 			hwidth = SHIELD_BAR_CONTAINER_END_X - SHIELD_BAR_CONTAINER_START_X;
 			shieldText = new FlxText(SHIELD_BAR_CONTAINER_START_X + (hwidth / 2) + 4, SHIELD_BAR_START_Y + 2, 25, Registry.player.shields.toString());
-			shieldText.scale.x = 2;
-			shieldText.scale.y = 2;
+			//shieldText.scale.x = 2;
+			//shieldText.scale.y = 2;
+			shieldText.setFormat("DefaultFont", 16);
 			shieldText.z = Registry.UI_TEXT_Z_LEVEL;
 			Registry.game.add(shieldText);
 			updatePlayerBars();

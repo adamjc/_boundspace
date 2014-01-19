@@ -332,7 +332,7 @@ package AchievementsPackage
 						
 			// Create the text			
 			var title:FlxText = new FlxText(0, 40, width);
-			title.setFormat(null, 32, 0xFFFFFFF, "center");
+			title.setFormat("DefaultFont", 32, 0xFFFFFFF, "center");
 			title.text = "ACHIEVEMENTS";
 			return title;
 		}
@@ -344,7 +344,7 @@ package AchievementsPackage
 						
 			// Create the text			
 			var done:FlxText = new FlxText(elementPosArray[2].x, elementPosArray[2].y + 55, width);
-			done.setFormat(null, 24, 0xFFFFFFF, "center");
+			done.setFormat("DefaultFont", 24, 0xFFFFFFF, "center");
 			done.text = "DONE";
 			return done;
 		}

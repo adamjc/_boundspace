@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<texture version="1" file="portal-new.png" type="bitmap" width="1510" height="54" pixelformat="RGBA_8888" minfilter="linear" magfilter="linear" wrapt="clamp" wraps="clamp" premultiplyalpha="false">
+    <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker -->
+    <!-- $TexturePacker:SmartUpdate:92f25e0944f4480a4da4acdaf172cdda:fce11d2836af41ec83c735c9cff8eb93:fe542f08ca04b1ad5b1bdc0ad7813e16$ -->
+    <textureregion id="0" src="portal0001.png" x="2" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="1" src="portal0002.png" x="54" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="2" src="portal0003.png" x="106" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="3" src="portal0004.png" x="158" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="4" src="portal0005.png" x="210" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="5" src="portal0006.png" x="262" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="6" src="portal0007.png" x="314" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="7" src="portal0008.png" x="366" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="8" src="portal0009.png" x="418" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="9" src="portal0010.png" x="470" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="10" src="portal0011.png" x="522" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="11" src="portal0012.png" x="574" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="12" src="portal0013.png" x="626" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="13" src="portal0014.png" x="678" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="14" src="portal0015.png" x="730" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="15" src="portal0016.png" x="782" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="16" src="portal0017.png" x="834" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="17" src="portal0018.png" x="886" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="18" src="portal0019.png" x="938" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="19" src="portal0020.png" x="990" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="20" src="portal0021.png" x="1042" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="21" src="portal0022.png" x="1094" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="22" src="portal0023.png" x="1146" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="23" src="portal0024.png" x="1198" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="24" src="portal0025.png" x="1250" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="25" src="portal0026.png" x="1302" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="26" src="portal0027.png" x="1354" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="27" src="portal0028.png" x="1406" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+    <textureregion id="28" src="portal0029.png" x="1458" y="2" width="50" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="50" srcheight="50"/>
+</texture>

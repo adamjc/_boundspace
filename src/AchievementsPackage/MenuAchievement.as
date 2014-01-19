@@ -36,14 +36,16 @@ package AchievementsPackage
 		// TODO: Here we add the embedded images to the array. The constructor will pick out the image from the index.
 		//protected static const achievementImages:Array;
 		
+		[Embed(source = "../../assets/Hooge0553.ttf", fontName = "DefaultFont", embedAsCFF="false")] private var FontClass:Class;
+		
 		public function MenuAchievement(achievementImgLoc:int, achievementTitleText:String, achievementTextText:String, xPos:int, yPos:int) 
 		{
 				x = xPos;
 				y = yPos;
 				achievementTitle = new FlxText(x + achievementTitleXOffset, y + achievementTitleYOffset, 300, achievementTitleText);
-				achievementTitle.setFormat(null, 16);
+				achievementTitle.setFormat("DefaultFont", 16);
 				achievementText = new FlxText(x + achievementTextXOffset, y + achievementTextYOffset, 300, achievementTextText);				
-				achievementText.setFormat(null, 16);
+				achievementText.setFormat("DefaultFont", 16);
 				achievementImage = new FlxSprite(x + achievementImageXOffset, y + achievementImageYOffset);
 				achievementImage.pixels = new BitmapData(100, 100, false, 0xFFFFFFFF);
 				

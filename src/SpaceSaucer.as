@@ -47,7 +47,6 @@ package
 		{	
 			if (aiReady) 
 			{ 
-				trace("hi from update");
 				ai = new SaucerAI(this); 
 				aiReady = false;
 			}

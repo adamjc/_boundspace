@@ -43,6 +43,8 @@ package OptionsScreen
 		
 		public var optionsGroup:FlxGroup;
 		
+		[Embed(source = "../../assets/Hooge0553.ttf", fontName = "DefaultFont", embedAsCFF="false")] private var FontClass:Class;
+		
 		public function Options() 
 		{
 			// Split the screen up into 5 segments (Title, SoundVolume, MusicVolume and Done).
@@ -147,7 +149,7 @@ package OptionsScreen
 			
 			// Create the text			
 			var title:FlxText = new FlxText(0, 40, width);
-			title.setFormat(null, 32, 0xFFFFFFF, "center");
+			title.setFormat("DefaultFont", 32, 0xFFFFFFF, "center");
 			title.text = "OPTIONS";
 			return title;
 		}
@@ -168,7 +170,7 @@ package OptionsScreen
 			}
 			
 			var volText:FlxText = new FlxText(x + 100, y + 60, 100, type);
-			volText.setFormat(null, 16);
+			volText.setFormat("DefaultFont", 16);
 			optionsGroup.add(volText);
 			
 			var volBar:FlxBar = new FlxBar(volText.x + 200, volText.y - 15, FlxBar.FILL_LEFT_TO_RIGHT, 300, 50, null, "", 0, 100, true);
@@ -186,7 +188,7 @@ package OptionsScreen
 						
 			// Create the text			
 			var done:FlxText = new FlxText(elementPosArray[3].x, elementPosArray[3].y + 55, width);
-			done.setFormat(null, 24, 0xFFFFFFF, "center");
+			done.setFormat("DefaultFont", 24, 0xFFFFFFF, "center");
 			done.text = "DONE";
 			return done;
 		}
