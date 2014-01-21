@@ -34,7 +34,7 @@ package
 			waveCount = 0;			
 			level = _level;
 			miniBossSpawned = false;
-			if (_level != 5)
+			if (_level != 6)
 			{
 				addWaveTween("Enemies approaching!", "pew pew pew!", "Enemy", level);
 			}
