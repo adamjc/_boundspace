@@ -42,8 +42,7 @@ package
 			{
 				addWaveTween("Oh.", "Turds.", "EndBoss", level);
 				endBoss = true;
-			}
-			
+			}			
 		}
 		
 		override public function update():void

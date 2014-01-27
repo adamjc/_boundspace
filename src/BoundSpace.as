@@ -29,7 +29,7 @@ package
 			Achievements.load();
 			this.forceDebugger = true;
 			FlxG.flashFramerate = 60;	
-			FlxG.framerate = 60;
+			FlxG.framerate = 60;			
 		}
 	}	
 }

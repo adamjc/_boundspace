@@ -62,7 +62,9 @@ package StartScreen
 		protected var initialLogoTimer:Number;
 		
 		public function Menu() 
-		{												
+		{				
+			FlxG.bgColor = 0xFF000000;
+			
 			loadButtons();							
 			
 			menuArray = [mainMenuUpdate, optionsMenuUpdate, achievementsMenuUpdate, creditsScreenUpdate];
@@ -92,7 +94,7 @@ package StartScreen
 		}
 		
 		protected var _flashed:Boolean;
-		protected function updateTween(tween):void
+		protected function updateTween(tween:Object):void
 		{
 			if (!_flashed && tween.totalProgress() >= 0.35)
 			{

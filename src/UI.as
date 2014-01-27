@@ -38,25 +38,25 @@ package
 		protected const CHARGE_X:int = 243;
 		protected const CHARGE_Y:int = 10;
 		
-		protected const TEXT_X:int = 60;
+		protected const TEXT_X:int = 100;
 		
 		protected var waveText:FlxText;
-		protected const WAVE_TEXT_Y:int = 10;
+		protected const WAVE_TEXT_Y:int = 1;
 		
 		protected var creditsText:FlxText;
-		protected const CREDITS_TEXT_X:int = 390;
-		protected const CREDITS_TEXT_Y:int = 13;
+		protected const CREDITS_TEXT_X:int = 84;
+		protected const CREDITS_TEXT_Y:int = 45;
 		
-		protected const BASE_WAVE_TEXT:String = "wave: ";
+		protected const BASE_WAVE_TEXT:String = "0";
 		
-		protected const BASE_STAGE_TEXT:String = "stage: ";
-		protected const STAGE_TEXT_Y:int = 45;
+		protected const BASE_STAGE_TEXT:String = "0";
+		protected const STAGE_TEXT_Y:int = 22;
 		
 		protected var healthBar:FlxSprite;
 		protected var healthBarText:FlxText;
-		protected const ARMOUR_BAR_CONTAINER_START_X:int = 400;
-		protected const ARMOUR_BAR_START_Y:int = 25;
-		protected const ARMOUR_BAR_CONTAINER_END_X:int = ARMOUR_BAR_CONTAINER_START_X + 230;	
+		protected const ARMOUR_BAR_CONTAINER_START_X:int = 392;
+		protected const ARMOUR_BAR_START_Y:int = 23;
+		protected const ARMOUR_BAR_CONTAINER_END_X:int = ARMOUR_BAR_CONTAINER_START_X + 210;	
 		
 		protected var shieldBar:FlxSprite;
 		protected var shieldText:FlxText;
@@ -321,7 +321,7 @@ package
 				var weapon:WeaponContainer = Registry.player.weapons[0];
 				if (weapon && !weapon_1)
 				{
-					weapon_1 = new FlxSprite(144, 15, weapon.weaponImage, Registry.UI_Z_LEVEL_ELEMENTS);
+					weapon_1 = new FlxSprite(142, 16, weapon.weaponImage, Registry.UI_Z_LEVEL_ELEMENTS);
 					Registry.game.add(weapon_1);	
 				}
 				else if (!weapon && weapon_1)
@@ -367,7 +367,7 @@ package
 			{
 				if (creditsText.text != Registry.player.credits.toString())
 				{
-					creditsText.text = Registry.player.credits.toString();
+					creditsText.text = "x " + Registry.player.credits.toString();
 				}
 			}
 		}
@@ -381,7 +381,7 @@ package
 			{
 				if (stageText.text != Registry.stage.level.toString())
 				{
-					stageText.text = BASE_STAGE_TEXT + Registry.stage.level.toString();
+					stageText.text = Registry.stage.level.toString();
 				}
 			}			
 		}
@@ -397,7 +397,7 @@ package
 				{
 					var waveString:String;
 					if (Registry.stage.waveCount.toString().localeCompare("11") == 0) { waveString = "shop"; }
-					else { waveString = BASE_WAVE_TEXT + Registry.stage.waveCount.toString(); }
+					else { waveString = Registry.stage.waveCount.toString(); }
 					waveText.text = waveString;
 				}
 			}

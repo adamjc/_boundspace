@@ -10,6 +10,7 @@ package
 	import org.flixel.FlxG;
 	import org.flixel.plugin.photonstorm.FlxButtonPlus;
 	import org.flixel.FlxButton;
+	import StartScreen.Menu;
 	
 	/**
 	 * ...
@@ -132,7 +133,10 @@ package
 			this.kill();
 			this.exists = false;
 			isShowing = false;
-			isDisplaying = false;			
+			isDisplaying = false;	
+			
+			var menu:Menu = new Menu();
+			FlxG.switchState(menu);
 		}
 		
 		public function restartGame():void
