@@ -33,7 +33,7 @@ package
 		
 		public function Unit(X:Number = 0, Y:Number = 0, SimpleGraphics:Class = null) 
 		{			
-			super(X, Y, SimpleGraphics);
+			super(X, Y, SimpleGraphics, Registry.ENEMY_Z_LEVEL);
 		}
 				
 		override public function update():void

@@ -1,5 +1,7 @@
 package  
 {
+	import Drops.HealthDrop;
+	import Drops.ShieldDrop;
 	import flash.utils.ByteArray;
 	import mx.core.FlexApplicationBootstrap;
 	import org.flixel.FlxBasic;
@@ -22,6 +24,7 @@ package
 	import flash.ui.Mouse;
 	import org.flixel.FlxEmitter;
 	import org.flixel.FlxCamera;
+	import Drops.HealthDrop;
 	
 	/**
 	 * ...
@@ -249,13 +252,13 @@ package
 				
 				if (FlxG.keys.justPressed("Q"))
 				{
-					Registry.player.shields = 0;
-					Registry.player.armour = 1;
+					var credit:Credit = CreditManager.makeCredit(Registry.player.x + 50, Registry.player.y);
+					this.add(credit);
 				}
 				
 				if (FlxG.keys.justPressed("E"))
 				{			
-					Achievements.achievements |= gameCompletedOnce;			
+					Registry.player.hit(4);		
 				}
 				
 				if (FlxG.keys.justPressed("F"))
@@ -285,15 +288,10 @@ package
 								
 				if (FlxG.keys.justPressed("B"))
 				{					
-					isPlayerDead = true;							
-				}					
-				
-				//if (FlxG.keys.justPressed("I"))
-				//{
-				//	c = CreditManager.makeCredit(100, 100);
-				//	this.add(c);
-				//	this.credits.add(c);
-				//}
+					var shieldDrop:ShieldDrop;
+					shieldDrop = new ShieldDrop(Registry.player.x + 50, Registry.player.y);
+					this.add(shieldDrop);
+				}									
 				
 				if (FlxG.keys.justPressed("L"))
 				{
@@ -372,7 +370,7 @@ package
 					Registry.player.emptyChargeBar();
 				}
 				
-				FlxG.overlap(Registry.player, credits, pickUpCredit);
+				//FlxG.overlap(Registry.player, credits, pickUpCredit);
 				
 				checkAchievements();
 			}

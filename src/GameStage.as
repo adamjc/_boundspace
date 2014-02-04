@@ -57,7 +57,8 @@ package
 					var cs:CreditsState = new CreditsState();
 					FlxG.switchState(cs);
 				}
-				else if (waveCount < 9)
+				//else if (waveCount < 9)
+				else if (waveCount < 1)				
 				{
 					if (!miniBossSpawned && FlxMath.chanceRoll(20))
 					{
@@ -69,11 +70,12 @@ package
 						addWaveTween("Enemies approaching!", "pew pew pew!", "Enemy", level);
 					}					
 				}
-				else if (waveCount < 10)
-				{
-					addWaveTween("Dun dun dun!", "go get 'em!", "Boss", level);
-				}
-				else if (waveCount < 11)
+				//else if (waveCount < 10)
+				//{
+				//	addWaveTween("Dun dun dun!", "go get 'em!", "Boss", level);
+				//}
+				//else if (waveCount < 11)
+				else if (waveCount < 2)
 				{
 					addWaveTween("Cue elevator music", "Seriously, buy some stuff", "Shop", level);
 				}

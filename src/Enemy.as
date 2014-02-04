@@ -1,5 +1,7 @@
 package  
 {
+	import Drops.HealthDrop;
+	import Drops.ShieldDrop;
 	import flash.text.engine.FontDescription;
 	import org.flixel.FlxEmitter;
 	import org.flixel.FlxG;
@@ -74,8 +76,57 @@ package
 			if (ai) { ai.removeThis(); }
 			ai = null;
 			
+			var healthDrop:HealthDrop;
+			var shieldDrop:ShieldDrop;
+			var creditDrop:Credit;
+			
+			if (FlxMath.chanceRoll(50))
+			{
+				if (Registry.player.armour < Registry.player.maxArmour)
+				{
+					// chance to drop health pack.
+					if (FlxMath.chanceRoll(10))
+					{
+						// drop some health.
+						healthDrop = new HealthDrop(this.x, this.y);
+						Registry.game.add(healthDrop);
+					}
+					else if (FlxMath.chanceRoll(10))
+					{
+						// drop a shield.
+						shieldDrop = new ShieldDrop(this.x, this.y);
+						Registry.game.add(shieldDrop);
+					}
+					else
+					{
+						// drop some monies instead.					
+						creditDrop = CreditManager.makeCredit(this.x, this.y);
+						Registry.game.add(creditDrop);
+					}
+				}
+				else
+				{
+					// no chance to drop health pack.
+					if (FlxMath.chanceRoll(10))
+					{
+						// drop a shield.
+						shieldDrop = new ShieldDrop(this.x, this.y);
+						Registry.game.add(shieldDrop);
+					}
+					else
+					{
+						// drop some monies instead.
+						creditDrop = CreditManager.makeCredit(this.x, this.y);
+						Registry.game.add(creditDrop);
+					}
+				}
+			}
+			
+			
 			this.enemyHitImage.kill();
 			this.kill(); // Kill the unit if it's health is reduced to <=0.	
+			
+			
 		}
 		
 		override public function update():void
@@ -100,6 +151,7 @@ package
 			}
 			
 			if (armour <= 0) { killEnemy(); }		
+			
 		}
 	}
 }

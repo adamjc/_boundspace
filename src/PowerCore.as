@@ -26,7 +26,7 @@ package
 		public var droppedTimer:Number;
 		
 		
-		public static const PRICE:int = 100;
+		public static const PRICE:int = 90;
 		
 		public static var z:int;
 		

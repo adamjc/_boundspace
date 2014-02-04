@@ -70,12 +70,16 @@ package
 				this.scale.y -= 0.0025;
 			}
 			
+			if (FlxG.overlap(this, Registry.player))
+			{
+				this.creditPickedUp(this);
+			}
 		}
 		
 		public function creditPickedUp(credit:Credit):void
 		{
-			FlxG.play(pickupSound);
-			play("pickup", false);
+			Registry.player.increaseCredits(this.value);
+			this.kill();
 		}
 		
 

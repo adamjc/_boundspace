@@ -30,6 +30,7 @@ package
 		public function Item() 
 		{
 			super();
+			this.z = Registry.UI_Z_LEVEL_ELEMENTS;
 		}
 			
 		public function changePrice(newPrice:int = 0):void

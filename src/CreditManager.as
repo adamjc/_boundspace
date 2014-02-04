@@ -24,6 +24,8 @@ package
 			var ci:Credit;
 			
 			ci = new c(_x, _y);
+			ci.z = Registry.UI_Z_LEVEL_ELEMENTS;
+			
 			return ci;
 		}
 		

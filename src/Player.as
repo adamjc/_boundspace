@@ -418,5 +418,29 @@ package
 			chargeBarNumber = 0;
 			Registry.ui.setChargeBar();
 		}
+		
+		public function increaseHealth(val:int = 1):void
+		{
+			if (this.armour + val <= this.maxArmour)
+			{
+				this.armour += val;
+			}
+			else
+			{
+				this.armour = this.maxArmour;
+			}
+		}
+		
+		public function increaseShield(val:int = 1):void
+		{
+			if (this.shields + val <= 99)
+			{
+				this.shields += val;
+			}
+			else
+			{
+				this.shields = 99;
+			}
+		}
 	}
 }

@@ -8,7 +8,7 @@ package
 	 */
 	public class SmallCredit extends Credit 
 	{
-		[Embed(source = "../assets/credits.png")] protected var creditImg:Class;
+		[Embed(source = "../assets/credit-one.png")] protected var creditImg:Class;
 		protected const VALUE:int = 1;
 		
 		protected var sprite:FlxSprite;
@@ -22,9 +22,6 @@ package
 			sprite.scale.y = 0.5;
 			sprite.antialiasing = true;
 		}
-		
-		
-		
 	}
 
 }

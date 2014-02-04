@@ -27,16 +27,35 @@ package
 		
 		public var currentTextBox:TextBox;
 		
+		[Embed (source = "../assets/shopkeeper.png")] protected var shopKeeperImage:Class;
+		
 		/**
 		 * Constructor.
 		 */
 		public function ShopKeeper() 
 		{
+			trace("Creating ShopKeeper...");
+			
 			var _x:Number = X;
 			var _y:Number = Y;
 			super(_x, _y);
 			
-			image = makeGraphic(10, 10, 0xFF0F00FF);			
+			//image = makeGraphic(10, 10, 0xFF0F00FF);			
+			
+			var graphic:FlxSprite = loadGraphic(shopKeeperImage, true, false, 47, 33);
+			
+			var array:Array = new Array();
+			
+			for (var i:int = 0; i < graphic.frames; i++)
+			{
+				array[i] = i+1;
+			}
+									
+			trace(graphic.frames);
+			
+			addAnimation("shopkeeper", array, 60, true);
+			this.play("shopkeeper");
+			
 			
 			armour = HEALTH;
 			this.weapons = new Array();
@@ -78,17 +97,17 @@ package
 				case 0: // A little angry		
 					if (currentTextBox) { currentTextBox.removeEverything(); }
 					angryCounter++;
-					currentTextBox = new TextBox("Hey! Stop that.", x, y);
+					currentTextBox = new TextBox("Hey! Stop that.", x + this.width + 20, y);
 					break;
 				case 1: // More angry
 					if (currentTextBox) { currentTextBox.removeEverything();  }
 					angryCounter++;
-					currentTextBox = new TextBox("One more time, I'm warning ya!", x, y);
+					currentTextBox = new TextBox("One more time, I'm warning ya!", x + this.width + 20, y);
 					break;
 				case 2: // Very angry
 					if (currentTextBox) { currentTextBox.removeEverything();  }
 					angryCounter++;
-					currentTextBox = new TextBox("Right, that's it!", x, y);					
+					currentTextBox = new TextBox("Right, that's it!", x + this.width + 20, y);					
 					angry = true;										
 					break;
 				default:
