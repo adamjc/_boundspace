@@ -10,9 +10,10 @@ package
 	{
 		public static var used:Boolean = false; // Has the player has installed the PowerCore?
 		
-		public static const VAL:Number = 10;		
+		public static const VAL:Number = 1;		
 		
 		public static var img:Class;		
+		public static var sprite:Class;	
 		
 		/**
 		 * Constructor.
@@ -37,7 +38,9 @@ package
 				this.name = this.unusedName;
 			}	
 			
-			makeGraphic(3, 3, 0xFF00FF00);
+			//makeGraphic(3, 3, 0xFF00FF00);
+			loadGraphic(sprite);
+			
 			x = _x;
 			y = _y;
 		}		
@@ -54,6 +57,8 @@ package
 		override public function installCore():void
 		{
 			super.installCore();
+			
+			Registry.player.maxArmour -= VAL;
 			
 			if (!used)
 			{

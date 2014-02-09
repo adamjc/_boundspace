@@ -4,6 +4,7 @@ package Drops
 	import org.flixel.FlxG;
 	import com.greensock.TweenMax;
 	import com.greensock.easing.Ease
+	import org.flixel.FlxText;
 	
 	/**
 	 * ...
@@ -12,6 +13,8 @@ package Drops
 	public class HealthDrop extends FlxSprite 
 	{
 		[Embed(source = "../../assets/health-drop.png")] protected var healthDropImage:Class;		
+		
+		protected var val:int = 1;
 		
 		public function HealthDrop(X:Number=0, Y:Number=0, SimpleGraphic:Class=null, Z:int=0) 
 		{			
@@ -32,8 +35,8 @@ package Drops
 			// Handle collision with player.
 			if (FlxG.collide(this, Registry.player))
 			{
-				Registry.player.increaseHealth();
-				this.kill();
+				Registry.player.increaseHealth(val);
+				this.kill();				
 			}
 			
 			super.update();

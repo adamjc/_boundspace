@@ -17,7 +17,7 @@ package
 		
 		public static var stage:GameStage;		
 		public static var player:Player;
-		public static var currentWave:Wave;
+		public static var currentWaveType:String;
 		public static var level:int;
 		public static var game:PlayState;
 		public static var enemies:FlxGroup;	

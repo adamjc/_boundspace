@@ -207,15 +207,6 @@ package
 					var s:FlxSound = new FlxSound();					
 				}
 			}
-			if (FlxG.keys.justPressed("O"))
-			{
-				dropSpecialItem();
-			}
-			
-			if (FlxG.keys.justPressed("L"))
-			{
-				dropPowerCore();
-			}
 			
 			if (invulnerable)
 			{				
@@ -226,7 +217,7 @@ package
 				}
 			}
 			
-			if (this.armour === 0)
+			if (this.armour <= 0)
 			{
 				Registry.game.isPlayerDead = true;
 			}
@@ -341,18 +332,18 @@ package
 			if (powerCore) // If the player has a Power Core to drop
 			{
 				// Make it alive with the co-ordinates where the player is and given an initial random velocity.
-				var point:FlxPoint = rotatePoint(new FlxPoint(this.x + (this.width / 2), this.y + (this.height / 2)), 
-												 new FlxPoint(this.x + this.width / 2, this.y - 10), 
-												 angle);
+				//var point:FlxPoint = rotatePoint(new FlxPoint(this.x + (this.width / 2), this.y + (this.height / 2)), 
+					//							 new FlxPoint(this.x + this.width / 2, this.y - 10), 
+						//						 angle);
 												 
-				powerCore.reset(point.x, point.y);
+				powerCore.reset(this.x, this.y);
 				powerCore.drag.x = 60;
 				powerCore.drag.y = 60;
 				powerCore.maxVelocity.x = 100;
 				powerCore.maxVelocity.y = 100;
 				FlxVelocity.moveTowardsMouse(powerCore, 20, 1000);
-				powerCore.dropped = true;
-				powerCore = null;
+				//powerCore.dropped = true;
+				//powerCore = null;
 			}
 		}
 		

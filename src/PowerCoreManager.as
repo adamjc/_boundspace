@@ -11,34 +11,54 @@ package
 	{
 		public static var powerCores:Array;
 		powerCores = new Array();
-		powerCores.push(new ArmourDownPowerCore(0, 0));
-		powerCores.push(new ArmourUpPowerCore(0, 0));
 		
-		[Embed(source = "../assets/powercore-a-sketch.png")] public static var a:Class;
-		[Embed(source = "../assets/powercore-b-sketch.png")] public static var b:Class;
+		[Embed(source = "../assets/powercore-a.png")] public static var a:Class;
+		[Embed(source = "../assets/powercore-b.png")] public static var b:Class;
 		public static var aSprite:FlxSprite;
 		public static var bSprite:FlxSprite;
 		public static var powerCoreSprites:Array = new Array();
 		
+		[Embed(source = "../assets/powercore-a-small.png")] public static var aSmall:Class;
+		[Embed(source = "../assets/powercore-b-small.png")] public static var bSmall:Class;				
+		
+		public static var powerCoreImages:Array = new Array();
+		
+		protected static const NO_POWERCORES:int = 2;
 		
 		/**
 		 * Constructor.
 		 */
 		public function PowerCoreManager() 
 		{			
-		
+			// Randomly assign powercore images to powercores.
 		}
 		
 		public static function initialiseSprites():void
 		{
-			aSprite = new FlxSprite(0, 0, a);
-			bSprite = new FlxSprite(0, 0, b);
-			powerCoreSprites.push(a);
-			powerCoreSprites.push(b);
+			powerCoreImages.push([aSmall, a]);
+			powerCoreImages.push([bSmall, b]);
+
+			var powerCoreIndices:Array = new Array();
 			
-			ArmourDownPowerCore.img = a;
-			ArmourUpPowerCore.img = b;
-			// TODO: Add all of the sprites for the powerCores.
+			for (var i:int = 0; i < NO_POWERCORES; i++)
+			{
+				powerCoreIndices[i] = i;
+			}
+			
+			var r:int;
+			
+			r = Math.floor(Math.random() * powerCoreImages.length);						
+			ArmourDownPowerCore.img = powerCoreImages[r][1];
+			ArmourDownPowerCore.sprite = powerCoreImages[r][0];			
+			powerCoreImages.splice(r, 1);
+			
+			r = Math.floor(Math.random() * powerCoreImages.length);						
+			ArmourUpPowerCore.img = powerCoreImages[r][1];
+			ArmourUpPowerCore.sprite = powerCoreImages[r][0];
+			powerCoreImages.splice(r, 1);
+						
+			powerCores.push(new ArmourDownPowerCore(0, 0));
+			powerCores.push(new ArmourUpPowerCore(0, 0));
 		}
 		
 		public static function pickPowerCore(_x:Number = 100, _y:Number = 100, _shop:Boolean = false):PowerCore

@@ -50,12 +50,12 @@ package
 		}
 		
 		override public function update():void
-		{
-			super.update();
+		{			
 			if (!canBePickedUp)
 			{
 				droppedCooldown();
 			}
+			super.update();
 		}
 		
 		/**
@@ -72,7 +72,7 @@ package
 			}
 			shopItems.push(PowerCoreManager.addPowerCore(item1Point.x, item1Point.y, true));
 			shopItems.push(PowerCoreManager.addPowerCore(item2Point.x, item2Point.y, true));
-			shopItems.push(PowerCoreManager.addPowerCore(item3Point.x, item3Point.y, true));
+			shopItems.push(WeaponContainerManager.addWeapon(item3Point.x, item3Point.y, true));
 			return shopItems;
 		}
 		
@@ -90,6 +90,7 @@ package
 		{
 			if (timer <= 0)
 			{
+				trace(canBePickedUp);
 				timer = TIMER;
 				canBePickedUp = true;
 				return;

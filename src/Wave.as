@@ -12,7 +12,7 @@ package
 	 */
 	public class Wave extends FlxBasic 
 	{
-		public static var stageOneEnemies:Array = new Array(new SpaceCapsule(false), new SpaceSaucer(false))
+		public static var stageOneEnemies:Array = new Array(new SpaceCapsule(false));
 		public static var stageOneMiniBosses:Array = new Array(new SaucerMiniBoss(false));
 		public static var stageOneBosses:Array = new Array(new SpaceInvaderBoss(false));		
 		
@@ -71,7 +71,7 @@ package
 		public function createShop():Array
 		{
 			var units:Array = new Array();
-			units.push(new Portal(1), new Portal(2), new ShopKeeper());
+			units.push(new Portal(1), new ShopKeeper());
 			return units;
 		}
 		

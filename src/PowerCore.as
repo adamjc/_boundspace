@@ -25,6 +25,7 @@ package
 		public var dropped:Boolean;
 		public var droppedTimer:Number;
 		
+		public static var sprite:FlxSprite;
 		
 		public static const PRICE:int = 90;
 		
@@ -35,19 +36,27 @@ package
 		 * @param	name
 		 * @param	attribute
 		 */
-		public function PowerCore(_x:int, _y:int, _shop:Boolean) 
+		public function PowerCore(_x:int, _y:int, _shop:Boolean, graphic:Class = null) 
 		{
 			super();
 			if (_shop)
 			{
 				this.price = PowerCore.PRICE;
-				priceText = new FlxText(_x - 8, _y + 2, 50, this.price.toString());
+				priceText = new FlxText(_x, _y + 20, 50, this.price.toString() + "c");
+				priceText.z = Registry.UI_Z_LEVEL_ELEMENTS;
+				priceText.setFormat("DefaultFont", 16);
 				Registry.game.add(priceText);
 			}
 			this.makeGraphic(3, 3, 0xFF00FF00);
 			this.explosionRadius = 50;
 			droppedTimer = DROPPED_TIMER_VAL;
 		}
+		
+		override public function reset(X:Number, Y:Number):void
+		{	
+			this.canBePickedUp = false;	
+			super.reset(X, Y);
+		}		
 		
 		/**
 		 * Designed to be overriden by a subclass.
@@ -67,15 +76,6 @@ package
 		override public function update():void
 		{
 			super.update();
-			
-			if (dropped)
-			{
-				droppedTimer -= FlxG.elapsed;
-				if (droppedTimer <= 0)
-				{
-					explode();
-				}
-			}
 		}	
 		
 		public function intersects(object:FlxSprite):Boolean

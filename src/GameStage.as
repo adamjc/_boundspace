@@ -131,7 +131,7 @@ package
 			}
 			if (type == "Shop")
 			{
-				Registry.game.shopKeeper = wave.units[2];
+				Registry.game.shopKeeper = wave.units[1];
 			}
 			waveCount++;			
 		}
