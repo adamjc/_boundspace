@@ -13,6 +13,8 @@ package Drops
 	{
 		[Embed(source = "../../assets/shield-drop.png")] protected var shieldDropImage:Class;		
 		
+		protected var val:int = 1;
+		
 		public function ShieldDrop(X:Number=0, Y:Number=0, SimpleGraphic:Class=null, Z:int=0) 
 		{			
 			super(X, Y, SimpleGraphic, Z);
@@ -32,7 +34,7 @@ package Drops
 			// Handle collision with player.
 			if (FlxG.collide(this, Registry.player))
 			{
-				Registry.player.increaseShield();
+				Registry.player.increaseShield(val);
 				this.kill();
 			}
 			

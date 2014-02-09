@@ -75,7 +75,7 @@ package
 		 */
 		public static function addWeapon(_x:Number = 100, _y:Number = 100, _shop:Boolean = false):WeaponContainer
 		{			
-			var wc:WeaponContainer = pickWeapon(_x, _y, _shop);
+			var wc:WeaponContainer = pickWeapon(_x + 5, _y - 20, _shop);
 			
 			// Add it to the PlayState.
 			Registry.game.add(wc);

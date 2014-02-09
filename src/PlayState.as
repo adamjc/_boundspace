@@ -1,6 +1,7 @@
 package  
 {
 	import Drops.HealthDrop;
+	import Drops.HealthDropFive;
 	import Drops.ShieldDrop;
 	import flash.utils.ByteArray;
 	import mx.core.FlexApplicationBootstrap;
@@ -25,6 +26,7 @@ package
 	import org.flixel.FlxEmitter;
 	import org.flixel.FlxCamera;
 	import Drops.HealthDrop;
+	import Drops.ShieldDropFive;
 	
 	/**
 	 * ...
@@ -186,6 +188,8 @@ package
 			stars.x = Registry.BACKGROUND_START_Y;
 			stars.z = Registry.BACKGROUND_STARS_Z_LEVEL;
 			add(stars);
+			
+			this.add(new ShieldDropFive(100, 100));
 		}
 
 		public var c:Credit;
@@ -245,38 +249,24 @@ package
 					add(Registry.stage);
 				}			
 				
-				if (FlxG.keys.justPressed("I"))
+				if (FlxG.keys.justPressed("E"))
 				{
-					Registry.player.dropWeapon();
+					Registry.player.installPowerCore();
 				}
 				
 				if (FlxG.keys.justPressed("Q"))
 				{
-					var credit:Credit = CreditManager.makeCredit(Registry.player.x + 50, Registry.player.y);
-					this.add(credit);
-				}
-				
-				if (FlxG.keys.justPressed("E"))
-				{			
-					Registry.player.hit(4);		
-				}
+					Registry.player.dropPowerCore();
+				}	
 				
 				if (FlxG.keys.justPressed("F"))
 				{
-					WeaponContainerManager.addWeapon();
+					Registry.player.dropWeapon();
 				}
 				
 				if (FlxG.keys.justPressed("G"))
 				{
 					killEnemies();
-				}
-				
-				if (FlxG.keys.justPressed("P"))
-				{
-					var s:FlxPoint = new FlxPoint(0, -50);
-					var e:FlxPoint = new FlxPoint(0, 0);
-					var f:FlxAchievement = new FlxAchievement(s, e, 200, 50, 5, "Crap Bag");
-					Registry.game.add(f);
 				}
 				
 				if (FlxG.keys.justPressed("ESCAPE"))
@@ -344,12 +334,6 @@ package
 					}
 				}
 				
-				if (FlxG.keys.justPressed("V"))
-				{
-					FlxG.timeScale = 1.0;
-					FlxG.camera.zoom = 1;
-				}
-				
 				if (FlxG.keys.justPressed("C"))
 				{
 					Registry.player.hit(1)
@@ -369,8 +353,6 @@ package
 				{
 					Registry.player.emptyChargeBar();
 				}
-				
-				//FlxG.overlap(Registry.player, credits, pickUpCredit);
 				
 				checkAchievements();
 			}
@@ -509,16 +491,27 @@ package
 				{
 					// Player is overlapping with a PowerCore.
 					var item:PowerCore = PowerCore(_item);
-					if (!Registry.player.powerCore && (!item.price || item.price <= Registry.player.credits))
+					if (!Registry.player.powerCore && (!item.price || item.price <= Registry.player.credits)) // Player does not have a power core.
 					{					
+						trace("first");
 						if (item.price) // Buy the item.
 						{
 							Registry.player.credits -= item.price;
 						}
 						Registry.player.powerCore = item;
-						Registry.player.powerCore.droppedTimer = Registry.player.powerCore.DROPPED_TIMER_VAL;
+						//Registry.player.powerCore.droppedTimer = Registry.player.powerCore.DROPPED_TIMER_VAL;
 						item.removeThis();
-					}				
+					}	
+					else if (!item.price || item.price <= Registry.player.credits) // Player already owns a power core.
+					{
+						trace("got here");
+							
+						Registry.player.dropPowerCore();						
+						Registry.player.powerCore = item;
+						//Registry.player.powerCore.droppedTimer = Registry.player.powerCore.DROPPED_TIMER_VAL;
+						item.removeThis();
+										
+					}
 				}
 				if (_item is SpecialItem)
 				{

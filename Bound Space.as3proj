@@ -18,6 +18,8 @@
     <class path="src" />
     <class path="..\flixel" />
     <class path="..\greensock" />
+    <class path="..\..\flixel" />
+    <class path="..\..\greensock" />
   </classpaths>
   <!-- Build options -->
   <build>

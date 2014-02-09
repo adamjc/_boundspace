@@ -124,7 +124,7 @@ package
 			shieldBar = new FlxSprite(SHIELD_BAR_CONTAINER_START_X, SHIELD_BAR_START_Y);
 			Registry.game.add(shieldBar);
 			hwidth = SHIELD_BAR_CONTAINER_END_X - SHIELD_BAR_CONTAINER_START_X;
-			shieldText = new FlxText(SHIELD_BAR_CONTAINER_START_X + (hwidth / 2) + 4, SHIELD_BAR_START_Y + 2, 25, Registry.player.shields.toString());
+			shieldText = new FlxText(SHIELD_BAR_CONTAINER_START_X + (hwidth / 2) + 10, SHIELD_BAR_START_Y + 2, 25, Registry.player.shields.toString());
 			//shieldText.scale.x = 2;
 			//shieldText.scale.y = 2;
 			shieldText.setFormat("DefaultFont", 16);
@@ -174,10 +174,13 @@ package
 			else
 			{
 				currentArmourWidth -= 3;
-				healthBar.makeGraphic(currentArmourWidth, 30, 0xFF880000);
-				if (currentArmourWidth < targetArmourWidth)
-				currentArmourWidth = targetArmourWidth
-				healthBar.makeGraphic(currentArmourWidth, 30, 0xFF880000);
+				if (currentArmourWidth > 0)
+				{
+					healthBar.makeGraphic(currentArmourWidth, 30, 0xFF880000);
+					if (currentArmourWidth < targetArmourWidth)
+					currentArmourWidth = targetArmourWidth
+					healthBar.makeGraphic(currentArmourWidth, 30, 0xFF880000);
+				}								
 			}
 		}
 		
@@ -216,11 +219,11 @@ package
 			
 			if (Registry.player.shields > 9)
 			{				
-				shieldText.x = SHIELD_BAR_CONTAINER_START_X + (hwidth / 2) - 1
+				shieldText.x = SHIELD_BAR_CONTAINER_START_X + (hwidth / 2) - 5;
 			}
 			else
 			{
-				shieldText.x = SHIELD_BAR_CONTAINER_START_X + (hwidth / 2) + 4
+				shieldText.x = SHIELD_BAR_CONTAINER_START_X + (hwidth / 2) + 8;
 			}
 			
 			if (Registry.player.shields < 1)
@@ -273,14 +276,14 @@ package
 					{						
 						powerCoreCompare = pc;
 						powerCore.kill();
-						powerCore = new FlxSprite(191, 3, p.img);
+						powerCore = new FlxSprite(323, 27, p.img);
 						powerCore.z = Registry.UI_Z_LEVEL_ELEMENTS;
 						Registry.game.add(powerCore);
 					}
 					else if (!powerCoreCompare)
 					{						
 						powerCoreCompare = pc;						
-						powerCore = new FlxSprite(191, 3, p.img);
+						powerCore = new FlxSprite(323, 27, p.img);
 						powerCore.z = Registry.UI_Z_LEVEL_ELEMENTS;
 						Registry.game.add(powerCore);
 					}

@@ -77,7 +77,9 @@ package
 			if (_shop)
 			{
 				this.price = PowerCore.PRICE; // lol, what.
-				priceText = new FlxText(_x - 8, _y + 2, 50, this.price.toString());
+				priceText = new FlxText(_x - 5, _y + 40, 50, this.price.toString() + "c");
+				priceText.z = Registry.UI_Z_LEVEL_ELEMENTS;
+				priceText.setFormat("DefaultFont", 16);
 				Registry.game.add(priceText);
 			}
 			
