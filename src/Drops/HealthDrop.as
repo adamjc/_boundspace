@@ -15,6 +15,8 @@ package Drops
 		[Embed(source = "../../assets/health-drop.png")] protected var healthDropImage:Class;		
 		
 		protected var val:int = 1;
+		protected var price:int;
+		protected var priceText:FlxText;
 		
 		public function HealthDrop(X:Number=0, Y:Number=0, SimpleGraphic:Class=null, Z:int=0) 
 		{			
@@ -26,16 +28,40 @@ package Drops
 			tween.yoyo(true);
 			tween.repeat( -1);
 			tween.repeatDelay(0.8);
-			trace(tween.yoyo());
 			tween.play();
+			
+			Registry.game.items.add(this);
+		}
+		
+		public function changePrice(newPrice:int = 0):void
+		{
+			if (newPrice == 0)
+			{
+				this.price = 0;
+				if (this.priceText) { this.priceText.kill(); }
+				this.priceText = null;
+			}
+			else
+			{
+				this.price = newPrice;
+				if (this.priceText) { Registry.game.remove(this.priceText); }
+				this.priceText = new FlxText(x - 8, y + 2, 50, this.price.toString());
+			}
 		}
 		
 		override public function update():void
 		{						
 			// Handle collision with player.
-			if (FlxG.collide(this, Registry.player))
+			if (FlxG.collide(this, Registry.player) && (!this.price || this.price <= Registry.player.credits))
 			{
 				Registry.player.increaseHealth(val);
+				
+				if (this.price)
+				{
+					Registry.player.decreaseCredits(this.price);
+				}
+				
+				if (this.priceText) { this.priceText.kill(); }				
 				this.kill();				
 			}
 			

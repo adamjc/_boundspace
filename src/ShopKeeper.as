@@ -33,9 +33,7 @@ package
 		 * Constructor.
 		 */
 		public function ShopKeeper() 
-		{
-			trace("Creating ShopKeeper...");
-			
+		{			
 			var _x:Number = X;
 			var _y:Number = Y;
 			super(_x, _y);
@@ -50,8 +48,6 @@ package
 			{
 				array[i] = i+1;
 			}
-									
-			trace(graphic.frames);
 			
 			addAnimation("shopkeeper", array, 60, true);
 			this.play("shopkeeper");

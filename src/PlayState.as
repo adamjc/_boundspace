@@ -189,7 +189,8 @@ package
 			stars.z = Registry.BACKGROUND_STARS_Z_LEVEL;
 			add(stars);
 			
-			this.add(new ShieldDropFive(100, 100));
+			this.add(SpecialItemManager.addSpecialItem(100, 300));
+			this.add(SpecialItemManager.addSpecialItem(200, 300));
 		}
 
 		public var c:Credit;
@@ -290,6 +291,11 @@ package
 					ess.y = 100;
 					Registry.enemies.add(ess);
 					Registry.game.add(ess);
+				}
+				
+				if (FlxG.keys.justPressed("SPACE"))
+				{
+					Registry.player.useSpecial();
 				}
 				
 				if (isPlayerDead)
@@ -493,7 +499,6 @@ package
 					var item:PowerCore = PowerCore(_item);
 					if (!Registry.player.powerCore && (!item.price || item.price <= Registry.player.credits)) // Player does not have a power core.
 					{					
-						trace("first");
 						if (item.price) // Buy the item.
 						{
 							Registry.player.credits -= item.price;
@@ -504,30 +509,49 @@ package
 					}	
 					else if (!item.price || item.price <= Registry.player.credits) // Player already owns a power core.
 					{
-						trace("got here");
-							
 						Registry.player.dropPowerCore();						
 						Registry.player.powerCore = item;
 						//Registry.player.powerCore.droppedTimer = Registry.player.powerCore.DROPPED_TIMER_VAL;
-						item.removeThis();
-										
+						item.removeThis();										
 					}
 				}
 				if (_item is SpecialItem)
 				{
 					// Player is overlapping with a SpecialItem.
 					var specialItem:SpecialItem = SpecialItem(_item);
-					if (Registry.player.specialItem)
+					
+					if (!Registry.player.specialItem && (!specialItem.price || specialItem.price <= Registry.player.credits)) // Player does not have a power core.
+					{					
+						if (specialItem.price) // Buy the item.
+						{
+							Registry.player.credits -= specialItem.price;
+						}
+						Registry.player.specialItem = specialItem;
+						
+						specialItem.removeThis();
+					}	
+					else if (!specialItem.price || specialItem.price <= Registry.player.credits) // Player already owns a power core.
 					{
-						// The player already has a SpecialItem. Drop it and pick this one up.
-						Registry.player.dropSpecialItem();					
+						trace("second");
+						Registry.player.dropSpecialItem();						
+						Registry.player.specialItem = specialItem;
+						
+						specialItem.removeThis();										
 					}
-					if (specialItem.price) // Buy the item.
-					{
-						Registry.player.credits -= specialItem.price;
-					}
-					Registry.player.specialItem = specialItem;
-					specialItem.removeThis();
+					
+					
+					
+					//if (Registry.player.specialItem)
+					//{
+					//	// The player already has a SpecialItem. Drop it and pick this one up.
+					//	Registry.player.dropSpecialItem();					
+					//}
+					//if (specialItem.price) // Buy the item.
+					//{
+					//	Registry.player.credits -= specialItem.price;
+					//}
+					//Registry.player.specialItem = specialItem;
+					//specialItem.removeThis();
 				}
 				if (_item is WeaponContainer)
 				{

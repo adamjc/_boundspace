@@ -50,7 +50,7 @@ package
 			enemyFlashIncrementor = 0;
 			this.enemyHitImage.visible = true;
 			
-			var damage:int = _damage;
+			var damage:int = _damage;			
 			while (damage > 0)
 			{
 				if (shields > 0) { shields--; }

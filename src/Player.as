@@ -302,6 +302,18 @@ package
 		}
 		
 		/**
+		 * The Player installs the PowerCore that it is currently holding, applying
+		 * value the PowerCore holds to the Player's attributes.
+		 */
+		public function useSpecial():void
+		{
+			if (this.specialItem)
+			{				
+				this.specialItem.useSpecial();
+			}
+		}
+		
+		/**
 		 * The player drops the SpecialItem that it is currently holding.
 		 */
 		public function dropSpecialItem():void
@@ -309,18 +321,18 @@ package
 			if (specialItem) // If the player is holding a SpecialItem.
 			{
 				// Make it alive with the co-ordinates where the player is and given an initial random velocity.
-				var point:FlxPoint = rotatePoint(new FlxPoint(this.x + (this.width / 2), this.y + (this.height / 2)), 
-												 new FlxPoint(this.x + this.width / 2, this.y - 10), 
-												 angle);
+				//var point:FlxPoint = rotatePoint(new FlxPoint(this.x + (this.width / 2), this.y + (this.height / 2)), 
+				//								 new FlxPoint(this.x + this.width / 2, this.y - 10), 
+				//								 angle);
 												 
-				specialItem.reset(point.x, point.y);
+				specialItem.reset(this.x, this.y);
 				specialItem.drag.x = 60;
 				specialItem.drag.y = 60;
 				specialItem.maxVelocity.x = 100;
 				specialItem.maxVelocity.y = 100;
 				FlxVelocity.moveTowardsMouse(specialItem, 20, 1000);
-				specialItem.dropped = true;
-				specialItem = null;
+				//specialItem.dropped = true;
+				//specialItem = null;
 			}
 		}
 		
