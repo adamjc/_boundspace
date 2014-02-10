@@ -23,6 +23,12 @@ package
 			this.makeGraphic(4, 4, 0xFFF0FFF0);
 		}
 		
+		override public function reset(X:Number, Y:Number):void
+		{	
+			this.canBePickedUp = false;	
+			super.reset(X, Y);
+		}				
+		
 		override public function update():void
 		{
 			super.update();
@@ -38,7 +44,7 @@ package
 		 */
 		public function useSpecial():void
 		{
-			
+			Registry.player.emptyChargeBar();
 		}
 	}
 

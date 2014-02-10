@@ -1,9 +1,11 @@
 package  
 {
+	import Drops.HealthDropFive;
 	import org.flixel.FlxPoint;
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxText;
 	import org.flixel.FlxG;	
+	import org.flixel.plugin.photonstorm.FlxMath;
 	
 	/**
 	 * ...
@@ -16,6 +18,8 @@ package
 		public static const item1Point:FlxPoint = new FlxPoint(100, 350);
 		public static const item2Point:FlxPoint = new FlxPoint(150, 350);
 		public static const item3Point:FlxPoint = new FlxPoint(200, 350);
+		
+		public static var itemPoints:Array = [item1Point, item2Point, item3Point];
 		
 		public static var shopItems:Array;
 		
@@ -68,11 +72,25 @@ package
 			var shopItems:Array = new Array();
 			var i:int;
 			for (i = 0; i < 3; i++)
-			{				
+			{		
+				if (FlxMath.chanceRoll(100))
+				{
+					shopItems.push(Registry.game.add(new HealthDropFive(itemPoints[i].x, itemPoints[i].y, 10, true)));
+				}
+				else if (FlxMath.chanceRoll(33))
+				{
+					shopItems.push(PowerCoreManager.addPowerCore(itemPoints[i].x, itemPoints[i].y, true));
+				}
+				else if (FlxMath.chanceRoll(33))
+				{
+					shopItems.push(WeaponContainerManager.addWeapon(itemPoints[i].x, itemPoints[i].y, true));
+				}
+				else
+				{
+					shopItems.push(SpecialItemManager.addSpecialItem(itemPoints[i].x, itemPoints[i].y, true));
+				}
 			}
-			shopItems.push(PowerCoreManager.addPowerCore(item1Point.x, item1Point.y, true));
-			shopItems.push(PowerCoreManager.addPowerCore(item2Point.x, item2Point.y, true));
-			shopItems.push(WeaponContainerManager.addWeapon(item3Point.x, item3Point.y, true));
+			
 			return shopItems;
 		}
 		
@@ -90,7 +108,6 @@ package
 		{
 			if (timer <= 0)
 			{
-				trace(canBePickedUp);
 				timer = TIMER;
 				canBePickedUp = true;
 				return;
