@@ -250,15 +250,15 @@ package
 					add(Registry.stage);
 				}			
 				
-				if (FlxG.keys.justPressed("E"))
-				{
-					Registry.player.installPowerCore();
-				}
-				
 				if (FlxG.keys.justPressed("Q"))
 				{
-					Registry.player.dropPowerCore();
+					Registry.player.installPowerCore();
 				}	
+				
+				if (FlxG.keys.justPressed("E"))
+				{
+					Registry.player.chargeBarNumber = 5;
+				}
 				
 				if (FlxG.keys.justPressed("F"))
 				{
