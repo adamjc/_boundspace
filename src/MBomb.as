@@ -5,6 +5,8 @@ package
 	import org.flixel.FlxBasic;
 	import org.flixel.FlxSprite;
 	import flash.display.Shape;
+	import org.flixel.FlxG;
+	
 	/**
 	 * ...
 	 * @author Adam
@@ -14,13 +16,18 @@ package
 		public static const RADIUS:int = 20;
 		public static const DAMAGE:int = 10;
 				
+		[Embed (source = "../assets/mega-bomb.png")] protected var sprite:Class;
 		
 		public function MBomb(_x:int, _y:int, _shop:Boolean = false) 
 		{			
 			super(_x, _y, _shop);
-			this.makeGraphic(10, 10);
+			this.loadGraphic(sprite);
 			x = _x;
 			y = _y;
+			
+			this.image = sprite;
+			this.scale.x = 0.6;
+			this.scale.y = 0.6;
 		}
 
 		override public function update():void
@@ -46,6 +53,7 @@ package
 		{			
 			if (Registry.player.chargeBarNumber >= Registry.player.MAX_CHARGE)
 			{	
+				FlxG.shake(0.005, 0.2);
 				explode();				
 				super.useSpecial();
 			}

@@ -20,6 +20,13 @@ package
 		{	
 			super.update();			
 		}
+		
+		override public function kill():void
+		{
+			Item.addRandomItem(this.x, this.y);
+			
+			super.kill();
+		}
 	}
 
 }
