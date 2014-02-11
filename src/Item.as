@@ -62,8 +62,23 @@ package
 			super.update();
 		}
 		
+		public static function addRandomItem(_x:int, _y:int):void
+		{
+			if (FlxMath.chanceRoll(33))
+			{
+				Registry.game.add(PowerCoreManager.addPowerCore(_x, _y, false));
+			}
+			else if (FlxMath.chanceRoll(33))
+			{
+				Registry.game.add(WeaponContainerManager.addWeapon(_x, _y, false));
+			}
+			else
+			{
+				Registry.game.add(SpecialItemManager.addSpecialItem(_x, _y, false));
+			}
+		}
+		
 		/**
-		 * TODO 
 		 * Randomly picks 3 items from either PowerCore, SpecialItem or Upgrades and
 		 * gives it it's price.
 		 */

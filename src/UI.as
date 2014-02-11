@@ -302,8 +302,10 @@ package
 			{
 				var specialItem:SpecialItem = Registry.player.specialItem;
 				if (specialItem && !specialItemUI)
-				{
-					specialItemUI = new FlxSprite(145, 3, specialItem.image, 1);
+				{					
+					specialItemUI = new FlxSprite(253, 17, specialItem.image, 1);
+					specialItemUI.z = Registry.UI_Z_LEVEL_ELEMENTS;
+					
 					Registry.game.add(specialItemUI);
 				}
 				if (!specialItem && specialItemUI)
