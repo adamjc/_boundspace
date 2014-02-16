@@ -189,8 +189,9 @@ package
 			stars.z = Registry.BACKGROUND_STARS_Z_LEVEL;
 			add(stars);
 			
-			this.add(SpecialItemManager.addSpecialItem(100, 300));
-			this.add(SpecialItemManager.addSpecialItem(200, 300));
+			add(SpecialItemManager.addSpecialItem(100, 100, false));
+			add(SpecialItemManager.addSpecialItem(100, 200, false));
+			add(SpecialItemManager.addSpecialItem(100, 300, false));
 		}
 
 		public var c:Credit;
@@ -246,8 +247,7 @@ package
 				
 				if (FlxG.keys.justPressed("M"))
 				{ 
-					Registry.stage = new GameStage(Registry.level++);
-					add(Registry.stage);
+					Registry.player.chargeBarNumber = 5;
 				}			
 				
 				if (FlxG.keys.justPressed("Q"))

@@ -37,11 +37,12 @@ package
 				
 				if (FlxMath.chanceRoll(40))
 				{
-					var i:int;
+					var i:int; 
 					for (i = 0; i < unit.weapons.length; i++)
-					{				
+					{										
 						unit.weapons[i].fireAtTarget(Registry.player.playerSprite);
-						Registry.game.add(unit.weapons[i].currentBullet);	
+						Registry.game.add(unit.weapons[i].currentBullet);			
+						trace(unit.weapons[i].currentBullet.x);
 						unit.weapons[i].currentBullet.z = Registry.ENEMY_PROJECTILE_Z_LEVEL;
 					}
 				}

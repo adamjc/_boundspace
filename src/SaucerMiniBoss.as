@@ -37,7 +37,7 @@ package
 			weapon1.makePixelBullet(10, 2, 2, 0xFFFF00FF);
 			this.weapons.push(weapon1);				
 			
-			(FlxG.state as PlayState).enemyProjectiles.add(weapon1.group);	
+			(FlxG.state as PlayState).enemyProjectiles.add(weapon1.group);				
 		}
 		
 		override public function update():void

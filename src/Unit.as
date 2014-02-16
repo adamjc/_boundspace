@@ -20,7 +20,7 @@ package
 		
 		public var armour:int;
 		public var maxArmour:int;
-		public var image:FlxSprite;
+		public var image:FlxSprite; // used for weapons!
 		public var shields:int;		
 		public var speed:int;
 		public var weapons:Array = new Array();				

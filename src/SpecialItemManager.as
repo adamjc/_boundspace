@@ -10,7 +10,7 @@ package
 	{
 		public static var specialItems:Array;
 		specialItems = new Array();
-		specialItems.push(new MBomb(0, 0));
+		specialItems.push(new MBomb(0, 0), new SuperMissile(0, 0));
 				
 		
 		/**
@@ -29,13 +29,20 @@ package
 		public static function pickSpecialItem(_x:Number = 100, _y:Number = 100, _shop:Boolean = false):SpecialItem
 		{
 			// Pick randomly a new SpecialItem to add.
-			var r:int = Math.random() * ((specialItems.length - 1) + 0.5);	
+			if (specialItems.length)
+			{
+				var r:int = Math.random() * ((specialItems.length - 1) + 0.5);	
+
+				var s:Class = Object(specialItems[r]).constructor;
+				var si:SpecialItem;
+				
+				specialItems.splice(r, 1);
+				
+				si = new s(_x, _y, _shop);
+				return si;
+			}			
 			
-			var s:Class = Object(specialItems[r]).constructor;
-			var si:SpecialItem;
-			
-			si = new s(_x, _y, _shop);
-			return si;
+			return new SpecialItem(0, 0, false);
 		}
 		
 		/**

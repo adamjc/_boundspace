@@ -112,16 +112,16 @@ package
 		}
 		
 		/**
-		 * 
+		 * When the ShopKeeper dies, all of the items that he owns have their price set to null.	
 		 */
 		public function killShopKeeper(_playerKilled:Boolean = true):void
 		{
-			// TODO: When the ShopKeeper dies, all of the items that he owns have their price set to null.	
 			var i:int;
 			for (i = 0; i < items.length; i++)
 			{
 				items[i].changePrice();
 			}
+			
 			Registry.enemies.remove(this); // Remove the unit from the enemies array in PlayState when it has been killed.		
 			if (_playerKilled) { aShopKeeperHasDied = true; }
 			this.kill(); // Kill the unit if it's health is reduced to <= 0.	

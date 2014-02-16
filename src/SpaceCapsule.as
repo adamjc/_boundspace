@@ -29,6 +29,7 @@ package
 			var _y:Number = ((Registry.BOTTOM_BOUNDS - Registry.TOP_BOUNDS) * Math.random()) + Registry.TOP_BOUNDS;
 			super(_x, _y, WEAPON_COOLDOWN);
 			
+			// used for weapons!
 			image = loadGraphic(capsuleImg);							
 			armour = HEALTH;
 			

@@ -106,10 +106,10 @@ package
 			switch(stageNumber)
 			{
 				case 1:
-					miniBoss = new SaucerMiniBoss();
+					miniBoss = new BanditSaucer();
 					break;
 				default:
-					miniBoss = new SaucerMiniBoss();
+					miniBoss = new BanditSaucer();
 					break;
 			}
 			units.push(miniBoss);

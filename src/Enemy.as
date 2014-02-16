@@ -8,6 +8,8 @@ package
 	import org.flixel.FlxParticle;
 	import org.flixel.FlxSprite;
 	import org.flixel.plugin.photonstorm.FlxMath;
+	import com.greensock.TweenMax;
+	import com.greensock.easing.*;
 	/**
 	 * ...
 	 * @author Adam
@@ -35,6 +37,7 @@ package
 			if (!enemyHitImage) { enemyHitImage = new FlxSprite(); }
 			weaponCooldown = _weaponCooldown;
 			weaponTimer = weaponCooldown;
+			this.antialiasing = true;
 		}
 		
 		public function enemyHitAnimation():void
@@ -132,6 +135,19 @@ package
 		override public function update():void
 		{
 			super.update();	
+			
+			if (this.velocity.x > 0)
+			{
+				TweenMax.to(this, 1, { angle: 10, ease: Ease } );
+			}
+			else if (this.velocity.x < 0)
+			{
+				TweenMax.to(this, 1, { angle: -10, ease: Ease } );
+			}
+			else
+			{
+				TweenMax.to(this, 1, { angle: 0, ease: Ease } );
+			}
 			
 			if (isEnemyHit)
 			{

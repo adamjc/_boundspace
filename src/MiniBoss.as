@@ -14,6 +14,8 @@ package
 		public function MiniBoss(_x:int, _y:int, _weaponCooldown:int) 
 		{			
 			super(_x, _y, _weaponCooldown);
+			
+			
 		}
 
 		override public function update():void
