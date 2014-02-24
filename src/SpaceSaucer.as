@@ -31,16 +31,13 @@ package
 			super(f.x, f.y, WEAPON_COOLDOWN);
 
 			image = loadGraphic(saucerImg);		
-			enemyHitImage = new FlxSprite(0, 0, saucerHit, 2);
-			enemyHitImage.visible = false;
-			Registry.game.add(enemyHitImage);			
+
 			armour = HEALTH;
 			this.weapons = new Array();
 			
 			addWeapon("cannon", BULLET_SPEED, WEAPON_COOLDOWN, BULLET_DAMAGE);
 			Registry.game.enemyProjectiles.add(weapons[0].group);
-			
-			//aiReady = _ai;			
+						
 		}
 
 		override public function update():void
@@ -51,8 +48,6 @@ package
 				aiReady = false;
 			}
 			
-			enemyHitImage.x = this.x;
-			enemyHitImage.y = this.y;
 			super.update();			
 		}
 	}

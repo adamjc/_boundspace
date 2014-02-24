@@ -1,5 +1,8 @@
 package  
 {
+	import Enemies.Rotatortron.Rotatortron;
+	import flash.utils.clearInterval;
+	import flash.utils.setInterval;
 	import StartScreen.Menu;
 	import flash.desktop.ClipboardTransferMode;
 	import org.flixel.FlxBasic;
@@ -12,7 +15,7 @@ package
 	 */
 	public class Wave extends FlxBasic 
 	{
-		public static var stageOneEnemies:Array = new Array(new SpaceCapsule(false));
+		public static var stageOneEnemies:Array = new Array([new Rotatortron(false, 100, 300), new Rotatortron(false, 500, 300)],[]);
 		public static var stageOneMiniBosses:Array = new Array(new SaucerMiniBoss(false));
 		public static var stageOneBosses:Array = new Array(new SpaceInvaderBoss(false));		
 		
@@ -27,6 +30,10 @@ package
 		public var shopKeeper:ShopKeeper;	
 		
 		public var maxQueueSize:int = 5;
+		
+		public var numberOfEnemies:int;
+		
+		protected var _waveChosen:Array;
 		
 		/**
 		 * Constructor.
@@ -72,6 +79,10 @@ package
 		{
 			var units:Array = new Array();
 			units.push(new Portal(1), new ShopKeeper());
+			
+			Registry.game.add(units[0]);
+			Registry.game.add(units[1]);
+			
 			return units;
 		}
 		
@@ -89,7 +100,12 @@ package
 					boss = new SpaceInvaderBoss();
 					break;
 			}
+			
+			Registry.game.add(boss)
+			Registry.enemies.add(boss);
+			
 			units.push(boss);
+			numberOfEnemies = 1;
 			return units;
 		}
 		
@@ -112,7 +128,12 @@ package
 					miniBoss = new BanditSaucer();
 					break;
 			}
+			
+			Registry.game.add(miniBoss)
+			Registry.enemies.add(miniBoss);
+			
 			units.push(miniBoss);
+			numberOfEnemies = 1;
 			return units;
 		}
 		
@@ -124,40 +145,73 @@ package
 		 * @param	stageNumber
 		 * @return a group of enemies
 		 */
+		protected var _tempEnemies:Array;
+		protected var _addEnemyIntervalID:Number;
 		public function createEnemies(min:int, max:int, stageNumber:int):Array
 		{		
 			var random:Number = Math.floor(min + (Math.random() * (MAX - MIN + .5)));
 			unitGroup = new FlxGroup(random);
-			var tempEnemies:Array = new Array();
+			_tempEnemies = new Array();
 			
 			unitGroup.z = Registry.ENEMY_Z_LEVEL;
 			
 			var i:int;
-			var choices:int;
-			var enemyClass:Class;
-			var enemy:Enemy;			
+			var choices:int;			
 			
-			for (i = 0; i < 2; i++)
-			{						
-				switch(stageNumber)
-				{
-					case 1:
-						choices = stageOneEnemies.length * Math.random(); // Choose a random enemy to spawn.
-						enemyClass = Object(stageOneEnemies[choices]).constructor; // Find the class of the enemy.
-						break;
-					default:
-						choices = stageOneEnemies.length * Math.random();
-						enemyClass = Object(stageOneEnemies[choices]).constructor;
-						break;
-				}
-				
-				enemy = new enemyClass();
+			switch(stageNumber)
+			{
+				case 1:
+					choices = stageOneEnemies.length * Math.random(); // Choose a random wave.
+					choices = 0; // DEBUG
+					_waveChosen = stageOneEnemies[choices];					
+					break;
+				default:
+					choices = stageOneEnemies.length * Math.random();					
+					choices = 0; // DEBUG
+					_waveChosen = stageOneEnemies[choices];
+					break;
+			}
+			
+			enemiesLeftToAdd = _waveChosen.length - 1;
+			_addEnemyIntervalID = setInterval(addEnemy, 500);
+			
+			/*for (i = 0; i < _waveChosen.length; i++)
+			{
+				enemyClass = Object(_waveChosen[i]).constructor; // Find the class of the enemy.					
+				enemy = new enemyClass(true, _waveChosen[i].x, _waveChosen[i].y);
 				
 				tempEnemies.push(enemy);
 				unitGroup.add(enemy);				
-			}
+			}*/
 			
-			return tempEnemies;
+			numberOfEnemies = _waveChosen.length;
+			
+			return _tempEnemies;
+		}
+			
+		protected var enemiesLeftToAdd:int;
+		protected function addEnemy():void
+		{
+			var enemyClass:Class;
+			var enemy:Enemy;	
+			
+			if (enemiesLeftToAdd < 0)
+			{
+				clearInterval(_addEnemyIntervalID);
+			}
+			else
+			{
+				enemyClass = Object(_waveChosen[enemiesLeftToAdd]).constructor; // Find the class of the enemy.					
+				enemy = new enemyClass(true, _waveChosen[enemiesLeftToAdd].x, _waveChosen[enemiesLeftToAdd].y);
+				
+				_tempEnemies.push(enemy);
+				unitGroup.add(enemy);	
+				enemiesLeftToAdd -= 1;	
+				
+				Registry.game.add(enemy)
+				Registry.enemies.add(enemy);
+				
+			}						
 		}
 		
 		override public function update():void

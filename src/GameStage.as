@@ -48,12 +48,12 @@ package
 		override public function update():void
 		{
 			super.update();
-			if (Registry.enemies.countLiving() <= 0 && !isAnimating)
+			//if (Registry.enemies.countLiving() <= 0 && !isAnimating)
+			if (Registry.stage.wave && Registry.stage.wave.numberOfEnemies <= 0 && !isAnimating)
 			{	
 				if (wave) { wave.kill(); }
 				if (endBoss)
 				{
-					// TODO: Game completed. Switch to credits state.
 					var cs:CreditsState = new CreditsState();
 					FlxG.switchState(cs);
 				}
@@ -121,10 +121,10 @@ package
 			wave = new Wave(type, level);
 			for (var i:int = 0; i < wave.units.length; i++)
 			{				
-				Registry.game.add(wave.units[i]);	
+				//Registry.game.add(wave.units[i]);	
 				if (type != "Shop")
 				{
-					Registry.enemies.add(wave.units[i]);
+				//	Registry.enemies.add(wave.units[i]);
 				}
 			}
 			if (type == "Shop")

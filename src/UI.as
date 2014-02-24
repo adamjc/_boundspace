@@ -154,7 +154,7 @@ package
 			updateWaveText();
 			updateCreditsText();
 			updateWeaponUI();
-			updatePowerCoreUI();
+			updatePowerCoreUI();			
 			updateSpecialItemUI();
 			updatePlayerBars();
 			setChargeBar();
@@ -296,18 +296,45 @@ package
 			}
 		}
 		
+		protected var previousSpecialItem:SpecialItem;
+		protected var specialItem:SpecialItem;
+		protected var uiBoxWidth:int = 60;
+		protected var uiBoxXStart:int = 248;
 		public function updateSpecialItemUI():void
 		{
 			if (Registry.player)
 			{
-				var specialItem:SpecialItem = Registry.player.specialItem;
+				previousSpecialItem = specialItem;
+				specialItem = Registry.player.specialItem;
+				
+				var width:int;
+				var difference:int;
+				var amountToIncrease:int;
+				
 				if (specialItem && !specialItemUI)
 				{					
-					specialItemUI = new FlxSprite(253, 17, specialItem.image, 1);
+					specialItemUI = new FlxSprite(uiBoxXStart, 17, specialItem.image, 1);
 					specialItemUI.z = Registry.UI_Z_LEVEL_ELEMENTS;
 					
 					Registry.game.add(specialItemUI);
+					
+					width = specialItem.width;
+					difference = uiBoxWidth - width;
+					amountToIncrease = difference / 2;
+					specialItemUI.x = uiBoxXStart + amountToIncrease;					
 				}
+				else if (specialItem && specialItemUI && (specialItem != previousSpecialItem))
+				{					
+					specialItemUI.loadGraphic(specialItem.image);	
+					
+					// update x and y to ensure that image is centred.
+					// get the width of the image					
+					width = specialItem.width;
+					difference = uiBoxWidth - width;
+					amountToIncrease = difference / 2;
+					specialItemUI.x = uiBoxXStart + amountToIncrease;
+				}
+				
 				if (!specialItem && specialItemUI)
 				{
 					specialItemUI.kill();

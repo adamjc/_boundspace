@@ -1,5 +1,6 @@
 package  
 {
+	import flash.utils.setTimeout;
 	import org.flixel.FlxPoint;
 	import org.flixel.FlxSprite;
 	import org.flixel.plugin.photonstorm.FlxVelocity;
@@ -18,13 +19,12 @@ package
 		protected var maxSpeed:int = 5;
 		protected var maxTurn:Number = 0.5;
 		protected var damage:int = 10;
+		protected var _timeAlive:Number = 0;
 		
 		public function SuperMissileShot(X:Number=0, Y:Number=0, SimpleGraphic:Class=null, Z:int=0) 
 		{
 			super(X, Y, SimpleGraphic, Z);
-			this.z = Registry.PLAYER_PROJECTILE_Z_LEVEL;
-			
-				
+			this.z = Registry.PLAYER_PROJECTILE_Z_LEVEL;				
 			
 			var graphic:FlxSprite = loadGraphic(superMissile, true, false, 17, 47);	
 			
@@ -37,6 +37,8 @@ package
 						
 			addAnimation("superMissile", array, 60, true);
 			this.play("superMissile");
+			
+			setTimeout(kill, 3000);
 		}
 		
 		// When collides with an enemy, hurts the enemy, blows up.
@@ -45,6 +47,8 @@ package
 		protected var vy:Number = 0;
 		override public function update():void
 		{
+			if (this._timeAlive > 1) { this.kill();  }
+			
 			FlxG.overlap(this, Registry.enemies, missileHit);
 			
 			super.update();

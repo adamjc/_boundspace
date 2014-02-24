@@ -25,7 +25,7 @@ package
 			UIMaxY = UIMaxY / SceneScale;			
 			
 			super(SceneWidth, SceneHeight, Menu, SceneScale);
-			FlxG.mute = true;
+			//FlxG.mute = true;
 			Achievements.load();
 			this.forceDebugger = true;
 			FlxG.flashFramerate = 60;	

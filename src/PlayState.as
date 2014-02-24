@@ -247,7 +247,7 @@ package
 				
 				if (FlxG.keys.justPressed("M"))
 				{ 
-					Registry.player.chargeBarNumber = 5;
+					Registry.player.chargeBarNumber = Registry.player.MAX_CHARGE;
 				}			
 				
 				if (FlxG.keys.justPressed("Q"))
@@ -513,7 +513,7 @@ package
 						Registry.player.powerCore = item;
 						//Registry.player.powerCore.droppedTimer = Registry.player.powerCore.DROPPED_TIMER_VAL;
 						item.removeThis();										
-					}
+					}					
 				}
 				if (_item is SpecialItem)
 				{

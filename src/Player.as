@@ -20,7 +20,7 @@ package
 		public const INITIAL_VELOCITY:Number = 80;
 		public const INITIAL_ARMOUR:Number = 5;
 		
-		public const MAX_CHARGE:int = 5;		
+		public const MAX_CHARGE:int = 20;		
 		public const MAX_SPEED:Number = 10;
 		public const MAX_CREDITS:int = 99;
 		
@@ -129,7 +129,7 @@ package
 			Registry.fireRate = 800;
 			Registry.bulletSpeed = 100;
 			Registry.shipSpeed = 5
-			Registry.weaponDamage = 10;				
+			Registry.weaponDamage = 5;				
 				
 		}
 		
@@ -307,7 +307,7 @@ package
 		 */
 		public function useSpecial():void
 		{
-			if (this.specialItem)
+			if (this.specialItem && this.chargeBarNumber >= this.MAX_CHARGE)
 			{				
 				this.specialItem.useSpecial();
 			}

@@ -1,10 +1,14 @@
 package  
 {
+	import flash.utils.clearInterval;
+	import flash.utils.setInterval;
 	import org.flixel.FlxG;
 	import org.flixel.FlxPoint;
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxU;
 	import org.flixel.plugin.photonstorm.FlxWeapon;
+	import org.flixel.plugin.photonstorm.FX.GlitchFX;
+	import org.flixel.plugin.photonstorm.FlxSpecialFX;
 
 	/**
 	 * ...
@@ -23,10 +27,10 @@ package
 		[Embed(source = "../assets/spacecapsule.png")] public var capsuleImg:Class;
 //		[Embed(source = "../assets/saucer_hit.png")] public var capsuleHit:Class;		
 		
-		public function SpaceCapsule(_ai:Boolean = true) 
+		public function SpaceCapsule(_ai:Boolean = true, _x:Number = 0, _y:Number = 0) 
 		{
-			var _x:Number = Math.abs(Registry.RIGHT_BOUNDS - WIDTH) * Math.random();
-			var _y:Number = ((Registry.BOTTOM_BOUNDS - Registry.TOP_BOUNDS) * Math.random()) + Registry.TOP_BOUNDS;
+			if (!_x) { _x = Math.abs(Registry.RIGHT_BOUNDS - WIDTH) * Math.random(); }
+			if (!_y) { _y = ((Registry.BOTTOM_BOUNDS - Registry.TOP_BOUNDS) * Math.random()) + Registry.TOP_BOUNDS; }
 			super(_x, _y, WEAPON_COOLDOWN);
 			
 			// used for weapons!
@@ -37,12 +41,19 @@ package
 			addWeapon("cannon", BULLET_SPEED, WEAPON_COOLDOWN, BULLET_DAMAGE);
 			Registry.game.enemyProjectiles.add(weapons[0].group);
 						
-			if (_ai) { ai = new SaucerAI(this); }
+			if (_ai)
+			{
+				var self:SpaceCapsule = this;
+				startTelprot(this, function():void {
+					self.ai = new SaucerAI(self);
+				});
+			}
+			
 		}
 		
 		override public function update():void
 		{		
-			super.update();			
+			super.update();		
 		}
 	}
 }

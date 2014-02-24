@@ -10,7 +10,7 @@ package
 	{
 		public static var specialItems:Array;
 		specialItems = new Array();
-		specialItems.push(new MBomb(0, 0), new SuperMissile(0, 0));
+		specialItems.push(new MBomb(0, 0), new SuperMissile(0, 0), new SwarmMissile(0, 0));
 				
 		
 		/**

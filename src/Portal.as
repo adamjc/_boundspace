@@ -1,6 +1,8 @@
 package  
 {
 	import org.flixel.FlxSprite;
+	import org.flixel.plugin.photonstorm.FX.GlitchFX;
+	import org.flixel.plugin.photonstorm.FlxSpecialFX;
 	
 	/**
 	 * When a player enters a Portal, it ends the current GameStage 
@@ -43,7 +45,7 @@ package
 			
 			addAnimation("portal", array, 24, true);
 			this.play("portal");
-			Registry.portals.add(this);
+			Registry.portals.add(this);						
 		}
 		
 	}

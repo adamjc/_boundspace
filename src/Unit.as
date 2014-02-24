@@ -1,5 +1,8 @@
 package  
 {
+	import flash.utils.clearInterval;
+	import flash.utils.setInterval;
+	import flash.utils.setTimeout;
 	import org.flixel.FlxParticle;
 	import org.flixel.FlxPoint;
 	import org.flixel.FlxRect;
@@ -7,8 +10,10 @@ package
 	import org.flixel.FlxG;
 	import org.flixel.plugin.photonstorm.FlxWeapon;
 	import org.flixel.plugin.photonstorm.FlxMath;
-	import com.greensock.easing.Quad;
-	import com.greensock.TweenLite;
+	import com.greensock.TweenMax;
+	import com.greensock.easing.*;
+	import org.flixel.plugin.photonstorm.FX.GlitchFX;
+	import org.flixel.plugin.photonstorm.FlxSpecialFX;
 	
 	/**
 	 * ...
@@ -25,19 +30,77 @@ package
 		public var speed:int;
 		public var weapons:Array = new Array();				
 				
-		protected var aiReady:Boolean;		
+		protected var aiReady:Boolean;	
+		protected var ai:AI;
+		
+		public var xOffsetWeapon:int;
+		public var yOffsetWeapon:int;
 		
 		//public static var z:int = 0;
 		
 		[Embed(source = "../assets/enemy_bullet_shot.png")] protected static var enemyShot:Class;
 		
+		protected var glitch:GlitchFX;
+		protected var maxGlitch:uint = 10;
+		protected var maxSkip:uint = 10;
+		protected var scratch:FlxSprite;
+		
+		
 		public function Unit(X:Number = 0, Y:Number = 0, SimpleGraphics:Class = null) 
 		{			
-			super(X, Y, SimpleGraphics, Registry.ENEMY_Z_LEVEL);
+			super(X, Y, SimpleGraphics, Registry.ENEMY_Z_LEVEL);		
 		}
 				
-		override public function update():void
+		/*
+		 * Callback should set the AI.
+		 */
+		public function teleportAnimation(callback:Function):void
 		{
+			if (this.alive)
+			{
+				if (alpha < 1)
+				{
+					this.alpha += 0.1;
+					glitch.changeGlitchValues(this.maxGlitch--, this.maxSkip--);
+				}	
+				else
+				{
+					callback();		
+					this.z = Registry.ENEMY_Z_LEVEL;
+					trace(this.z);
+					trace(this.alpha);
+					this.scratch.kill();
+				}
+			}
+			else
+			{
+				this.scratch.kill();
+			}						
+		}
+		
+		public function startTelprot(self:Unit, callback:Function):void
+		{
+			var intervalID:Number;
+			var self:Unit = this;
+			this.createGlitch(this.image);
+			intervalID = setInterval(teleportAnimation, 100, function():void { 
+					callback();
+					clearInterval(intervalID);
+				} );
+		}
+		
+		public function createGlitch(_image:FlxSprite):void
+		{
+			_image.alpha = 0;
+			glitch = FlxSpecialFX.glitch();
+			scratch = glitch.createFromFlxSprite(_image, 10, 10, true);
+			glitch.start(4);
+			scratch.z = Registry.ENEMY_Z_LEVEL;
+			Registry.game.add(scratch);
+		}
+		
+		override public function update():void
+		{			
 			super.update();
 		}	
 		
@@ -50,6 +113,22 @@ package
 			a = a * 180 / Math.PI;	
 			return a + 90; 
 		}		
+		
+		public function handleVelocity():void
+		{
+			if (this.velocity.x > 0)
+			{
+				TweenMax.to(this, 1, { angle: 10, ease: Ease } );
+			}
+			else if (this.velocity.x < 0)
+			{
+				TweenMax.to(this, 1, { angle: -10, ease: Ease } );
+			}
+			else
+			{
+				TweenMax.to(this, 1, { angle: 0, ease: Ease } );
+			}
+		}
 		
 		public function rotatePoint(pivot:FlxPoint, point:FlxPoint, _angle:Number):FlxPoint
 		{
@@ -68,13 +147,16 @@ package
 			return point;
 		}
 		
-		public function addWeapon(_type:String, _bulletSpeed:int, _fireRate:int, _damage:int):void
+		public function addWeapon(_type:String, _bulletSpeed:int, _fireRate:int, _damage:int, xOffset:String = null, yOffset:String = null):FlxWeapon
 		{			
-			var weapon:FlxWeapon = new FlxWeapon(_type, this.image, "x", "y", _damage);			
+			var x:String = xOffset || "x";
+			var y:String = yOffset || "y";
+			var weapon:FlxWeapon = new FlxWeapon(_type, this.image, x, y, _damage);			
 			weapon.setBulletSpeed(_bulletSpeed);
 			weapon.setFireRate(_fireRate);
 			weapon.makeImageBullet(100, enemyShot);
 			this.weapons.push(weapon);	
+			return weapon;
 		}		
 		
 		public static function getRandLineInsideLine(begin:int, innerLeft:int, innerRight:int, end:int):int
@@ -134,7 +216,7 @@ package
 			}
 			
 			
-			TweenLite.to(this, 2, {	x: endX, 
+			TweenMax.to(this, 2, {	x: endX, 
 						y: endY, 
 						onComplete: transportComplete, 
 						ease: Quad.easeOut } );

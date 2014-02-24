@@ -2,7 +2,10 @@ package
 {
 	import Drops.HealthDrop;
 	import Drops.ShieldDrop;
+	import flash.geom.ColorTransform;
 	import flash.text.engine.FontDescription;
+	import flash.utils.clearInterval;
+	import flash.utils.setTimeout;
 	import org.flixel.FlxEmitter;
 	import org.flixel.FlxG;
 	import org.flixel.FlxParticle;
@@ -10,6 +13,8 @@ package
 	import org.flixel.plugin.photonstorm.FlxMath;
 	import com.greensock.TweenMax;
 	import com.greensock.easing.*;
+	import org.flixel.plugin.photonstorm.FlxSpecialFX;
+	import org.flixel.plugin.photonstorm.FX.GlitchFX;
 	/**
 	 * ...
 	 * @author Adam
@@ -22,48 +27,56 @@ package
 		public var weaponTimer:Number;
 		
 		protected var shootingAngle:Number;
-		
-		protected var ai:AI;
-		
-		protected var enemyHitImage:FlxSprite;
-		protected var isEnemyHit:Boolean;
+
 		protected var enemyFlashCounter:int = 3;
 		protected var enemyFlashIncrementor:int = 0;
+		
+		protected var _unflashIntervalId:Number;
 		
 		public function Enemy(X:Number = 0, Y:Number = 0, _weaponCooldown:Number = 1) 
 		{
 			super(X, Y);
-			this.z = Registry.ENEMY_Z_LEVEL;
-			if (!enemyHitImage) { enemyHitImage = new FlxSprite(); }
+			//this.z = Registry.ENEMY_Z_LEVEL;
+			this.z = 0;
 			weaponCooldown = _weaponCooldown;
 			weaponTimer = weaponCooldown;
-			this.antialiasing = true;
-		}
-		
-		public function enemyHitAnimation():void
-		{
-			enemyHitImage.x = this.x;
-			enemyHitImage.y = this.y;
-			enemyHitImage.visible = true;
+			this.antialiasing = true;						
 		}
 		
 		public function enemyHit(_damage:int):void
-		{
-			isEnemyHit = true;
-			enemyFlashIncrementor = 0;
-			this.enemyHitImage.visible = true;
-			
+		{			
 			var damage:int = _damage;			
 			while (damage > 0)
 			{
 				if (shields > 0) { shields--; }
 				else { armour--; }
 				damage--;
-			}			
+			}
+			
+			Registry.player.increaseChargeBar();
+			
+			flashWhite();
+		}
+		
+		public function flashWhite():void
+		{
+			_colorTransform = new ColorTransform();
+			_colorTransform.color = 0xFFFFFFFF;
+			calcFrame();
+			
+			_unflashIntervalId = setTimeout(unflash, 25);
+		}
+		
+		protected function unflash():void
+		{
+			_colorTransform = null;
+			calcFrame();
 		}
 		
 		public function killEnemy():void
 		{
+			clearInterval(_unflashIntervalId);
+			
 			var particleEmitter:FlxEmitter = new FlxEmitter(this.x, this.y, 10);
 			particleEmitter.z = Registry.ENEMY_Z_LEVEL;
 			particleEmitter.makeParticles(test, 10, 16, false, 0);
@@ -73,8 +86,7 @@ package
 			particleEmitter.minParticleSpeed.y = -25;
 			Registry.game.add(particleEmitter);
 			particleEmitter.start(true, 1, 0.1, 0);
-			
-			Registry.player.increaseChargeBar();
+						
 			Registry.enemies.remove(this); // Remove the unit from the enemies array in PlayState when it has been killed.											
 			if (ai) { ai.removeThis(); }
 			ai = null;
@@ -124,50 +136,16 @@ package
 					}
 				}
 			}
-			
-			
-			this.enemyHitImage.kill();
+		
 			this.kill(); // Kill the unit if it's health is reduced to <=0.	
-			
-			
+			Registry.stage.wave.numberOfEnemies -= 1;
 		}
 		
 		override public function update():void
 		{
-			super.update();	
+			super.update();							
 			
-			if (this.velocity.x > 0)
-			{
-				TweenMax.to(this, 1, { angle: 10, ease: Ease } );
-			}
-			else if (this.velocity.x < 0)
-			{
-				TweenMax.to(this, 1, { angle: -10, ease: Ease } );
-			}
-			else
-			{
-				TweenMax.to(this, 1, { angle: 0, ease: Ease } );
-			}
-			
-			if (isEnemyHit)
-			{
-				if (enemyFlashIncrementor < enemyFlashCounter)
-				{
-					// toggle visibility
-					this.enemyHitImage.x = this.x;
-					this.enemyHitImage.y = this.y;					
-					enemyFlashIncrementor += 1;
-				}
-				else
-				{
-					// make the enemyHitImage invisible.
-					isEnemyHit = false;
-					this.enemyHitImage.visible = false;
-				}
-			}
-			
-			if (armour <= 0) { killEnemy(); }		
-			
+			if (armour <= 0) { killEnemy(); }					
 		}
 	}
 }

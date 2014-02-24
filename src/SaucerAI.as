@@ -1,5 +1,7 @@
 package  
 {
+	import flash.utils.clearInterval;
+	import flash.utils.setInterval;
 	import org.flixel.FlxG;
 	import org.flixel.plugin.photonstorm.FlxMath;
 	
@@ -11,6 +13,11 @@ package
 	{		
 		protected var unit:Enemy;
 		
+		protected var moveTimer:int = 2000;		
+		protected var speed:int = 50;
+		
+		protected var _moveThisIntervalId:Number;
+		
 		/**
 		 * Constructor.
 		 * @param	_unit
@@ -19,6 +26,7 @@ package
 		{
 			super();			
 			unit = Enemy(_unit);
+			_moveThisIntervalId = setInterval(moveThis, moveTimer);
 		}
 		
 		/**
@@ -26,10 +34,7 @@ package
 		 * go here also.
 		 */
 		override public function update():void
-		{			
-			unit.velocity.x += Math.random() * 10 - 5;
-			unit.velocity.y += Math.random() * 10 - 5;
-			
+		{						
 			unit.weaponTimer -= FlxG.elapsed;
 			if (unit.weaponTimer <= 0)
 			{
@@ -42,17 +47,41 @@ package
 					{										
 						unit.weapons[i].fireAtTarget(Registry.player.playerSprite);
 						Registry.game.add(unit.weapons[i].currentBullet);			
-						trace(unit.weapons[i].currentBullet.x);
+						
 						unit.weapons[i].currentBullet.z = Registry.ENEMY_PROJECTILE_Z_LEVEL;
 					}
 				}
 			}			
 		}
 		
+		protected var moved:Boolean = false;
+		protected function moveThis():void
+		{
+			if (moved)
+			{
+				// Set velocity to 0.
+				unit.velocity.x = 0;
+				unit.velocity.y = 0;
+			}
+			else
+			{
+				// move the unit.				
+				var rx:int = Math.floor(Math.random() * 3) - 1;
+				var ry:int = Math.floor(Math.random() * 3) - 1;
+				unit.velocity.x = speed * rx;
+				unit.velocity.y = speed * ry;
+			}
+			
+			moved = !moved;
+				
+			unit.handleVelocity();
+		}
+		
 		override public function removeThis():void
 		{
 			unit = null;
 			this.kill();
+			clearInterval(_moveThisIntervalId);
 		}
 	}
 
