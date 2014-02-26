@@ -1,6 +1,7 @@
 package  
 {
 	import com.greensock.loading.core.DisplayObjectLoader;
+	import flash.utils.clearInterval;
 	import flash.utils.Dictionary;
 	import org.flixel.FlxBasic;
 	import org.flixel.FlxButton;
@@ -12,6 +13,7 @@ package
 	import org.flixel.plugin.photonstorm.*;
 	import org.flixel.FlxButton;
 	import StartScreen.Menu;	
+	import org.flixel.plugin.photonstorm.FX.GlitchFX;
 	
 	/**
 	 * ...
@@ -186,10 +188,19 @@ package
 			isDisplaying = false;
 		}
 		
-		public function quitGame():void
+		public function generalReset():void
 		{
+			Registry.game.resetIntervals();
+			Registry.game.resetPowerCores();
+			FlxSpecialFX.clear();
 			Registry.game.kill();
 			Registry.game.exists = false;
+		}
+		
+		public function quitGame():void
+		{			
+			generalReset();
+			
 			this.kill();
 			this.exists = false;
 			isShowing = false;
@@ -201,8 +212,8 @@ package
 		
 		public function restartGame():void
 		{
-			Registry.game.kill();
-			Registry.game.exists = false;
+			generalReset();		
+						
 			var p:PlayState = new PlayState();
 			Registry.game = p;
 			FlxG.switchState(p);

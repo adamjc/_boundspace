@@ -49,7 +49,9 @@ package
 		public function Unit(X:Number = 0, Y:Number = 0, SimpleGraphics:Class = null) 
 		{			
 			super(X, Y, SimpleGraphics, Registry.ENEMY_Z_LEVEL);		
-		}
+			
+			this.drag = new FlxPoint(50, 50);
+		}		
 				
 		/*
 		 * Callback should set the AI.
@@ -86,7 +88,9 @@ package
 			intervalID = setInterval(teleportAnimation, 100, function():void { 
 					callback();
 					clearInterval(intervalID);
+					Registry.intervals.splice(intervalID);
 				} );
+			Registry.intervals.push(intervalID);
 		}
 		
 		public function createGlitch(_image:FlxSprite):void

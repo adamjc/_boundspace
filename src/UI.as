@@ -30,6 +30,10 @@ package
 		protected var weaponOverlay_3:FlxSprite
 		
 		protected var powerCore:FlxSprite;	
+		protected var powerCoreText:FlxText;
+		protected var powerCoreStartX:int = 320;
+		protected var powerCoreStartY:int = 44;
+		protected var powerCoreAreaWidth:int = 60;
 		protected var powerCoreCompare:PowerCore;
 		protected var specialItemUI:FlxSprite;
 		
@@ -279,19 +283,34 @@ package
 						powerCore = new FlxSprite(323, 27, p.img);
 						powerCore.z = Registry.UI_Z_LEVEL_ELEMENTS;
 						Registry.game.add(powerCore);
+						
+						powerCoreText.kill();
+						powerCoreText = new FlxText(powerCoreStartX, powerCoreStartY, powerCoreAreaWidth, pc.name);
+						powerCoreText.setFormat("DefaultFont", 8, 0xFFFFFF, "center");
+						powerCoreText.z = Registry.UI_Z_LEVEL_ELEMENTS + 100;
+						Registry.game.add(powerCoreText);						
 					}
 					else if (!powerCoreCompare)
 					{						
+						trace("nigz");
 						powerCoreCompare = pc;						
 						powerCore = new FlxSprite(323, 27, p.img);
 						powerCore.z = Registry.UI_Z_LEVEL_ELEMENTS;
 						Registry.game.add(powerCore);
+						
+						powerCoreText = new FlxText(powerCoreStartX, powerCoreStartY, powerCoreAreaWidth, pc.name);
+						powerCoreText.setFormat("DefaultFont", 8, 0xFFFFFF, "center");
+						powerCoreText.z = Registry.UI_Z_LEVEL_ELEMENTS + 100;
+						trace(powerCoreText.text);
+						Registry.game.add(powerCoreText);
 					}
 				}
 				else if (powerCore)
 				{
 					// The player is not holding a PowerCore, but the image is still showing.
+					powerCoreCompare = null;
 					powerCore.kill();
+					powerCoreText.kill();
 				}
 			}
 		}

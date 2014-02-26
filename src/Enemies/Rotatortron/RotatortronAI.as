@@ -32,6 +32,7 @@ package Enemies.Rotatortron
 			super();			
 			unit = Enemy(_unit);
 			_fireIntervalId = setInterval(fire, 2000);
+			Registry.intervals.push(_fireIntervalId);
 		}
 		
 		/**
@@ -72,6 +73,7 @@ package Enemies.Rotatortron
 			}			
 			
 			_moveIntervalId = setTimeout(moveThis, 200);
+			Registry.intervals.push(_moveIntervalId);
 		}
 		
 		override public function removeThis():void
@@ -79,7 +81,9 @@ package Enemies.Rotatortron
 			unit = null;
 			this.kill();
 			clearInterval(_fireIntervalId);
+			Registry.intervals.splice(_fireIntervalId, 1);
 			clearInterval(_moveIntervalId);
+			Registry.intervals.splice(_moveIntervalId, 1);
 			
 		}
 	}

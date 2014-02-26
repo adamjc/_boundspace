@@ -1,10 +1,17 @@
 package  
 {
+	import com.greensock.easing.Bounce;
+	import com.greensock.easing.BounceIn;
+	import flash.utils.clearInterval;
+	import flash.utils.setInterval;
+	import flash.utils.setTimeout;
 	import org.flixel.FlxGroup;
 	import org.flixel.FlxSprite;
 	import org.flixel.plugin.photonstorm.FlxCollision;
 	import org.flixel.FlxG;
 	import org.flixel.FlxText;
+	import com.greensock.TweenMax;
+	import com.greensock.easing.Quad;
 	
 	/**
 	 * ...
@@ -62,7 +69,7 @@ package
 		 * Designed to be overriden by a subclass.
 		 */
 		public function installCore():void
-		{						
+		{				
 			if (positive) 
 			{
 				Registry.player[attribute] += value;
@@ -73,6 +80,27 @@ package
 			}
 		}
 
+		public function showText():void
+		{
+			var text:FlxText = new FlxText(0, Registry.TOP_BOUNDS - 10, BoundSpace.SceneWidth, "FOUND " + this.usedName + " !!");
+			text.setFormat("DefaultFont", 16, 0xFFFFFF, "center");
+			text.z = Registry.UI_Z_LEVEL_ELEMENTS - 1;
+			
+			TweenMax.to(text, 0.3, { y: text.y + 10, ease: Quad.easeOut } );
+			
+			Registry.game.add(text);
+			
+			//var _id:Number = setInterval(function():void { text.alpha -= 0.1; if (text.alpha >= 1) clearInterval(_id); }, 50, _id);
+			var _id:Number = setTimeout(fadeOut, 1500, text);
+			Registry.intervals.push(_id);
+		}
+		
+		public function fadeOut(text:FlxText):void
+		{
+			var _id:Number = setInterval(function():void { text.alpha -= 0.1; if (text.alpha >= 1) clearInterval(_id); }, 50, _id);
+			Registry.intervals.push(_id);
+		}
+		
 		override public function update():void
 		{
 			super.update();

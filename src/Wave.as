@@ -1,6 +1,8 @@
 package  
 {
+	import Enemies.MineDroid.MineDroid;
 	import Enemies.Rotatortron.Rotatortron;
+	
 	import flash.utils.clearInterval;
 	import flash.utils.setInterval;
 	import StartScreen.Menu;
@@ -15,7 +17,7 @@ package
 	 */
 	public class Wave extends FlxBasic 
 	{
-		public static var stageOneEnemies:Array = new Array([new Rotatortron(false, 100, 300), new Rotatortron(false, 500, 300)],[]);
+		public static var stageOneEnemies:Array = new Array([new Rotatortron(false, 500, 300)],[]);
 		public static var stageOneMiniBosses:Array = new Array(new SaucerMiniBoss(false));
 		public static var stageOneBosses:Array = new Array(new SpaceInvaderBoss(false));		
 		
@@ -174,15 +176,7 @@ package
 			
 			enemiesLeftToAdd = _waveChosen.length - 1;
 			_addEnemyIntervalID = setInterval(addEnemy, 500);
-			
-			/*for (i = 0; i < _waveChosen.length; i++)
-			{
-				enemyClass = Object(_waveChosen[i]).constructor; // Find the class of the enemy.					
-				enemy = new enemyClass(true, _waveChosen[i].x, _waveChosen[i].y);
-				
-				tempEnemies.push(enemy);
-				unitGroup.add(enemy);				
-			}*/
+			Registry.intervals.push(_addEnemyIntervalID);
 			
 			numberOfEnemies = _waveChosen.length;
 			
@@ -198,11 +192,21 @@ package
 			if (enemiesLeftToAdd < 0)
 			{
 				clearInterval(_addEnemyIntervalID);
+				Registry.intervals.splice(_addEnemyIntervalID, 1);
 			}
 			else
 			{
-				enemyClass = Object(_waveChosen[enemiesLeftToAdd]).constructor; // Find the class of the enemy.					
-				enemy = new enemyClass(true, _waveChosen[enemiesLeftToAdd].x, _waveChosen[enemiesLeftToAdd].y);
+				enemyClass = Object(_waveChosen[enemiesLeftToAdd]).constructor; // Find the class of the enemy.		
+				
+				if (enemyClass === MineDroid)
+				{
+					enemy = new enemyClass(true, _waveChosen[enemiesLeftToAdd].x, _waveChosen[enemiesLeftToAdd].y, _waveChosen[enemiesLeftToAdd]._direction);
+				}
+				else
+				{
+					enemy = new enemyClass(true, _waveChosen[enemiesLeftToAdd].x, _waveChosen[enemiesLeftToAdd].y);
+				}
+				
 				
 				_tempEnemies.push(enemy);
 				unitGroup.add(enemy);	

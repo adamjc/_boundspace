@@ -4,6 +4,7 @@ package
 	import Drops.HealthDropFive;
 	import Drops.ShieldDrop;
 	import flash.utils.ByteArray;
+	import flash.utils.clearInterval;
 	import mx.core.FlexApplicationBootstrap;
 	import org.flixel.FlxBasic;
 	import org.flixel.FlxGroup;
@@ -47,6 +48,7 @@ package
 		public var playerProjectiles:FlxGroup;
 		public var enemyProjectiles:FlxGroup;
 		public var credits:FlxGroup;
+		public var otherItems:FlxGroup;
 		
 		public var items:FlxGroup;
 		public var isShaking:Boolean;
@@ -58,7 +60,7 @@ package
 				
 		public var allAchievementsGet:uint =			1;
 		public var killedBossWithoutTakingDamage:uint =	2;
-		public var gotMaxHealthOf20:uint =				4;
+		public var gotMaxHealthOf99:uint =				4;
 		public var killedAShopKeeper:uint =				8;		
 		public var gameCompletedFiveTimes:uint =		16;		
 		public var stageFiveCompletedWithNoHits:uint =	32;		
@@ -68,7 +70,7 @@ package
 		public var gameCompletedOnce:uint =				512;		
 		
 		public var achievementsAdded:uint =	killedBossWithoutTakingDamage +
-											gotMaxHealthOf20 +
+											gotMaxHealthOf99 +
 											killedAShopKeeper +
 											gameCompletedFiveTimes +
 											stageFiveCompletedWithNoHits +
@@ -189,9 +191,8 @@ package
 			stars.z = Registry.BACKGROUND_STARS_Z_LEVEL;
 			add(stars);
 			
-			add(SpecialItemManager.addSpecialItem(100, 100, false));
-			add(SpecialItemManager.addSpecialItem(100, 200, false));
-			add(SpecialItemManager.addSpecialItem(100, 300, false));
+			otherItems = new FlxGroup(100);
+						
 		}
 
 		public var c:Credit;
@@ -230,6 +231,7 @@ package
 					var w:FlxWeapon = Registry.player.weapons[i].weapon;
 					FlxG.collide(w.group, boundingBox, playerHit); // Ensure that the player's projectiles collide with the boundaries of the game.
 					FlxG.overlap(w.group, Registry.enemies, playerShotEnemy); // Ensure that the player's projectiles can hit enemies.
+					FlxG.overlap(w.group, otherItems, playerShotEnemy);
 					if (shopKeeper) { FlxG.overlap(w.group, shopKeeper, playerShotShopKeeper); }
 				}
 							
@@ -244,6 +246,8 @@ package
 				FlxG.collide(Registry.player, shopKeeper);
 				
 				FlxG.overlap(Registry.player, Registry.portals, playerEnteredPortal);
+				
+				
 				
 				if (FlxG.keys.justPressed("M"))
 				{ 
@@ -279,18 +283,12 @@ package
 								
 				if (FlxG.keys.justPressed("B"))
 				{					
-					var shieldDrop:ShieldDrop;
-					shieldDrop = new ShieldDrop(Registry.player.x + 50, Registry.player.y);
-					this.add(shieldDrop);
+					add(PowerCoreManager.addPowerCore(player.x + 50, player.y, false));
 				}									
 				
 				if (FlxG.keys.justPressed("L"))
 				{
-					var ess:SpaceSaucer = new SpaceSaucer(true);
-					ess.x = 100;
-					ess.y = 100;
-					Registry.enemies.add(ess);
-					Registry.game.add(ess);
+					player.hit(10);
 				}
 				
 				if (FlxG.keys.justPressed("SPACE"))
@@ -300,6 +298,9 @@ package
 				
 				if (isPlayerDead)
 				{
+					resetIntervals();
+					resetPowerCores();
+					
 					var fp:FlxPoint = new FlxPoint(2, 2);
 					particleEmitter = new FlxEmitter(Registry.player.x + (Registry.player.width / 2), Registry.player.y + (Registry.player.height / 2), 50);
 					
@@ -411,6 +412,10 @@ package
 			return Math.abs(a - b);
 		}				
 		
+		public var hitByBoss:Boolean = true;
+		public var shopKeeperKilled:Boolean = false;
+		public var hitOnStageOne:Boolean = true;
+		public var hitOnStageFive:Boolean = true;
 		public function checkAchievements():void
 		{
 			var s:FlxPoint
@@ -428,24 +433,110 @@ package
 				Registry.game.add(f);
 			}
 			
+			if (!(Achievements.achievements & allAchievementsGet) &&
+				(	(killedBossWithoutTakingDamage | 
+					gotMaxHealthOf99 | 
+					killedAShopKeeper | 
+					gameCompletedFiveTimes | 
+					stageFiveCompletedWithNoHits | 
+					stageOneCompletedWithNoHits | 
+					maxCreditsCollected |
+					died100Times |
+					gameCompletedOnce) == Achievements.achievements))
+			{
+				Achievements.achievements |= allAchievementsGet;
+				s = new FlxPoint(0, -50);
+				e = new FlxPoint(0, 0);
+				f = new FlxAchievement(s, e, 200, 50, 5, "Unbound");
+				Registry.game.add(f);
+			}
 			
+			if (!(Achievements.achievements & killedBossWithoutTakingDamage) &&
+				(!hitByBoss))
+			{
+				Achievements.achievements |= killedBossWithoutTakingDamage;
+				s = new FlxPoint(0, -50);
+				e = new FlxPoint(0, 0);
+				f = new FlxAchievement(s, e, 200, 50, 5, "Untouchable");
+				Registry.game.add(f);
+			}
 			
-			//public var allAchievementsGet:uint =			1;
-			//public var killedBossWithoutTakingDamage:uint =	2;
-			//public var gotMaxHealthOf20:uint =				4;
-			//public var killedAShopKeeper:uint =				8;		
-			//public var gameCompletedFiveTimes:uint =		16;		
-			//public var stageFiveCompletedWithNoHits:uint =	32;		
-			//public var stageOneCompletedWithNoHits:uint =	64;		
-			//public var maxCreditsCollected:uint =			128;		
-			//public var died100Times:uint =					256;		
-			//public var gameCompletedOnce:uint =				512;
+			if (!(Achievements.achievements & gotMaxHealthOf99) &&
+				(Registry.player.armour >= 99))
+			{
+				Achievements.achievements |= gotMaxHealthOf99;
+				s = new FlxPoint(0, -50);
+				e = new FlxPoint(0, 0);
+				f = new FlxAchievement(s, e, 200, 50, 5, "Built like a tank");
+				Registry.game.add(f);
+			}
+			
+			if (!(Achievements.achievements & killedAShopKeeper) &&
+				(shopKeeperKilled))
+			{
+				Achievements.achievements |= killedAShopKeeper;
+				s = new FlxPoint(0, -50);
+				e = new FlxPoint(0, 0);
+				f = new FlxAchievement(s, e, 200, 50, 5, "Five finger discount");
+				Registry.game.add(f);
+			}
+			
+			if (!(Achievements.achievements & gameCompletedFiveTimes) &&
+				(Achievements.gameCompleted >= 5))
+			{
+				Achievements.achievements |= gameCompletedFiveTimes;
+				s = new FlxPoint(0, -50);
+				e = new FlxPoint(0, 0);
+				f = new FlxAchievement(s, e, 200, 50, 5, "No lifer");
+				Registry.game.add(f);
+			}
+			
+			if (!(Achievements.achievements & gameCompletedOnce) &&
+				(Achievements.gameCompleted == 1))
+			{
+				Achievements.achievements |= gameCompletedOnce;
+				s = new FlxPoint(0, -50);
+				e = new FlxPoint(0, 0);
+				f = new FlxAchievement(s, e, 200, 50, 5, "Captain fantastic");
+				Registry.game.add(f);
+			}
+			
+			if (!(Achievements.achievements & stageFiveCompletedWithNoHits) &&
+				(!hitOnStageFive))
+			{
+				Achievements.achievements |= gameCompletedFiveTimes;
+				s = new FlxPoint(0, -50);
+				e = new FlxPoint(0, 0);
+				f = new FlxAchievement(s, e, 200, 50, 5, "Seeing the code");
+				Registry.game.add(f);
+			}
+			
+			if (!(Achievements.achievements & stageOneCompletedWithNoHits) &&
+				(!hitOnStageOne))
+			{
+				Achievements.achievements |= stageOneCompletedWithNoHits;
+				s = new FlxPoint(0, -50);
+				e = new FlxPoint(0, 0);
+				f = new FlxAchievement(s, e, 200, 50, 5, "A good start");
+				Registry.game.add(f);
+			}
+			
+			if (!(Achievements.achievements & died100Times) &&
+				(!Achievements.deaths >= 100))
+			{
+				Achievements.achievements |= died100Times;
+				s = new FlxPoint(0, -50);
+				e = new FlxPoint(0, 0);
+				f = new FlxAchievement(s, e, 200, 50, 5, "Glutton for punishment");
+				Registry.game.add(f);
+			}
 		}
 		
 		public function playerEnteredPortal(_player:FlxObject, _portal:FlxObject):void
 		{			
 			Registry.enemies.kill();			
 			Registry.portals.kill();
+			otherItems.kill();
 			items.kill();
 			if (shopKeeper) shopKeeper.killShopKeeper(false);
 			
@@ -668,6 +759,20 @@ package
 		{
 			o1.kill();
 			enemyProjectiles.remove(o1);
+		}
+		
+		public function resetIntervals():void
+		{
+			for (var i:int = 0; i < Registry.intervals.length; i++)
+			{
+				clearInterval(Registry.intervals[i]);
+			}
+		}
+		
+		public function resetPowerCores():void
+		{
+			ArmourDownPowerCore.used = false;
+			ArmourUpPowerCore.used = false;
 		}
 	}
 }

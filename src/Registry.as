@@ -24,6 +24,7 @@ package
 		public static var shopItems:Array = new Array();
 		public static var portals:FlxGroup = new FlxGroup();
 		public static var ui:UI;
+		public static var intervals:Array = new Array();
 		
 		public static const TOP_BOUNDS:Number = BoundSpace.UIMaxY;
 		public static const RIGHT_BOUNDS:Number = BoundSpace.SceneWidth;

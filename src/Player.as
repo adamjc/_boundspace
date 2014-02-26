@@ -81,6 +81,8 @@ package
 			this.speed = 5;			
 			this.credits = 98;			
 			
+			Registry.game.player = this;
+			
 			playerSprite = loadGraphic(playerShip);
 			playerSprite.antialiasing = true;
 			maxVelocity.x = INITIAL_VELOCITY;

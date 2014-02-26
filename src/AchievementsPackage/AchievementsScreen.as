@@ -92,7 +92,7 @@ package AchievementsPackage
 						<bit>2</bit>
 					</achievement>
 					<achievement>
-						<title>DODGING IS FOR CHUMPS</title>
+						<title>BUILT LIKE A TANK</title>
 						<desc>Get the maximum health possible</desc>
 						<image>1</image>
 						<bit>4</bit>

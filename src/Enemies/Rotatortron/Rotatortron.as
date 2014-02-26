@@ -49,6 +49,9 @@ package Enemies.Rotatortron
 				var self:Rotatortron = this;
 				startTelprot(this, function():void {
 					self.ai = new RotatortronAI(self);
+					glitch.stop();
+					//glitch.destroy();
+					scratch.kill();					
 				});
 			}			
 		}	

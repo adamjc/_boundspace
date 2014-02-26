@@ -23,7 +23,7 @@ package
 		public function ArmourUpPowerCore(_x:Number, _y:Number, _shop:Boolean = false) 
 		{
 			super(_x, _y, _shop);
-			this.usedName = "armour+";
+			this.usedName = "HPUP";
 			this.unusedName = "???";
 			this.attribute = "armour";
 			this.positive = true;
@@ -37,7 +37,7 @@ package
 			}
 			else
 			{
-				this.name = this.unusedName;
+				this.name = this.unusedName;				
 			}	
 			
 			//makeGraphic(3, 3, 0xFF000FF0);
@@ -68,6 +68,7 @@ package
 			{
 				this.name = this.usedName;		
 				ArmourUpPowerCore.used = true;
+				this.showText();
 			}			
 		}		
 		

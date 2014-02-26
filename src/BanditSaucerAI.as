@@ -2,6 +2,7 @@ package
 {
 	import flash.utils.clearInterval;
 	import flash.utils.setInterval;
+	import flash.utils.setTimeout;
 	import org.flixel.FlxG;
 	import org.flixel.FlxPoint;
 	import org.flixel.plugin.photonstorm.FlxMath;
@@ -28,6 +29,7 @@ package
 			super();			
 			unit = Enemy(_unit);
 			_moveThisIntervalId = setInterval(moveThis, moveTimer);
+			Registry.intervals.push(_moveThisIntervalId);
 		}
 		
 		/**
@@ -44,7 +46,8 @@ package
 				targetX = Registry.player.x;
 				targetY = Registry.player.y;
 				
-				intervalId = setInterval(fireThreeAngled, 200);
+				intervalId = setTimeout(fireThreeAngled, 200);
+				Registry.intervals.push(intervalId);
 			}			
 		}
 		
@@ -79,6 +82,7 @@ package
 			if (numberOfTimes > maxNumberOfTimes)
 			{
 				clearInterval(intervalId);
+				Registry.intervals.splice(intervalId, 1);
 				numberOfTimes = 0;
 			}
 			else
@@ -108,6 +112,7 @@ package
 			unit = null;
 			this.kill();
 			clearInterval(_moveThisIntervalId);
+			Registry.intervals.splice(_moveThisIntervalId, 1);
 		}
 	}
 

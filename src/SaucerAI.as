@@ -27,6 +27,7 @@ package
 			super();			
 			unit = Enemy(_unit);
 			_moveThisIntervalId = setInterval(moveThis, moveTimer);
+			Registry.intervals.push(_moveThisIntervalId);
 		}
 		
 		/**
@@ -82,6 +83,7 @@ package
 			unit = null;
 			this.kill();
 			clearInterval(_moveThisIntervalId);
+			Registry.intervals.splice(_moveThisIntervalId, 1);
 		}
 	}
 

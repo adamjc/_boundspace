@@ -2,9 +2,12 @@ package
 {
 	import Drops.HealthDrop;
 	import Drops.ShieldDrop;
+	import Enemies.MineDroid.MineDrop;
 	import flash.geom.ColorTransform;
 	import flash.text.engine.FontDescription;
 	import flash.utils.clearInterval;
+	import flash.utils.getDefinitionByName;
+	import flash.utils.getQualifiedClassName;
 	import flash.utils.setTimeout;
 	import org.flixel.FlxEmitter;
 	import org.flixel.FlxG;
@@ -65,6 +68,7 @@ package
 			calcFrame();
 			
 			_unflashIntervalId = setTimeout(unflash, 25);
+			Registry.intervals.push(_unflashIntervalId);
 		}
 		
 		protected function unflash():void
@@ -76,6 +80,7 @@ package
 		public function killEnemy():void
 		{
 			clearInterval(_unflashIntervalId);
+			Registry.intervals.splice(_unflashIntervalId, 1);
 			
 			var particleEmitter:FlxEmitter = new FlxEmitter(this.x, this.y, 10);
 			particleEmitter.z = Registry.ENEMY_Z_LEVEL;
@@ -95,7 +100,7 @@ package
 			var shieldDrop:ShieldDrop;
 			var creditDrop:Credit;
 			
-			if (FlxMath.chanceRoll(50))
+			if (getDefinitionByName(getQualifiedClassName(this)) !== MineDrop && FlxMath.chanceRoll(50))
 			{
 				if (Registry.player.armour < Registry.player.maxArmour)
 				{
@@ -138,14 +143,14 @@ package
 			}
 		
 			this.kill(); // Kill the unit if it's health is reduced to <=0.	
-			Registry.stage.wave.numberOfEnemies -= 1;
+			if (getDefinitionByName(getQualifiedClassName(this)) !== MineDrop) { Registry.stage.wave.numberOfEnemies -= 1; }
 		}
 		
 		override public function update():void
 		{
 			super.update();							
 			
-			if (armour <= 0) { killEnemy(); }					
+			if (armour <= 0) { killEnemy(); }		
 		}
 	}
 }
