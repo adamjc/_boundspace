@@ -81,7 +81,7 @@ package
 		
 		
 		public static const UI_Z_LEVEL_BACKGROUND:int = 7250;
-		public static const UI_Z_LEVEL_CHARGE_BAR:int = 7251;
+		public static const UI_Z_LEVEL_CHARGE_BAR:int = 72511;
 		
 		public static const PORTAL_Z_LEVEL:int = 8000;
 		public static const ITEM_Z_LEVEL:int = 8001;

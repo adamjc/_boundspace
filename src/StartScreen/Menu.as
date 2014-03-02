@@ -7,6 +7,8 @@ package StartScreen
 	import flash.events.Event;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
+	import flash.utils.clearInterval;
+	import flash.utils.setInterval;
 	import OptionsScreen.Options;
 	import org.flixel.FlxEmitter;
 	import org.flixel.FlxParticle;
@@ -61,9 +63,43 @@ package StartScreen
 		protected var logoTimer:Number;
 		protected var initialLogoTimer:Number;
 		
+		protected var _helpText:FlxText;
+		protected var _helpTextIntervalID:Number;
+		protected var _increasing:Boolean;
+		
+		protected var _background:FlxSprite;
+		protected var _backgroundIntervalID:Number;
+		protected var _backgroundIncreasing:Boolean;
+		[Embed(source = "../../assets/background.jpg")] protected var _backgroundGraphic:Class;
+		
 		public function Menu() 
 		{				
 			FlxG.bgColor = 0xFF000000;
+			
+			_background = new FlxSprite(0, 0, _backgroundGraphic, 0);
+			add(_background);
+			
+			_backgroundIntervalID = setInterval(function():void {
+				if (_backgroundIncreasing)
+				{
+					_background.alpha += 0.0125;
+				}
+				else
+				{
+					_background.alpha -= 0.0125;
+				}
+				
+				if (_background.alpha >= 1.0)
+				{
+					_backgroundIncreasing = false;
+				}
+				
+				if (_background.alpha <= 0.5)
+				{
+					_backgroundIncreasing = true;
+				}
+				
+			}, 50);
 			
 			loadButtons();							
 			
@@ -91,6 +127,9 @@ package StartScreen
 			this.add(emitter.blurEffect);
 			emitter.start(false, 10, 0.5, 0);			
 			emitter.blurry.start(2);
+						
+			
+			
 		}
 		
 		protected var _flashed:Boolean;
@@ -109,6 +148,31 @@ package StartScreen
 			buttonsBackground.makeGraphic(BoundSpace.SceneWidth, 50);
 			buttonsBackground.alpha = 0.25;
 			add(buttonsBackground);*/
+			_helpText = new FlxText(0, 500, BoundSpace.SceneWidth, "WSAD / Arrow Keys to choose \n Enter to select");
+			_helpText.alpha = 0.5;
+			_helpText.setFormat("Defaultfont", 16, 0xFFFFFF, "center");
+			add(_helpText);
+			_helpTextIntervalID = setInterval(function():void {
+				if (_increasing)
+				{
+					_helpText.alpha += 0.025;
+				}
+				else
+				{
+					_helpText.alpha -= 0.025;
+				}
+				
+				if (_helpText.alpha <= 0.025)
+				{
+					_increasing = true;
+				}
+				
+				if (_helpText.alpha >= 0.5)
+				{
+					_increasing = false;
+				}
+				
+			}, 50);			
 			
 			// Logo stuff
 			logo = new FlxSprite(0, 0, logoGraphic, 0);
@@ -292,6 +356,9 @@ package StartScreen
 		public function hideMainMenu():void
 		{
 			logo.kill();
+			
+			clearInterval(_helpTextIntervalID);
+			_helpText.kill();			
 			
 			for each (var b:MenuButton in buttonArray)
 			{

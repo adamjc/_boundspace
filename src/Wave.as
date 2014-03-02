@@ -47,6 +47,8 @@ package
 		{
 			super();			
 			
+			Registry.currentWaveType = type;
+			
 			if (type.localeCompare("Enemy") == 0)
 			{
 				units = createEnemies(MIN, MAX, stageNumber); // Create a normal enemy wave.

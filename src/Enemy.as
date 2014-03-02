@@ -56,7 +56,7 @@ package
 				damage--;
 			}
 			
-			Registry.player.increaseChargeBar();
+			if (Registry.player.specialItem) { Registry.player.increaseChargeBar(); }
 			
 			flashWhite();
 		}

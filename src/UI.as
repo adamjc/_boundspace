@@ -2,6 +2,8 @@ package
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.utils.clearInterval;
+	import flash.utils.setInterval;
 	import org.flixel.FlxBasic;
 	import org.flixel.FlxSave;
 	import org.flixel.FlxSprite;
@@ -39,8 +41,11 @@ package
 		
 		protected var chargeBarUI:FlxSprite;
 		protected var chargeBar:FlxSprite;	
-		protected const CHARGE_X:int = 243;
-		protected const CHARGE_Y:int = 10;
+		protected var _chargeBarWhiteBox:FlxSprite;
+		protected const CHARGE_X:int = 245;
+		protected const CHARGE_Y:int = 7;
+		
+		protected var _specialItemGlowIntervalID:Number
 		
 		protected const TEXT_X:int = 100;
 		
@@ -142,11 +147,17 @@ package
 			//chargeBar.makeGraphic(12, CHARGE_BAR_CONTAINER_START_Y - CHARGE_BAR_CONTAINER_END_Y);
 			//Registry.game.add(chargeBar);
 			
-			chargeBar = new FlxSprite(CHARGE_X, CHARGE_Y);
-			chargeBar.z = Registry.UI_Z_LEVEL_CHARGE_BAR;
-			chargeBar.makeGraphic(60, 60);
+			[Embed(source = "../assets/specialBoxFlash.png")] var specialBoxFlash:Class;
+			chargeBar = new FlxSprite(CHARGE_X, CHARGE_Y, specialBoxFlash);
+			chargeBar.z = Registry.UI_Z_LEVEL_CHARGE_BAR;			
 			chargeBar.alpha = 0.0;
 			Registry.game.add(chargeBar);
+						
+			_chargeBarWhiteBox = new FlxSprite(CHARGE_X + 3, CHARGE_Y + 3);
+			_chargeBarWhiteBox.z = Registry.UI_Z_LEVEL_CHARGE_BAR;
+			_chargeBarWhiteBox.makeGraphic(60, 60, 0xFFFFFFFF);
+			_chargeBarWhiteBox.alpha = 0;
+			Registry.game.add(_chargeBarWhiteBox);
 			
 			// Add special item charge information.
 		}
@@ -238,14 +249,24 @@ package
 		}
 		
 		protected var previousChargeVal:int;
+		protected var _specialItemBoxFlashed:Boolean = false;
 		public function setChargeBar():void
 		{			
-			var stepIncrease:Number = 1.0 / Registry.player.MAX_CHARGE;
+			var stepIncrease:Number = 0.5 / Registry.player.MAX_CHARGE;
 			
 			if (Registry.player)
-			{				
-				if (previousChargeVal < Registry.player.chargeBarNumber)
+			{							
+				if (Registry.player.chargeBarNumber == Registry.player.MAX_CHARGE && !_specialItemBoxFlashed)
 				{
+					// flash the box, nigger.
+					chargeBar.alpha = 1.0;
+					TweenMax.to(chargeBar, 0.5, { alpha: 0, onComplete: specialItemGlow });
+					_specialItemBoxFlashed = true;
+				}
+				
+				if (previousChargeVal < Registry.player.chargeBarNumber && (previousChargeVal <= Registry.player.MAX_CHARGE)) 
+				{
+					trace(Registry.player.MAX_CHARGE, previousChargeVal);
 					// Increase intensity
 					if (chargeBar.alpha + stepIncrease > 1.0)
 					{
@@ -256,13 +277,44 @@ package
 						chargeBar.alpha += stepIncrease;	
 					}
 				}
-				else if (previousChargeVal > Registry.player.chargeBarNumber)
+				else if (previousChargeVal > Registry.player.chargeBarNumber) // Player has used special item.
 				{
 					chargeBar.alpha = 0.0;
+					_specialItemBoxFlashed = false;
+					clearInterval(_specialItemGlowIntervalID);
 				}
 			}		
 			
 			previousChargeVal = Registry.player.chargeBarNumber;
+			
+			
+		}
+		
+		protected var _chargeBarGlowing:Boolean = false;
+		protected function specialItemGlow():void
+		{
+			_specialItemGlowIntervalID = setInterval(function():void {
+				if (_chargeBarGlowing)
+				{
+					_chargeBarWhiteBox.alpha += 0.0125;
+				}
+				else
+				{
+					_chargeBarWhiteBox.alpha -= 0.0125;
+				}
+				
+				if (_chargeBarWhiteBox.alpha <= 0)
+				{
+					_chargeBarGlowing = true;
+				}
+				if (_chargeBarWhiteBox.alpha >= 0.5)
+				{
+					_chargeBarGlowing = false;
+				}
+				
+				
+			}, 50);
+			Registry.intervals.push(_specialItemGlowIntervalID);
 		}
 		
 		/**
@@ -318,7 +370,8 @@ package
 		protected var previousSpecialItem:SpecialItem;
 		protected var specialItem:SpecialItem;
 		protected var uiBoxWidth:int = 60;
-		protected var uiBoxXStart:int = 248;
+		protected var uiBoxXStart:int = 248;		
+		
 		public function updateSpecialItemUI():void
 		{
 			if (Registry.player)

@@ -42,7 +42,7 @@ package
 		/**
 		 * Returns the number of achievements that the player has completed
 		 */
-		public static function get gameCompleted():uint
+		public static function get gameCompleted():int
 		{
 			//We only get data from _save if it was loaded properly. Otherwise, use _temp
 			if (_loaded)
@@ -58,11 +58,11 @@ package
 		/**
 		 * Sets the number of achievements that the player has completed
 		 */
-		public static function set gameCompleted(value:uint):void
+		public static function set gameCompleted(value:int):void
 		{
 			if (_loaded)
 			{
-				_save.data.gameCompleted += value;
+				_save.data.gameCompleted = value;
 			}
 			else
 			{
@@ -73,7 +73,7 @@ package
 		/**
 		 * Returns the number of achievements that the player has completed
 		 */
-		public static function get deaths():uint
+		public static function get deaths():int
 		{
 			//We only get data from _save if it was loaded properly. Otherwise, use _temp
 			if (_loaded)
@@ -89,11 +89,11 @@ package
 		/**
 		 * Sets the number of achievements that the player has completed
 		 */
-		public static function set deaths(value:uint):void
-		{
+		public static function set deaths(value:int):void
+		{			
 			if (_loaded)
 			{
-				_save.data.deaths += value;
+				_save.data.deaths = value;
 			}
 			else
 			{
@@ -110,7 +110,17 @@ package
 			_loaded = _save.bind("myAchievementData");
 			if (_loaded && _save.data.achievements == null)
 			{
-				_save.data.achievements = 0x0;
+				_save.data.achievements = 0x0;				
+			}
+			
+			if (_loaded && _save.data.deaths == null)
+			{
+				_save.data.deaths = 0;
+			}
+			
+			if (_loaded && _save.data.gameCompleted == null)
+			{
+				_save.data.gameCompleted = 0;
 			}
 		}
 	}

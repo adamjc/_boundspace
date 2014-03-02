@@ -15,6 +15,18 @@ package
 		{
 			super.update();
 		}
+		
+		override public function kill():void
+		{
+			if (Registry.game.timesHitByBoss <= 0) 
+			{
+				Registry.game.hitByBoss = false;
+			}
+			
+			Registry.game.timesHitByBoss = 0;
+			
+			super.kill();
+		}
 	}
 
 }

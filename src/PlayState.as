@@ -251,7 +251,7 @@ package
 				
 				if (FlxG.keys.justPressed("M"))
 				{ 
-					Registry.player.chargeBarNumber = Registry.player.MAX_CHARGE;
+					Registry.player.chargeBarNumber += 1;
 				}			
 				
 				if (FlxG.keys.justPressed("Q"))
@@ -297,10 +297,7 @@ package
 				}
 				
 				if (isPlayerDead)
-				{
-					resetIntervals();
-					resetPowerCores();
-					
+				{				
 					var fp:FlxPoint = new FlxPoint(2, 2);
 					particleEmitter = new FlxEmitter(Registry.player.x + (Registry.player.width / 2), Registry.player.y + (Registry.player.height / 2), 50);
 					
@@ -334,16 +331,36 @@ package
 					
 					if (countDown < -0.3)
 					{
+						Achievements.deaths += 1;
+						trace(Achievements.deaths);
+						
+						resetIntervals();
+						resetPowerCores();
+						
 						// Switch to playerDeath state, show "Oh no, you died!", etc
 						FlxG.timeScale = 1;
 						var ds:DeathState = new DeathState();
 						FlxG.switchState(ds);
+						
 					}
 				}
 				
 				if (FlxG.keys.justPressed("C"))
 				{
-					Registry.player.hit(1)
+					Achievements.achievements = killedBossWithoutTakingDamage | 
+												gotMaxHealthOf99 | 
+												killedAShopKeeper | 
+												gameCompletedFiveTimes | 
+												stageFiveCompletedWithNoHits | 
+												stageOneCompletedWithNoHits | 
+												maxCreditsCollected |
+												died100Times |
+												gameCompletedOnce;
+				}	
+				
+				if (FlxG.keys.justPressed("N"))
+				{
+					Achievements.deaths = 0;
 				}	
 				
 				if (FlxG.keys.justPressed("H"))
@@ -412,10 +429,13 @@ package
 			return Math.abs(a - b);
 		}				
 		
+		public var timesHitByBoss:int = 0;
 		public var hitByBoss:Boolean = true;
 		public var shopKeeperKilled:Boolean = false;
 		public var hitOnStageOne:Boolean = true;
+		public var timesHitOnStageOne:int = 0;
 		public var hitOnStageFive:Boolean = true;
+		public var timesHitOnStageFive:int = 0;
 		public function checkAchievements():void
 		{
 			var s:FlxPoint
@@ -433,6 +453,7 @@ package
 				Registry.game.add(f);
 			}
 			
+			// Check all achievements.
 			if (!(Achievements.achievements & allAchievementsGet) &&
 				(	(killedBossWithoutTakingDamage | 
 					gotMaxHealthOf99 | 
@@ -450,7 +471,7 @@ package
 				f = new FlxAchievement(s, e, 200, 50, 5, "Unbound");
 				Registry.game.add(f);
 			}
-			
+						
 			if (!(Achievements.achievements & killedBossWithoutTakingDamage) &&
 				(!hitByBoss))
 			{
@@ -472,7 +493,7 @@ package
 			}
 			
 			if (!(Achievements.achievements & killedAShopKeeper) &&
-				(shopKeeperKilled))
+				(ShopKeeper.aShopKeeperHasDied))
 			{
 				Achievements.achievements |= killedAShopKeeper;
 				s = new FlxPoint(0, -50);
@@ -522,7 +543,7 @@ package
 			}
 			
 			if (!(Achievements.achievements & died100Times) &&
-				(!Achievements.deaths >= 100))
+				(Achievements.deaths >= 100))
 			{
 				Achievements.achievements |= died100Times;
 				s = new FlxPoint(0, -50);
@@ -533,7 +554,8 @@ package
 		}
 		
 		public function playerEnteredPortal(_player:FlxObject, _portal:FlxObject):void
-		{			
+		{						
+			
 			Registry.enemies.kill();			
 			Registry.portals.kill();
 			otherItems.kill();
@@ -545,7 +567,20 @@ package
 			if (weaponsKeys) { weaponsKeys.kill(); }
 			if (spaceKeys) { spaceKeys.kill(); }
 			
-			if (Registry.stage) Registry.stage.kill();
+			if (Registry.stage) 
+			{
+				if (Registry.stage.level === 1 && timesHitOnStageOne === 0)
+				{
+					hitOnStageOne = false;
+				}
+				
+				if (Registry.stage.level === 5 && timesHitOnStageOne === 0)
+				{
+					hitOnStageFive = false;
+				}
+				
+				Registry.stage.kill();
+			}
 			Registry.stage = new GameStage(Registry.level++);				
 			add(Registry.stage);
 			
@@ -714,7 +749,7 @@ package
 		 */
 		public function playerCollideEnemy(_player:FlxObject, _enemy:FlxObject):void
 		{
-			// TODO: 		
+			player.hit(1);
 		}
 		
 		/**
@@ -727,6 +762,21 @@ package
 			projectile.kill();
 			enemyProjectiles.remove(projectile);
 			Registry.player.hit(projectile.bulletDamage);
+			
+			if (Registry.currentWaveType == "Boss" || Registry.currentWaveType == "EndBoss")
+			{
+				this.timesHitByBoss += 1;
+			}
+			
+			if (Registry.stage.level === 1)
+			{
+				this.timesHitOnStageOne += 1;
+			}
+			
+			if (Registry.stage.level === 5)
+			{
+				this.timesHitOnStageFive += 1;
+			}
 		}
 		
 		/**
