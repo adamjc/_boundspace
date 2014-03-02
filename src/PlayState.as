@@ -193,6 +193,8 @@ package
 			
 			otherItems = new FlxGroup(100);
 						
+			SpecialItemManager.addSpecialItem(player.x + 50, player.y);
+			
 		}
 
 		public var c:Credit;
@@ -248,6 +250,11 @@ package
 				FlxG.overlap(Registry.player, Registry.portals, playerEnteredPortal);
 				
 				
+				
+				if (FlxG.keys.justPressed("M"))
+				{ 
+					Registry.player.chargeBarNumber += 1;
+				}			
 				
 				if (FlxG.keys.justPressed("M"))
 				{ 
@@ -332,7 +339,6 @@ package
 					if (countDown < -0.3)
 					{
 						Achievements.deaths += 1;
-						trace(Achievements.deaths);
 						
 						resetIntervals();
 						resetPowerCores();
@@ -347,15 +353,7 @@ package
 				
 				if (FlxG.keys.justPressed("C"))
 				{
-					Achievements.achievements = killedBossWithoutTakingDamage | 
-												gotMaxHealthOf99 | 
-												killedAShopKeeper | 
-												gameCompletedFiveTimes | 
-												stageFiveCompletedWithNoHits | 
-												stageOneCompletedWithNoHits | 
-												maxCreditsCollected |
-												died100Times |
-												gameCompletedOnce;
+					Registry.player.increaseShield();
 				}	
 				
 				if (FlxG.keys.justPressed("N"))
@@ -658,7 +656,6 @@ package
 					}	
 					else if (!specialItem.price || specialItem.price <= Registry.player.credits) // Player already owns a power core.
 					{
-						trace("second");
 						Registry.player.dropSpecialItem();						
 						Registry.player.specialItem = specialItem;
 						

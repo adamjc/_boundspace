@@ -46,7 +46,8 @@ package
 				targetX = Registry.player.x;
 				targetY = Registry.player.y;
 				
-				intervalId = setTimeout(fireThreeAngled, 200);
+				numberOfTimes = 0;
+				intervalId = setInterval(fireThreeAngled, 200);
 				Registry.intervals.push(intervalId);
 			}			
 		}

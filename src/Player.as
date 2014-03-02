@@ -438,6 +438,8 @@ package
 		
 		public function increaseShield(val:int = 1):void
 		{
+			Registry.game.ui.flashShieldContainer();
+			
 			if (this.shields + val <= 99)
 			{
 				this.shields += val;

@@ -43,7 +43,7 @@ package OptionsScreen
 		
 		public var optionsGroup:FlxGroup;
 		
-		[Embed(source = "../../assets/Hooge0553.ttf", fontName = "DefaultFont", embedAsCFF="false")] private var FontClass:Class;
+		[Embed(source = "../../assets/Kroeger0553.ttf", fontName = "DefaultFont", embedAsCFF="false")] private var FontClass:Class;
 		
 		public function Options() 
 		{

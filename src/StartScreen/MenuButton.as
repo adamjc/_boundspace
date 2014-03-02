@@ -25,7 +25,7 @@ package StartScreen
 		
 		protected var buttonImage:FlxSprite;
 				
-		[Embed(source = "../../assets/Hooge0553.ttf", fontName = "DefaultFont", embedAsCFF="false")] private var FontClass:Class;
+		[Embed(source = "../../assets/Kroeger0553.ttf", fontName = "DefaultFont", embedAsCFF="false")] private var FontClass:Class;
 		
 		public function MenuButton(text:String, x:int, y:int, trigger:String = null) 
 		{

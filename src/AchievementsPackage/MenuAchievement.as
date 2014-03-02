@@ -36,7 +36,7 @@ package AchievementsPackage
 		// TODO: Here we add the embedded images to the array. The constructor will pick out the image from the index.
 		//protected static const achievementImages:Array;
 		
-		[Embed(source = "../../assets/Hooge0553.ttf", fontName = "DefaultFont", embedAsCFF="false")] private var FontClass:Class;
+		[Embed(source = "../../assets/Kroeger0553.ttf", fontName = "DefaultFont", embedAsCFF="false")] private var FontClass:Class;
 		
 		public function MenuAchievement(achievementImgLoc:int, achievementTitleText:String, achievementTextText:String, xPos:int, yPos:int) 
 		{

@@ -4,6 +4,7 @@ package
 	import flash.display.BitmapData;
 	import flash.utils.clearInterval;
 	import flash.utils.setInterval;
+	import flash.utils.setTimeout;
 	import org.flixel.FlxBasic;
 	import org.flixel.FlxSave;
 	import org.flixel.FlxSprite;
@@ -47,6 +48,8 @@ package
 		
 		protected var _specialItemGlowIntervalID:Number
 		
+		protected var _specialItemOuterFlash:FlxSprite;
+		
 		protected const TEXT_X:int = 100;
 		
 		protected var waveText:FlxText;
@@ -69,13 +72,20 @@ package
 		
 		protected var shieldBar:FlxSprite;
 		protected var shieldText:FlxText;
-		protected const SHIELD_BAR_CONTAINER_START_X:int = ARMOUR_BAR_CONTAINER_END_X + 10;
+		protected const SHIELD_BAR_CONTAINER_START_X:int = 627;
 		protected const SHIELD_BAR_START_Y:int = ARMOUR_BAR_START_Y;
 		protected const SHIELD_BAR_CONTAINER_END_X:int = SHIELD_BAR_CONTAINER_START_X + 30;						
 		
+		protected var whiteShieldBox:FlxSprite;
+		
 		public function UI() 
 		{
-			super();
+			super();						
+			
+			var spaceBarText:FlxText = new FlxText(CHARGE_X - 1, CHARGE_Y - 11, 66, "SPACE");
+			spaceBarText.setFormat("DefaultFont", 16, 0xFFFFFF, "center");
+			spaceBarText.z = Registry.UI_TEXT_Z_LEVEL
+			Registry.game.add(spaceBarText);
 			
 			// Make all of the UI elements appear.
 			[Embed(source = "../assets/ui-sketch.png")] var UITexture:Class;
@@ -131,12 +141,19 @@ package
 			
 			// Add shield information.
 			shieldBar = new FlxSprite(SHIELD_BAR_CONTAINER_START_X, SHIELD_BAR_START_Y);
+			shieldBar.makeGraphic(30, 30, 0xFF3eb3fe);
+			shieldBar.z = Registry.UI_Z_LEVEL_CHARGE_BAR;
 			Registry.game.add(shieldBar);
+			
+			whiteShieldBox = new FlxSprite(SHIELD_BAR_CONTAINER_START_X, SHIELD_BAR_START_Y);
+			whiteShieldBox.makeGraphic(30, 30, 0xFFFFFFFF);
+			Registry.game.add(whiteShieldBox);
+			whiteShieldBox.z = shieldBar.z + 1;
+			whiteShieldBox.alpha = 0.0;
+			
 			hwidth = SHIELD_BAR_CONTAINER_END_X - SHIELD_BAR_CONTAINER_START_X;
-			shieldText = new FlxText(SHIELD_BAR_CONTAINER_START_X + (hwidth / 2) + 10, SHIELD_BAR_START_Y + 2, 25, Registry.player.shields.toString());
-			//shieldText.scale.x = 2;
-			//shieldText.scale.y = 2;
-			shieldText.setFormat("DefaultFont", 16);
+			shieldText = new FlxText(626, 25, 30, Registry.player.shields.toString());
+			shieldText.setFormat("DefaultFont", 16, 0xFFFFFF, "center");
 			shieldText.z = Registry.UI_TEXT_Z_LEVEL;
 			Registry.game.add(shieldText);
 			updatePlayerBars();
@@ -149,7 +166,7 @@ package
 			
 			[Embed(source = "../assets/specialBoxFlash.png")] var specialBoxFlash:Class;
 			chargeBar = new FlxSprite(CHARGE_X, CHARGE_Y, specialBoxFlash);
-			chargeBar.z = Registry.UI_Z_LEVEL_CHARGE_BAR;			
+			chargeBar.z = Registry.UI_Z_LEVEL_SPECIAL_ITEM_GLOW;			
 			chargeBar.alpha = 0.0;
 			Registry.game.add(chargeBar);
 						
@@ -160,8 +177,35 @@ package
 			Registry.game.add(_chargeBarWhiteBox);
 			
 			// Add special item charge information.
+			[Embed(source = "../assets/specialBoxFlashy.png")] var specialBoxOuterFlash:Class;
+			_specialItemOuterFlash = new FlxSprite(CHARGE_X, CHARGE_Y);
+			_specialItemOuterFlash.z = Registry.UI_Z_LEVEL_SPECIAL_ITEM_GLOW;		
+			var graphic:FlxSprite = _specialItemOuterFlash.loadGraphic(specialBoxOuterFlash, true, false, 66, 66);
+			_specialItemOuterFlash.alpha = 0.0;
+			var array:Array = new Array();
+			
+			for (var i:int = 0; i < graphic.frames; i++)
+			{
+				array[i] = i+1;
+			}
+			
+			_specialItemOuterFlash.addAnimation("specialBoxOuterFlash", array, 60, true);
+			_specialItemOuterFlash.play("specialBoxOuterFlash");
+			Registry.game.add(_specialItemOuterFlash);
+			
 		}
 			
+		public function flashShieldContainer():void
+		{
+			whiteShieldBox.alpha = 1.0;
+			var whiteShieldBoxIntervalID:Number = setInterval(function():void {
+				whiteShieldBox.alpha -= 0.1;
+				if (whiteShieldBox.alpha <= 0) { clearInterval(whiteShieldBoxIntervalID);}
+			}, 25);
+			Registry.intervals.push(whiteShieldBoxIntervalID);
+			
+		}
+		
 		override public function update():void
 		{
 			super.update();
@@ -229,23 +273,15 @@ package
 			healthBarText.text = Registry.player.armour.toString() + "/" + Registry.player.maxArmour;
 			
 			shieldText.text = Registry.player.shields.toString();
-			shieldBar.makeGraphic(SHIELD_BAR_CONTAINER_END_X - SHIELD_BAR_CONTAINER_START_X, 30, 0xFF5555AA);
-			var hwidth:int = SHIELD_BAR_CONTAINER_END_X - SHIELD_BAR_CONTAINER_START_X;
 			
-			if (Registry.player.shields > 9)
-			{				
-				shieldText.x = SHIELD_BAR_CONTAINER_START_X + (hwidth / 2) - 5;
+			if (Registry.player.shields >= 1)
+			{
+				shieldBar.alpha = 1.0;
 			}
 			else
 			{
-				shieldText.x = SHIELD_BAR_CONTAINER_START_X + (hwidth / 2) + 8;
+				shieldBar.alpha = 0.0;
 			}
-			
-			if (Registry.player.shields < 1)
-			{
-				shieldBar.makeGraphic(SHIELD_BAR_CONTAINER_END_X - SHIELD_BAR_CONTAINER_START_X, 25, 0xFF333333);
-			}
-		
 		}
 		
 		protected var previousChargeVal:int;
@@ -260,27 +296,29 @@ package
 				{
 					// flash the box, nigger.
 					chargeBar.alpha = 1.0;
+					_specialItemOuterFlash.alpha = 1.0;
 					TweenMax.to(chargeBar, 0.5, { alpha: 0, onComplete: specialItemGlow });
 					_specialItemBoxFlashed = true;
 				}
 				
 				if (previousChargeVal < Registry.player.chargeBarNumber && (previousChargeVal <= Registry.player.MAX_CHARGE)) 
 				{
-					trace(Registry.player.MAX_CHARGE, previousChargeVal);
 					// Increase intensity
-					if (chargeBar.alpha + stepIncrease > 1.0)
+					if (_chargeBarWhiteBox.alpha + stepIncrease > 1.0)
 					{
-						chargeBar.alpha = 1.0;
+						_chargeBarWhiteBox.alpha = 1.0;
 					}
 					else
 					{
-						chargeBar.alpha += stepIncrease;	
+						_chargeBarWhiteBox.alpha += stepIncrease;	
 					}
 				}
 				else if (previousChargeVal > Registry.player.chargeBarNumber) // Player has used special item.
 				{
 					chargeBar.alpha = 0.0;
+					_specialItemOuterFlash.alpha = 0.0;
 					_specialItemBoxFlashed = false;
+					_chargeBarWhiteBox.alpha = 0.0;
 					clearInterval(_specialItemGlowIntervalID);
 				}
 			}		
@@ -292,7 +330,8 @@ package
 		
 		protected var _chargeBarGlowing:Boolean = false;
 		protected function specialItemGlow():void
-		{
+		{			
+			
 			_specialItemGlowIntervalID = setInterval(function():void {
 				if (_chargeBarGlowing)
 				{
@@ -344,7 +383,6 @@ package
 					}
 					else if (!powerCoreCompare)
 					{						
-						trace("nigz");
 						powerCoreCompare = pc;						
 						powerCore = new FlxSprite(323, 27, p.img);
 						powerCore.z = Registry.UI_Z_LEVEL_ELEMENTS;
@@ -353,7 +391,6 @@ package
 						powerCoreText = new FlxText(powerCoreStartX, powerCoreStartY, powerCoreAreaWidth, pc.name);
 						powerCoreText.setFormat("DefaultFont", 8, 0xFFFFFF, "center");
 						powerCoreText.z = Registry.UI_Z_LEVEL_ELEMENTS + 100;
-						trace(powerCoreText.text);
 						Registry.game.add(powerCoreText);
 					}
 				}

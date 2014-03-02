@@ -81,7 +81,7 @@ package
 		
 		
 		public static const UI_Z_LEVEL_BACKGROUND:int = 7250;
-		public static const UI_Z_LEVEL_CHARGE_BAR:int = 72511;
+		public static const UI_Z_LEVEL_CHARGE_BAR:int = 9049;
 		
 		public static const PORTAL_Z_LEVEL:int = 8000;
 		public static const ITEM_Z_LEVEL:int = 8001;
@@ -93,7 +93,8 @@ package
 		public static const PLAYER_PROJECTILE_Z_LEVEL:int = 8501;
 		
 		public static const UI_Z_LEVEL_ELEMENTS:int = 9050;		
-		public static const UI_Z_LEVEL_BASE:int = 9100;		
+		public static const UI_Z_LEVEL_BASE:int = 9100;	
+		public static const UI_Z_LEVEL_SPECIAL_ITEM_GLOW:int = 9150;
 		public static const UI_TEXT_Z_LEVEL:int = 9175;
 		
 		public static const ACHIEVEMENT_BACKGROUND:int = 9200;

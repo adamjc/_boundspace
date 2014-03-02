@@ -62,7 +62,6 @@ package
 			{
 				var enemies:Array = Registry.enemies.members;
 				var r:int = Math.floor(Math.random() * enemies.length);
-				trace("enemiesLength: " + enemies.length + "random: " + r);
 				if (enemies[r]) { _target = enemies[r]; }
 			}
 			

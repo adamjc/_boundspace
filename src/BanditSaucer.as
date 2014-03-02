@@ -12,7 +12,7 @@ package
 	{		
 		[Embed (source = "../assets/bandit-saucer.png")] protected var banditSprite:Class;		
 		protected const HEALTH:int = 10;
-		protected const WEAPON_COOLDOWN:Number = 5;
+		protected const WEAPON_COOLDOWN:Number = 2;
 		protected const WIDTH:int = 7;
 		protected const BULLET_DAMAGE:Number = 1;
 		protected const BULLET_SPEED:Number = 100;

@@ -69,8 +69,6 @@ package
 				{
 					callback();		
 					this.z = Registry.ENEMY_Z_LEVEL;
-					trace(this.z);
-					trace(this.alpha);
 					this.scratch.kill();
 				}
 			}
