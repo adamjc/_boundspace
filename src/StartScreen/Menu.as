@@ -13,6 +13,7 @@ package StartScreen
 	import org.flixel.FlxEmitter;
 	import org.flixel.FlxParticle;
 	import org.flixel.FlxPoint;
+	import org.flixel.FlxSound;
 	import org.flixel.FlxState;
 	import org.flixel.FlxG;
 	import org.flixel.plugin.photonstorm.FlxButtonPlus;
@@ -72,8 +73,28 @@ package StartScreen
 		protected var _backgroundIncreasing:Boolean;
 		[Embed(source = "../../assets/background.jpg")] protected var _backgroundGraphic:Class;
 		
+		/* Sounds */
+		[Embed(source = "../../assets/sounds/menu-select.mp3")] public var menuSelect:Class;
+		[Embed(source= "../../assets/sounds/menu-enter.mp3")] public var menuEnter:Class;
+		
+		/* Music */
+		[Embed(source= "../../assets/sounds/pixelated-cosmos.mp3")] public var menuMusic:Class;
+		public static var _menuMusic:FlxSound;
+		
 		public function Menu() 
-		{				
+		{	
+			_menuMusic = new FlxSound();
+			_menuMusic.loadEmbedded(menuMusic);			
+			_menuMusic.volume = 0;
+			_menuMusic.play();
+			var _musicInterval:Number = setInterval(function():void {
+				_menuMusic.volume += 0.025;
+				if (_menuMusic.volume >= 0.5) {
+					clearInterval(_musicInterval);
+				}
+			}, 250);
+			
+			
 			FlxG.bgColor = 0xFF000000;
 			
 			_background = new FlxSprite(0, 0, _backgroundGraphic, 0);
@@ -106,18 +127,18 @@ package StartScreen
 			menuArray = [mainMenuUpdate, optionsMenuUpdate, achievementsMenuUpdate, creditsScreenUpdate];
 			
 			// Particle stuff
-			emitter = new EmitterXL(0, 0, 100, {"fadeOut": true});
+			emitter = new EmitterXL(0, 0, 100, {"fadeOut": true, "blur": true, "menu": true});
 			emitter.setSize(BoundSpace.SceneWidth, 1);			
 			emitter.setYSpeed(10, 100);
 			emitter.setXSpeed(0, 0);
-			emitter.z = -10;
+			emitter.z = 0;
 			
 			for (var i:int = 0; i < 100; i++)
 			{
 				var particle:FlxParticle = new FlxParticle();
 				particle.makeGraphic(4, 4, 0xFFFFFFFF);
 				particle.exists = false;
-				particle.z = -10;
+				particle.z = 0;
 				emitter.add(particle);
 				emitter.minRotation = 0;
 				emitter.maxRotation = 0;
@@ -283,6 +304,8 @@ package StartScreen
 			
 			if (FlxG.keys.justPressed("RIGHT") || FlxG.keys.justPressed("D")) // Move the carousel right.
 			{
+				FlxG.play(menuSelect);
+				
 				// tween all of the elements.
 				for (i = 0; i < buttonArray.length; i++)
 				{
@@ -311,6 +334,8 @@ package StartScreen
 			
 			if (FlxG.keys.justPressed("LEFT") || FlxG.keys.justPressed("A")) // Move the carousel left.
 			{
+				FlxG.play(menuSelect);
+				
 				// tween all of the elements.
 				for (i = buttonArray.length - 1; i >= 0; i--)
 				{
@@ -340,6 +365,8 @@ package StartScreen
 			// Handle button selection.
 			if (FlxG.keys.justPressed("ENTER") || FlxG.keys.justPressed("SPACE"))
 			{
+				FlxG.play(menuEnter);
+				
 				var b:MenuButton = buttonArray[1];
 				
 				// e.g. "startGame()", "creditsSequence()", "optionsMenu()", etc...
@@ -380,6 +407,8 @@ package StartScreen
 			
 			if (FlxG.keys.justPressed("ENTER") && achievementsScreen.selectionBarIndex == 2)
 			{
+					FlxG.play(menuEnter);
+					
 				// Return to the main menu.
 				achievementsScreen.kill();
 				menuIndex = MAIN_MENU_INDEX;
@@ -403,6 +432,8 @@ package StartScreen
 			
 			if (FlxG.keys.justPressed("ENTER") && optionsScreen.selectionBarIndex == 3)
 			{
+				FlxG.play(menuEnter);
+					
 				// Return to the main menu.
 				optionsScreen.kill();
 				menuIndex = MAIN_MENU_INDEX;

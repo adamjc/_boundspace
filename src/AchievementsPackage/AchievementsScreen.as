@@ -40,6 +40,10 @@ package AchievementsPackage
 		public var achievementArray:Array;
 		public var achievementPositions:Array;
 		
+		/* Sounds */
+		[Embed(source = "../../assets/sounds/menu-select.mp3")] public var menuSelect:Class;
+		[Embed(source= "../../assets/sounds/menu-enter.mp3")] public var menuEnter:Class;
+		
 		// Constructor that creates an object representing all of the elements of an achievements screen.
 		// Also handles all of the updating of it's children.
 		public function AchievementsScreen() 
@@ -261,6 +265,8 @@ package AchievementsPackage
 			var selectionBarPos:FlxPoint;
 			if ((selectionBarIndex > 1) && (FlxG.keys.justPressed("UP") || FlxG.keys.justPressed("W")))
 			{
+				FlxG.play(menuSelect);
+				
 				// Move the selection bar up.
 				selectionBarIndex -= 1;
 				selectionBarPos = elementPosArray[selectionBarIndex];
@@ -269,6 +275,8 @@ package AchievementsPackage
 			
 			if ((selectionBarIndex < elementPosArray.length - 1) && (FlxG.keys.justPressed("DOWN") || FlxG.keys.justPressed("S")))
 			{
+				FlxG.play(menuSelect);
+				
 				// Move the selection bar down.
 				selectionBarIndex += 1;
 				selectionBarPos = elementPosArray[selectionBarIndex];
@@ -278,6 +286,8 @@ package AchievementsPackage
 			var i:int;
 			if (FlxG.keys.justPressed("RIGHT") || FlxG.keys.justPressed("D")) // Move the carousel right.
 			{
+				FlxG.play(menuSelect);
+				
 				// tween all of the elements. 
 				for (i = 0; i < achievementArray.length; i++)
 				{					
@@ -302,6 +312,8 @@ package AchievementsPackage
 			
 			if (FlxG.keys.justPressed("LEFT") || FlxG.keys.justPressed("A")) // Move the carousel left.
 			{
+				FlxG.play(menuSelect);
+				
 				// tween all of the elements.
 				for (i = achievementArray.length - 1; i >= 0; i--)
 				{

@@ -115,13 +115,13 @@ package
 			wP1y = weaponPoint1.y;
 			
 			weaponPoint2 = new FlxPoint;
-			weaponPoint2.x = (this.x + this.width / 2) + 5;
+			weaponPoint2.x = (this.x + this.width / 2) + 20;
 			weaponPoint2.y = this.y;
 			wP2x = weaponPoint2.x;
 			wP2y = weaponPoint2.y;
 			
 			weaponPoint3 = new FlxPoint;
-			weaponPoint3.x = (this.x + this.width / 2) - 5;
+			weaponPoint3.x = (this.x + this.width / 2) - 20;
 			weaponPoint3.y = this.y;
 			wP3x = weaponPoint3.x;
 			wP3y = weaponPoint3.y;
@@ -147,13 +147,13 @@ package
 			wP1x = weaponPoint1.x;
 			wP1y = weaponPoint1.y;
 			
-			weaponPoint2.x = (this.x + this.width / 2) + 5;
+			weaponPoint2.x = (this.x + this.width / 2) + 10;
 			weaponPoint2.y = this.y;			
 			weaponPoint2 = this.rotatePoint(pivotPoint, weaponPoint2, this.angle);			
 			wP2x = weaponPoint2.x;
 			wP2y = weaponPoint2.y;
 			
-			weaponPoint3.x = (this.x + this.width / 2) - 5;
+			weaponPoint3.x = (this.x + this.width / 2) - 10;
 			weaponPoint3.y = this.y;			
 			weaponPoint3 = this.rotatePoint(pivotPoint, weaponPoint3, this.angle);			
 			wP3x = weaponPoint3.x;

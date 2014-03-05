@@ -89,7 +89,7 @@ package
 		public static const PLAYER_Z_LEVEL:int = 8250;
 		public static const ENEMY_SPAWNER_Z_LEVEL:int = 8251;
 		public static const ENEMY_BOSS_Z_LEVEL:int = 8252;
-		public static const ENEMY_PROJECTILE_Z_LEVEL:int = 8500;
+		public static const ENEMY_PROJECTILE_Z_LEVEL:int = 8249;
 		public static const PLAYER_PROJECTILE_Z_LEVEL:int = 8501;
 		
 		public static const UI_Z_LEVEL_ELEMENTS:int = 9050;		
@@ -100,9 +100,10 @@ package
 		public static const ACHIEVEMENT_BACKGROUND:int = 9200;
 		public static const ACHIEVEMENT_FOREGROUND:int = 9201;
 		
+		public static var SOUND_VOLUME:int = 0.5;
+		
 		public function Registry()
-		{
-			
+		{			
 		}
 		
 		/**

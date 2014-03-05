@@ -90,17 +90,21 @@ package
 			{
 				var angle:int = -10;
 				var i:int = 0;
+				var wL:int = unit ? unit.weapons.length : 0;
 				
-				for (i = 0; i < unit.weapons.length; i++)
+				for (i = 0; i < wL; i++)
 				{										
-					unit.weapons[i].fireAtPosition(targetX, targetY);
-					Registry.game.add(unit.weapons[i].currentBullet);									
-					unit.weapons[i].currentBullet.z = Registry.ENEMY_PROJECTILE_Z_LEVEL;	
+					if (unit)
+					{
+						unit.weapons[i].fireAtPosition(targetX, targetY);
+						Registry.game.add(unit.weapons[i].currentBullet);									
+						unit.weapons[i].currentBullet.z = Registry.ENEMY_PROJECTILE_Z_LEVEL;	
+							
+						// change the current bullet's trajectory.
+						AI.angleObject(unit.weapons[i].currentBullet, new FlxPoint(targetX, targetY), unit.weapons[i].getBulletSpeed(), 0, angle);		
 						
-					// change the current bullet's trajectory.
-					AI.angleObject(unit.weapons[i].currentBullet, new FlxPoint(targetX, targetY), unit.weapons[i].getBulletSpeed(), 0, angle);		
-					
-					angle = angle + 10;
+						angle = angle + 10;
+					}					
 				}
 				
 				numberOfTimes++;

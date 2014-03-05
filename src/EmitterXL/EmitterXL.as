@@ -23,10 +23,15 @@ package EmitterXL
 		protected var _gradient:Boolean;
 		protected var _gradientStart:Number;
 		protected var _gradientEnd:Number;
+		protected var _blur:Boolean;
+		protected var _menu:Boolean;
 		
 		public var rotationSpeed:Number = 10;
 		public var blurry:BlurFX;
 		public var blurEffect:FlxSprite;
+		public var fadeOutSpeed:Number;
+		
+		
 		
 		/**
 		 * Constructor
@@ -44,13 +49,18 @@ package EmitterXL
 		{
 			super(x, y, size);
 			
+			
+			
 			if (options)
 			{
 				_fadeOut = options.fadeOut || false;
 				_rotation = options.rotation || false;
 				_gradient = (options.gradientStart || options.gradientEnd) ? true : false;
-				_gradientStart = options.gradientStart || 0x000000;
+				_gradientStart = options.gradientStart || 0xFFFFFF;
 				_gradientEnd = options.gradientEnd || 0xFFFFFF;
+				_blur = options.blur || false;
+				_menu = options.menu || false;
+				fadeOutSpeed = options.fadeOutSpeed || 0.002;
 			}
 			
 			if (FlxG.getPlugin(FlxSpecialFX) == null)
@@ -58,8 +68,12 @@ package EmitterXL
 				FlxG.addPlugin(new FlxSpecialFX);
 			}
 			
-			blurry = FlxSpecialFX.blur();
-			blurEffect = blurry.create(BoundSpace.SceneWidth, BoundSpace.SceneHeight, 2, 2, 1);			
+			if (_blur) 
+			{
+				blurry = FlxSpecialFX.blur();
+				blurEffect = blurry.create(BoundSpace.SceneWidth, BoundSpace.SceneHeight, 2, 2, 1);			
+			}
+			
 		}	
 
 		override public function add(object:FlxBasic):FlxBasic
@@ -69,17 +83,19 @@ package EmitterXL
 				// This is a particle we are adding. Set the appropriate shits.
 				var particle:FlxParticle = FlxParticle(object);
 				
-				//var red:Number = (Math.random() * 0x66) << 16;
-				//red += 0x110000;
 				var red:Number = 0x000000;
 				var green:Number = (Math.random() * 0x66) << 8;
 				green += 0x11;
 				var blue:Number = Math.random() * 0xAA;
 				blue += 0x11;
 				
-				particle.color = red + green + blue;
+				if (_menu) { particle.color = red + green + blue; }
+				else
+				{
+					particle.color = 0x05E8DB;
+				}
 				
-				blurry.addSprite(particle);
+				if (_blur) { blurry.addSprite(particle); }
 				
 				var scales:Array = [0.25, 0.5, 1];
 				var scaleChosen:int = Math.floor(Math.random() * 3);
@@ -109,12 +125,12 @@ package EmitterXL
 			}
 			
 			if (this._fadeOut)
-			{
+			{				
 				for (i = 0; i < this.members.length; i++)
 				{
 					if (this.members[i].alive) 
 					{
-						this.members[i].alpha -= 0.002;
+						this.members[i].alpha -= this.fadeOutSpeed;
 						if (this.members[i].alpha <= 0) { this.members[i].exists = false; }
 					}
 				}
@@ -126,9 +142,14 @@ package EmitterXL
 		override public function kill():void
 		{
 			FlxSpecialFX.clear();
-			blurry.stop();
-			blurry.destroy();			
-			blurEffect.kill();			
+			
+			if (blurry)
+			{
+				blurry.stop();
+				blurry.destroy();			
+				blurEffect.kill();			
+			}
+			
 			super.kill();
 		}
 	}

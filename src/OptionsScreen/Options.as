@@ -45,6 +45,10 @@ package OptionsScreen
 		
 		[Embed(source = "../../assets/Kroeger0553.ttf", fontName = "DefaultFont", embedAsCFF="false")] private var FontClass:Class;
 		
+		/* Sounds */
+		[Embed(source = "../../assets/sounds/menu-select.mp3")] public var menuSelect:Class;
+		[Embed(source= "../../assets/sounds/menu-enter.mp3")] public var menuEnter:Class;
+		
 		public function Options() 
 		{
 			// Split the screen up into 5 segments (Title, SoundVolume, MusicVolume and Done).
@@ -88,6 +92,7 @@ package OptionsScreen
 			var selectionBarPos:FlxPoint;
 			if ((selectionBarIndex > 1) && (FlxG.keys.justPressed("UP") || FlxG.keys.justPressed("W")))
 			{
+				FlxG.play(menuSelect);
 				// Move the selection bar up.
 				selectionBarIndex -= 1;
 				selectionBarPos = elementPosArray[selectionBarIndex];
@@ -96,6 +101,7 @@ package OptionsScreen
 			
 			if ((selectionBarIndex < elementPosArray.length - 1) && (FlxG.keys.justPressed("DOWN") || FlxG.keys.justPressed("S")))
 			{
+				FlxG.play(menuSelect);
 				// Move the selection bar down.
 				selectionBarIndex += 1;
 				selectionBarPos = elementPosArray[selectionBarIndex];
@@ -104,8 +110,11 @@ package OptionsScreen
 			
 			if (FlxG.keys.justPressed("LEFT"))
 			{	
+				FlxG.play(menuSelect);
+				if (Registry.SOUND_VOLUME > 0) Registry.SOUND_VOLUME -= 0.1;
+				
 				switch(selectionBarIndex)
-				{					
+				{													
 					case 1:		
 						// Sound fx highlighted.
 						FlxG.volume -= 0.1;
@@ -123,6 +132,9 @@ package OptionsScreen
 			
 			if (FlxG.keys.justPressed("RIGHT"))
 			{
+				FlxG.play(menuSelect);
+				if (Registry.SOUND_VOLUME < 1.0) Registry.SOUND_VOLUME += 0.1;
+				
 				switch(selectionBarIndex)
 				{					
 					case 1:		

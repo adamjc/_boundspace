@@ -1,6 +1,7 @@
 package StartScreen 
 {
 	import CreditsScreen.CreditsScreen;
+	import flash.utils.setTimeout;
 	import OptionsScreen.Options;
 	import org.flixel.FlxObject;
 	import org.flixel.FlxPoint;
@@ -59,10 +60,16 @@ package StartScreen
 		
 		public function startGame(state:FlxState):void
 		{
+			Menu._menuMusic.kill();
+			
 			FlxSpecialFX.clear();
 
-			var p:PlayState = new PlayState();
-			FlxG.switchState(p);			
+			FlxG.fade();
+			
+			setTimeout(function():void {
+				var p:PlayState = new PlayState();
+				FlxG.switchState(p);			
+			}, 1000);			
 		}
 		
 		public function optionsMenu(state:Menu):void

@@ -43,6 +43,8 @@ package
 		
 		public function Paused() 
 		{
+			Registry.game._mainMusic.volume = 0.2;
+			
 			background = new FlxSprite(200, 175, pausedFrameSprite, 0);
 			
 			background.scrollFactor.x = 0;
@@ -182,6 +184,8 @@ package
 		
 		public function resumeGame():void
 		{
+			Registry.game._mainMusic.volume = 0.5;
+			
 			this.kill();
 			this.exists = false;
 			isShowing = false;

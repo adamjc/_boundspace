@@ -5,6 +5,8 @@ package
 	import Drops.ShieldDrop;
 	import flash.utils.ByteArray;
 	import flash.utils.clearInterval;
+	import flash.utils.setInterval;
+	import flash.utils.setTimeout;
 	import mx.core.FlexApplicationBootstrap;
 	import org.flixel.FlxBasic;
 	import org.flixel.FlxGroup;
@@ -28,6 +30,7 @@ package
 	import org.flixel.FlxCamera;
 	import Drops.HealthDrop;
 	import Drops.ShieldDropFive;
+	import org.flixel.FlxSound;
 	
 	/**
 	 * ...
@@ -80,10 +83,8 @@ package
 											gameCompletedOnce;
 		
 											
-		[Embed(source = "../assets/keys.png")] public var keys:Class;	
-		[Embed(source = "../assets/mouse_keys.png")] public var mouseKeys:Class;	
-		[Embed(source = "../assets/powercore_and_weapons_keys.png")] public var powerCoreKeys:Class;	
-		[Embed(source = "../assets/space.png")] public var spaceKey:Class;
+		[Embed(source = "../assets/shoot-tutorial.png")] public var shootTutorial:Class;	
+		[Embed(source = "../assets/move-tutorial.png")] public var moveTutorial:Class;	
 		
 		[Embed(source = "../assets/background.png")] public var backgroundImage:Class;
 		[Embed(source = "../assets/stars.jpg")] public var backgroundStars:Class;
@@ -96,10 +97,25 @@ package
 		protected var background:FlxSprite; 
 		protected var stars:FlxSprite;
 		
+		/* Music */
+		[Embed(source= "../assets/sounds/wwwww.mp3")] public var mainMusic:Class;
+		public var _mainMusic:FlxSound;
+		
 		override public function create():void
 		{						
 			Registry.game = this;
 			Registry.level = 1;					
+			
+			_mainMusic = new FlxSound();
+			_mainMusic.loadEmbedded(mainMusic);			
+			_mainMusic.volume = 0;
+			_mainMusic.play();
+			var _musicInterval:Number = setInterval(function():void {
+				_mainMusic.volume += 0.025;
+				if (_mainMusic.volume >= 0.5) {
+					clearInterval(_musicInterval);
+				}
+			}, 250);
 			
 			// Create the player.
 			Registry.player = new Player(343, 250);
@@ -165,15 +181,14 @@ package
 			p.y = 100;
 			this.add(p);
 			
-			mouseKey = new FlxSprite(90, 150, mouseKeys);
-			weaponsKeys = new FlxSprite(430, 160, powerCoreKeys);
-			moveKeys = new FlxSprite(60, 350, keys);
-			spaceKeys = new FlxSprite(300, 400, spaceKey);
+			mouseKey = new FlxSprite(90, 100, moveTutorial);
+			mouseKey.z = Registry.UI_Z_LEVEL_ELEMENTS;
+			
+			moveKeys = new FlxSprite(550, 100, shootTutorial);
+			moveKeys.z = Registry.UI_Z_LEVEL_ELEMENTS;
 			
 			add(mouseKey);
-			add(weaponsKeys);
 			add(moveKeys);
-			add(spaceKeys);
 			
 			WeaponContainerManager.addWeapon(345, 180);
 			
@@ -195,6 +210,20 @@ package
 						
 			SpecialItemManager.addSpecialItem(player.x + 50, player.y);
 			
+			var blackOverlay:FlxSprite = new FlxSprite(0, 0);
+			blackOverlay.z = 99999;
+			blackOverlay.makeGraphic(BoundSpace.SceneWidth, BoundSpace.SceneHeight, 0xFF000000);
+			add(blackOverlay);
+			
+			var _overlayIntervalID:Number = setInterval(function():void {				
+				blackOverlay.alpha -= 0.05;
+				if (blackOverlay.alpha <= 0) { 
+					blackOverlay.kill(); 
+					clearInterval(_overlayIntervalID);
+				}
+			}, 50);
+				
+			Registry.intervals.push(_overlayIntervalID);
 		}
 
 		public var c:Credit;
@@ -205,7 +234,7 @@ package
 		[Embed(source = "../assets/explosy.png")] public var test:Class;
 		public var rect:FlxSprite;
 		override public function update():void
-		{		
+		{				
 			Mouse.show();
 			if (!pausedState.isShowing)
 			{
@@ -353,7 +382,7 @@ package
 				
 				if (FlxG.keys.justPressed("C"))
 				{
-					Registry.player.increaseShield();
+					WeaponContainerManager.addWeapon(this.player.x + 50, player.y, false);
 				}	
 				
 				if (FlxG.keys.justPressed("N"))

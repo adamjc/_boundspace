@@ -20,6 +20,8 @@ package
 		protected var bulletImage:FlxSprite;
 		protected var weapon1:FlxWeapon;
 		
+		
+		
 		public function BanditSaucer(_ai:Boolean = true, _x:Number = 0, _y:Number = 0) 
 		{
 			if (!_x) { _x = Math.abs(Registry.RIGHT_BOUNDS - WIDTH) * Math.random(); }
@@ -31,10 +33,13 @@ package
 			// used for weapons!
 			image = loadGraphic(banditSprite);							
 			
+			xOffsetWeapon = this.x + this.width / 2;
+			yOffsetWeapon = this.y + this.height / 2;
+			
 			weapons = new Array();	
-			addWeapon("cannon", BULLET_SPEED, WEAPON_COOLDOWN, BULLET_DAMAGE);
-			addWeapon("cannon", BULLET_SPEED, WEAPON_COOLDOWN, BULLET_DAMAGE);
-			addWeapon("cannon", BULLET_SPEED, WEAPON_COOLDOWN, BULLET_DAMAGE);
+			addWeapon("cannon", BULLET_SPEED, WEAPON_COOLDOWN, BULLET_DAMAGE, "xOffsetWeapon", "yOffsetWeapon");
+			addWeapon("cannon", BULLET_SPEED, WEAPON_COOLDOWN, BULLET_DAMAGE, "xOffsetWeapon", "yOffsetWeapon");
+			addWeapon("cannon", BULLET_SPEED, WEAPON_COOLDOWN, BULLET_DAMAGE, "xOffsetWeapon", "yOffsetWeapon");
 			Registry.game.enemyProjectiles.add(weapons[0].group);
 			Registry.game.enemyProjectiles.add(weapons[1].group);
 			Registry.game.enemyProjectiles.add(weapons[2].group);
@@ -66,6 +71,9 @@ package
 		
 		override public function update():void
 		{	
+			xOffsetWeapon = this.x + this.width / 2;
+			yOffsetWeapon = this.y + this.height / 2;
+			
 			super.update();			
 		}
 	}

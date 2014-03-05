@@ -156,7 +156,7 @@ package
 			var weapon:FlxWeapon = new FlxWeapon(_type, this.image, x, y, _damage);			
 			weapon.setBulletSpeed(_bulletSpeed);
 			weapon.setFireRate(_fireRate);
-			weapon.makeImageBullet(100, enemyShot);
+			weapon.makeImageBullet(100, enemyShot);			
 			this.weapons.push(weapon);	
 			return weapon;
 		}		
