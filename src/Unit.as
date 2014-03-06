@@ -45,6 +45,7 @@ package
 		protected var maxSkip:uint = 10;
 		protected var scratch:FlxSprite;
 		
+		[Embed(source = "../assets/sounds/unit-teleport.mp3")] protected static var teleport:Class;
 		
 		public function Unit(X:Number = 0, Y:Number = 0, SimpleGraphics:Class = null) 
 		{			
@@ -80,6 +81,8 @@ package
 		
 		public function startTelprot(self:Unit, callback:Function):void
 		{
+			FlxG.play(teleport);
+			
 			var intervalID:Number;
 			var self:Unit = this;
 			this.createGlitch(this.image);

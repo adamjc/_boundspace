@@ -21,16 +21,20 @@ package
 		public var weaponImage:Class;
 		public var weaponType:String;
 		
+		public var weaponSound:Class;
+		
+		[Embed(source = "../assets/cannon.png")] public static var cannon:Class;	
+		[Embed(source = "../assets/cannon_bullet_shot.png")] public static var cannon_bullet:Class;
+		[Embed(source = "../assets/sounds/cannon.mp3")] public static var cannonSound:Class;
+		
+		[Embed(source = "../assets/homingPulse.png")] public static var homingPulse:Class;	
+		[Embed(source = "../assets/homing_pulse_bullet_shot.png")] public static var homingPulse_bullet:Class;	
+		
+		[Embed(source = "../assets/autoCannon.png")] public static var autoCannon:Class;	
+		[Embed(source = "../assets/auto_cannon_bullet_shot.png")] public static var autoCannon_bullet:Class;
+		[Embed(source = "../assets/sounds/auto-cannon.mp3")] public static var autoCannonSound:Class;
 		
 		
-		[Embed(source = "../assets/cannon.png")] public var cannon:Class;	
-		[Embed(source = "../assets/cannon_bullet_shot.png")] public var cannon_bullet:Class;
-		
-		[Embed(source = "../assets/homingPulse.png")] public var homingPulse:Class;	
-		[Embed(source = "../assets/homing_pulse_bullet_shot.png")] public var homingPulse_bullet:Class;	
-		
-		[Embed(source = "../assets/autoCannon.png")] public var autoCannon:Class;	
-		[Embed(source = "../assets/auto_cannon_bullet_shot.png")] public var autoCannon_bullet:Class;
 		
 		public function WeaponContainer(_x:int, _y:int, _shop:Boolean, _weaponType:String, 
 										_weaponBulletSpeed:Number, _weaponFireRate:Number, _weaponDamage:Number) 
@@ -53,20 +57,24 @@ package
 			
 			switch (weaponType)
 			{
-				case "cannon": 
+				case "cannon": 					
+					weaponSound = cannonSound;
 					weaponImage = cannon;
 					weapon.makeImageBullet(100, cannon_bullet);
 					break;
 				case "homingPulse":
+					weaponSound = autoCannonSound;
 					weaponImage = homingPulse;
 					weapon.makeImageBullet(100, homingPulse_bullet);
 					break;
 				case "autoCannon":
+					weaponSound = autoCannonSound;
 					weaponImage = autoCannon;		
 					weapon.rndFactorAngle = 10;
 					weapon.makeImageBullet(100, autoCannon_bullet);
 					break;
 				default: 
+					weaponSound = autoCannonSound;
 					weaponImage = cannon;		
 					weapon.makeImageBullet(100, cannon_bullet);
 					break;

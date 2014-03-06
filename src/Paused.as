@@ -35,11 +35,11 @@ package
 		
 		public var isShowing:Boolean;		
 		
-		[Embed(source = "../assets/paused_frame.png")] protected var pausedFrameSprite:Class;
-		[Embed(source = "../assets/fire_rate.png")] protected var fireRate:Class;
-		[Embed(source = "../assets/shipSpeed.png")] protected var shipSpeed:Class;
-		[Embed(source = "../assets/shot_speed.png")] protected var bulletSpeed:Class;
-		[Embed(source = "../assets/bullet_damage.png")] protected var bulletDamage:Class;
+		[Embed(source = "../assets/paused_frame.png")] protected static var pausedFrameSprite:Class;
+		[Embed(source = "../assets/fire_rate.png")] protected static var fireRate:Class;
+		[Embed(source = "../assets/shipSpeed.png")] protected static var shipSpeed:Class;
+		[Embed(source = "../assets/shot_speed.png")] protected static var bulletSpeed:Class;
+		[Embed(source = "../assets/bullet_damage.png")] protected static var bulletDamage:Class;
 		
 		public function Paused() 
 		{

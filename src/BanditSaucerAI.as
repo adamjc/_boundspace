@@ -96,6 +96,7 @@ package
 				{										
 					if (unit)
 					{
+						FlxG.play(WeaponContainer.cannonSound);
 						unit.weapons[i].fireAtPosition(targetX, targetY);
 						Registry.game.add(unit.weapons[i].currentBullet);									
 						unit.weapons[i].currentBullet.z = Registry.ENEMY_PROJECTILE_Z_LEVEL;	

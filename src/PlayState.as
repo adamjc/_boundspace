@@ -101,6 +101,8 @@ package
 		[Embed(source= "../assets/sounds/wwwww.mp3")] public var mainMusic:Class;
 		public var _mainMusic:FlxSound;
 		
+		[Embed(source= "../assets/sounds/pick-up-item.mp3")] public var pickUpSound:Class;
+		
 		override public function create():void
 		{						
 			Registry.game = this;
@@ -648,6 +650,7 @@ package
 			{
 				if (_item is PowerCore)
 				{
+					FlxG.play(pickUpSound);
 					// Player is overlapping with a PowerCore.
 					var item:PowerCore = PowerCore(_item);
 					if (!Registry.player.powerCore && (!item.price || item.price <= Registry.player.credits)) // Player does not have a power core.
@@ -670,6 +673,7 @@ package
 				}
 				if (_item is SpecialItem)
 				{
+					FlxG.play(pickUpSound);
 					// Player is overlapping with a SpecialItem.
 					var specialItem:SpecialItem = SpecialItem(_item);
 					

@@ -183,6 +183,8 @@ package
 			}			
 			if (FlxG.mouse.pressed())
 			{
+				
+				
 				var i:int;
 				for (i = 0; i < weapons.length; i++)
 				{
@@ -201,12 +203,12 @@ package
 								break;	
 						}					
 						w.weapon.currentBullet.angle = this.angle;
+						FlxG.play(w.weaponSound);
 					}
 					
 					w.weapon.currentBullet.z = Registry.PLAYER_PROJECTILE_Z_LEVEL;
 					
 					Registry.game.add(w.weapon.currentBullet);
-					var s:FlxSound = new FlxSound();					
 				}
 			}
 			

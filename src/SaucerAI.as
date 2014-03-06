@@ -45,7 +45,8 @@ package
 				{
 					var i:int; 
 					for (i = 0; i < unit.weapons.length; i++)
-					{										
+					{				
+						FlxG.play(WeaponContainer.cannonSound);
 						unit.weapons[i].fireAtTarget(Registry.player.playerSprite);
 						Registry.game.add(unit.weapons[i].currentBullet);			
 						

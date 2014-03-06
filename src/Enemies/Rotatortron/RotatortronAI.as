@@ -61,7 +61,8 @@ package Enemies.Rotatortron
 			var i:int = 0;
 			
 			for (i = 0; i < unit.weapons.length; i++)
-			{					
+			{		
+				FlxG.play(WeaponContainer.cannonSound);
 				unit.weapons[i].fireFromAngle(_angle);
 				Registry.game.add(unit.weapons[i].currentBullet);									
 				unit.weapons[i].currentBullet.z = Registry.ENEMY_PROJECTILE_Z_LEVEL;	

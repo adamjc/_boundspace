@@ -27,6 +27,9 @@ package
 	{		
 		[Embed(source = "../assets/explosy.png")] public var test:Class;
 		
+		[Embed(source = "../assets/sounds/enemy-hit.mp3")] public var enemyHitSound:Class;
+		[Embed(source = "../assets/sounds/explode.mp3")] public var enemyDeathSound:Class;
+		
 		public var weaponCooldown:Number;
 		public var weaponTimer:Number;
 		
@@ -49,6 +52,7 @@ package
 		
 		public function enemyHit(_damage:int):void
 		{			
+			FlxG.play(enemyHitSound);
 			var damage:int = _damage;			
 			while (damage > 0)
 			{
@@ -80,6 +84,8 @@ package
 		
 		public function killEnemy():void
 		{
+			FlxG.play(enemyDeathSound);
+			
 			clearInterval(_unflashIntervalId);
 			Registry.intervals.splice(_unflashIntervalId, 1);
 			
