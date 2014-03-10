@@ -4,6 +4,8 @@ package
 	import org.flixel.FlxGame;
 	import org.flixel.FlxGroup;
 	import org.flixel.FlxPoint;
+	import org.flixel.FlxSave;
+	import org.flixel.FlxSound;
 	import org.flixel.FlxState;
 	/**
 	 * ...
@@ -25,6 +27,14 @@ package
 		public static var portals:FlxGroup = new FlxGroup();
 		public static var ui:UI;
 		public static var intervals:Array = new Array();
+		
+		public static var mainMusic:FlxSound;
+		public static var shopMusic:FlxSound;
+		
+		public static var creditsCollected:int = 0;
+		public static var stageReached:int = 0;
+		public static var waveReached:int = 0;
+		public static var enemiesKilled:int = 0;
 		
 		public static const TOP_BOUNDS:Number = BoundSpace.UIMaxY;
 		public static const RIGHT_BOUNDS:Number = BoundSpace.SceneWidth;

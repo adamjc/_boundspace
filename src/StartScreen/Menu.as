@@ -82,11 +82,11 @@ package StartScreen
 		public static var _menuMusic:FlxSound;
 		
 		public function Menu() 
-		{	
+		{				
 			_menuMusic = new FlxSound();
-			_menuMusic.loadEmbedded(menuMusic);			
+			_menuMusic.loadEmbedded(menuMusic, true);			
 			_menuMusic.volume = 0;
-			_menuMusic.play();
+			_menuMusic.play(true);
 			var _musicInterval:Number = setInterval(function():void {
 				_menuMusic.volume += 0.025;
 				if (_menuMusic.volume >= 0.5) {

@@ -1,5 +1,7 @@
 package  
 {
+	import flash.utils.clearInterval;
+	import flash.utils.setInterval;
 	import org.flixel.FlxBasic;
 	import org.flixel.FlxG;
 	import org.flixel.FlxObject;
@@ -51,6 +53,29 @@ package
 			//if (Registry.enemies.countLiving() <= 0 && !isAnimating)
 			if (Registry.stage.wave && Registry.stage.wave.numberOfEnemies <= 0 && !isAnimating)
 			{	
+				if (waveCount < 1)
+				{				
+					var _pauseInterval:Number = setInterval(function():void {
+						Registry.shopMusic.volume -= 0.05;
+						if (Registry.shopMusic.volume <= 0) {
+							Registry.shopMusic.volume = 0;
+							Registry.shopMusic.pause();		
+							clearInterval(_pauseInterval);
+						}
+					}, 250);
+					
+								
+					
+					Registry.mainMusic.volume = 0;
+					Registry.mainMusic.play(true);
+					var _musicInterval:Number = setInterval(function():void {
+						Registry.mainMusic.volume += 0.05;
+						if (Registry.mainMusic.volume >= 0.5) {
+							clearInterval(_musicInterval);
+						}
+					}, 250);
+				}
+				
 				if (wave) { wave.kill(); }
 				if (endBoss)
 				{
@@ -75,6 +100,24 @@ package
 				}
 				else if (waveCount < 11)
 				{
+					var _pauseInterval:Number = setInterval(function():void {
+						Registry.mainMusic.volume -= 0.05;
+						if (Registry.mainMusic.volume <= 0) {
+							Registry.mainMusic.volume = 0;
+							Registry.mainMusic.pause();		
+							clearInterval(_pauseInterval);
+						}
+					}, 250);													
+					
+					Registry.shopMusic.volume = 0;
+					Registry.shopMusic.play(true);
+					var _musicInterval:Number = setInterval(function():void {
+						Registry.shopMusic.volume += 0.05;
+						if (Registry.shopMusic.volume >= 0.5) {
+							clearInterval(_musicInterval);
+						}
+					}, 250);
+
 					addWaveTween("Cue elevator music", "Seriously, buy some stuff", "Shop", level);
 				}
 			}

@@ -101,6 +101,9 @@ package
 		[Embed(source= "../assets/sounds/wwwww.mp3")] public var mainMusic:Class;
 		public var _mainMusic:FlxSound;
 		
+		[Embed(source= "../assets/sounds/wwwww.mp3")] public var shopMusic:Class;
+		public var _shopMusic:FlxSound;
+		
 		[Embed(source= "../assets/sounds/pick-up-item.mp3")] public var pickUpSound:Class;
 		
 		override public function create():void
@@ -109,7 +112,7 @@ package
 			Registry.level = 1;					
 			
 			_mainMusic = new FlxSound();
-			_mainMusic.loadEmbedded(mainMusic);			
+			_mainMusic.loadEmbedded(mainMusic, true);			
 			_mainMusic.volume = 0;
 			_mainMusic.play();
 			var _musicInterval:Number = setInterval(function():void {
@@ -118,6 +121,14 @@ package
 					clearInterval(_musicInterval);
 				}
 			}, 250);
+			
+			Registry.mainMusic = _mainMusic;
+			
+			Registry.shopMusic = new FlxSound();
+			Registry.shopMusic.loadEmbedded(shopMusic, true);
+			Registry.shopMusic.volume = 0.5;
+			Registry.shopMusic.play();
+			Registry.shopMusic.pause();
 			
 			// Create the player.
 			Registry.player = new Player(343, 250);
@@ -335,7 +346,8 @@ package
 				}
 				
 				if (isPlayerDead)
-				{				
+				{								
+					
 					var fp:FlxPoint = new FlxPoint(2, 2);
 					particleEmitter = new FlxEmitter(Registry.player.x + (Registry.player.width / 2), Registry.player.y + (Registry.player.height / 2), 50);
 					
