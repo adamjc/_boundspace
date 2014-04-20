@@ -98,10 +98,7 @@ package
 		protected var stars:FlxSprite;
 		
 		/* Music */
-		[Embed(source= "../assets/sounds/wwwww.mp3")] public var mainMusic:Class;
-		public var _mainMusic:FlxSound;
-		
-		[Embed(source= "../assets/sounds/wwwww.mp3")] public var shopMusic:Class;
+		public var _mainMusic:FlxSound;		
 		public var _shopMusic:FlxSound;
 		
 		[Embed(source= "../assets/sounds/pick-up-item.mp3")] public var pickUpSound:Class;
@@ -112,12 +109,12 @@ package
 			Registry.level = 1;					
 			
 			_mainMusic = new FlxSound();
-			_mainMusic.loadEmbedded(mainMusic, true);			
+			_mainMusic.loadEmbedded(wwwww, true);			
 			_mainMusic.volume = 0;
 			_mainMusic.play();
 			var _musicInterval:Number = setInterval(function():void {
-				_mainMusic.volume += 0.025;
-				if (_mainMusic.volume >= 0.5) {
+				_mainMusic.volume += 0.05;
+				if (_mainMusic.volume >= 2) {
 					clearInterval(_musicInterval);
 				}
 			}, 250);
@@ -125,10 +122,10 @@ package
 			Registry.mainMusic = _mainMusic;
 			
 			Registry.shopMusic = new FlxSound();
-			Registry.shopMusic.loadEmbedded(shopMusic, true);
-			Registry.shopMusic.volume = 0.5;
+			Registry.shopMusic.loadEmbedded(elevatorMusic, true);
+			Registry.shopMusic.volume = 0;
 			Registry.shopMusic.play();
-			Registry.shopMusic.pause();
+			//Registry.shopMusic.pause();
 			
 			// Create the player.
 			Registry.player = new Player(343, 250);
@@ -332,12 +329,42 @@ package
 								
 				if (FlxG.keys.justPressed("B"))
 				{					
-					add(PowerCoreManager.addPowerCore(player.x + 50, player.y, false));
+					var _pauseInterval:Number = setInterval(function():void {
+						Registry.mainMusic.volume -= 0.05;
+						if (Registry.mainMusic.volume <= 0) {
+							Registry.mainMusic.volume = 0;
+							Registry.mainMusic.pause();		
+							clearInterval(_pauseInterval);
+						}
+					}, 250);													
+					
+					Registry.shopMusic.play();
+					var _musicInterval:Number = setInterval(function():void {
+						Registry.shopMusic.volume += 0.05;
+						if (Registry.shopMusic.volume >= 0.5) {
+							clearInterval(_musicInterval);
+						}
+					}, 250);
 				}									
 				
 				if (FlxG.keys.justPressed("L"))
 				{
-					player.hit(10);
+					var _pauseInterval:Number = setInterval(function():void {
+						Registry.shopMusic.volume -= 0.05;
+						if (Registry.shopMusic.volume <= 0) {
+							Registry.shopMusic.volume = 0;
+							Registry.shopMusic.pause();		
+							clearInterval(_pauseInterval);
+						}
+					}, 250);
+													
+					Registry.mainMusic.play();
+					var _musicInterval:Number = setInterval(function():void {
+						Registry.mainMusic.volume += 0.05;
+						if (Registry.mainMusic.volume >= 0.5) {
+							clearInterval(_musicInterval);
+						}
+					}, 250);
 				}
 				
 				if (FlxG.keys.justPressed("SPACE"))
@@ -596,6 +623,23 @@ package
 		
 		public function playerEnteredPortal(_player:FlxObject, _portal:FlxObject):void
 		{						
+			var _pauseInterval:Number = setInterval(function():void {
+				Registry.shopMusic.volume -= 0.05;
+				if (Registry.shopMusic.volume <= 0) {
+					Registry.shopMusic.volume = 0;
+					Registry.shopMusic.pause();		
+					clearInterval(_pauseInterval);
+				}
+			}, 250);
+											
+			Registry.mainMusic.play();
+			var _musicInterval:Number = setInterval(function():void {
+				Registry.mainMusic.volume += 0.05;
+				if (Registry.mainMusic.volume >= 0.5) {
+					clearInterval(_musicInterval);
+				}
+			}, 250);
+			
 			
 			Registry.enemies.kill();			
 			Registry.portals.kill();

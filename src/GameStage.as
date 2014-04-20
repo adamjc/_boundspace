@@ -53,9 +53,10 @@ package
 			//if (Registry.enemies.countLiving() <= 0 && !isAnimating)
 			if (Registry.stage.wave && Registry.stage.wave.numberOfEnemies <= 0 && !isAnimating)
 			{	
-				if (waveCount < 1)
-				{				
-					var _pauseInterval:Number = setInterval(function():void {
+				if (waveCount <= 1)
+				{	
+					trace("true");
+					/*var _pauseInterval:Number = setInterval(function():void {
 						Registry.shopMusic.volume -= 0.05;
 						if (Registry.shopMusic.volume <= 0) {
 							Registry.shopMusic.volume = 0;
@@ -63,17 +64,14 @@ package
 							clearInterval(_pauseInterval);
 						}
 					}, 250);
-					
-								
-					
-					Registry.mainMusic.volume = 0;
-					Registry.mainMusic.play(true);
+													
+					Registry.mainMusic.play();
 					var _musicInterval:Number = setInterval(function():void {
 						Registry.mainMusic.volume += 0.05;
 						if (Registry.mainMusic.volume >= 0.5) {
 							clearInterval(_musicInterval);
 						}
-					}, 250);
+					}, 250);*/
 				}
 				
 				if (wave) { wave.kill(); }
@@ -99,25 +97,7 @@ package
 					addWaveTween("Dun dun dun!", "go get 'em!", "Boss", level);
 				}
 				else if (waveCount < 11)
-				{
-					var _pauseInterval:Number = setInterval(function():void {
-						Registry.mainMusic.volume -= 0.05;
-						if (Registry.mainMusic.volume <= 0) {
-							Registry.mainMusic.volume = 0;
-							Registry.mainMusic.pause();		
-							clearInterval(_pauseInterval);
-						}
-					}, 250);													
-					
-					Registry.shopMusic.volume = 0;
-					Registry.shopMusic.play(true);
-					var _musicInterval:Number = setInterval(function():void {
-						Registry.shopMusic.volume += 0.05;
-						if (Registry.shopMusic.volume >= 0.5) {
-							clearInterval(_musicInterval);
-						}
-					}, 250);
-
+				{					
 					addWaveTween("Cue elevator music", "Seriously, buy some stuff", "Shop", level);
 				}
 			}
@@ -172,6 +152,23 @@ package
 			}
 			if (type == "Shop")
 			{
+				var _pauseInterval:Number = setInterval(function():void {
+						Registry.mainMusic.volume -= 0.05;
+						if (Registry.mainMusic.volume <= 0) {
+							Registry.mainMusic.volume = 0;
+							Registry.mainMusic.pause();		
+							clearInterval(_pauseInterval);
+						}
+					}, 250);													
+					
+				Registry.shopMusic.play();
+				var _musicInterval:Number = setInterval(function():void {
+					Registry.shopMusic.volume += 0.05;
+					if (Registry.shopMusic.volume >= 0.5) {
+						clearInterval(_musicInterval);
+					}
+				}, 250);
+				
 				Registry.game.shopKeeper = wave.units[1];
 			}
 			waveCount++;			

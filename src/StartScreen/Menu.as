@@ -5,6 +5,7 @@ package StartScreen
 	import CreditsScreen.CreditsScreen;
 	import EmitterXL.EmitterXL;
 	import flash.events.Event;
+	import flash.media.Sound;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.utils.clearInterval;
@@ -25,7 +26,7 @@ package StartScreen
 	import org.flixel.plugin.photonstorm.FlxBar;
 	import org.flixel.plugin.photonstorm.FlxSpecialFX;
 	import com.greensock.easing.*;
-	import com.greensock.*;
+	import com.greensock.*;		
 	
 	/**
 	 * ...
@@ -78,22 +79,20 @@ package StartScreen
 		[Embed(source= "../../assets/sounds/menu-enter.mp3")] public var menuEnter:Class;
 		
 		/* Music */
-		[Embed(source= "../../assets/sounds/pixelated-cosmos.mp3")] public var menuMusic:Class;
-		public static var _menuMusic:FlxSound;
+		public static var _menuMusic:FlxSound;		
 		
 		public function Menu() 
-		{				
+		{							
 			_menuMusic = new FlxSound();
-			_menuMusic.loadEmbedded(menuMusic, true);			
+			_menuMusic.loadEmbedded(PixelatedCosmos, true);			
 			_menuMusic.volume = 0;
 			_menuMusic.play(true);
 			var _musicInterval:Number = setInterval(function():void {
-				_menuMusic.volume += 0.025;
-				if (_menuMusic.volume >= 0.5) {
+				_menuMusic.volume += 0.05;
+				if (_menuMusic.volume >= 0.75) {
 					clearInterval(_musicInterval);
 				}
 			}, 250);
-			
 			
 			FlxG.bgColor = 0xFF000000;
 			
