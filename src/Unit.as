@@ -80,7 +80,7 @@ package
 		}
 		
 		public function startTelprot(self:Unit, callback:Function):void
-		{
+		{			
 			FlxG.play(teleport);
 			
 			var intervalID:Number;
@@ -106,7 +106,7 @@ package
 		
 		override public function update():void
 		{			
-			super.update();
+			super.update();			
 		}	
 		
 		public function getAngle():Number
