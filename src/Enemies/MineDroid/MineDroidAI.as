@@ -68,11 +68,12 @@ package Enemies.MineDroid
 		
 		public function fire():void
 		{
-			// drop a mother fucking mine.
-			var mine:MineDrop = new MineDrop(false, unit.x + unit.width / 2, unit.y + 5);
-			Registry.game.add(mine);
-			Registry.game.otherItems.add(mine);
-			
+			if (!Registry.game.pausedState.isShowing) {
+				// drop a mother fucking mine.
+				var mine:MineDrop = new MineDrop(false, unit.x + unit.width / 2, unit.y + 5);
+				Registry.game.add(mine);
+				Registry.game.otherItems.add(mine);
+			}						
 		}
 		
 		override public function removeThis():void

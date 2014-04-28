@@ -4,6 +4,7 @@ package
 	import Drops.ShieldDrop;
 	import EmitterXL.EmitterXL;
 	import Enemies.MineDroid.MineDrop;
+	import Enemies.BrainMissile.BrainMissile;
 	import flash.geom.ColorTransform;
 	import flash.text.engine.FontDescription;
 	import flash.utils.clearInterval;
@@ -43,8 +44,8 @@ package
 		public function Enemy(X:Number = 0, Y:Number = 0, _weaponCooldown:Number = 1) 
 		{
 			super(X, Y);
-			//this.z = Registry.ENEMY_Z_LEVEL;
-			this.z = 0;
+			this.z = Registry.ENEMY_Z_LEVEL;
+			//this.z = 0;
 			weaponCooldown = _weaponCooldown;
 			weaponTimer = weaponCooldown;
 			this.antialiasing = true;						
@@ -120,7 +121,12 @@ package
 			var shieldDrop:ShieldDrop;
 			var creditDrop:Credit;
 			
-			if (getDefinitionByName(getQualifiedClassName(this)) !== MineDrop && FlxMath.chanceRoll(50))
+			var _className:Object = getDefinitionByName(getQualifiedClassName(this));
+			
+			var _isRelevantEnemy:Boolean = _className !== MineDrop &&
+										   _className !== BrainMissile;	
+			
+			if (_isRelevantEnemy && FlxMath.chanceRoll(50))
 			{
 				if (Registry.player.armour < Registry.player.maxArmour)
 				{
@@ -163,7 +169,10 @@ package
 			}
 		
 			this.kill(); // Kill the unit if it's health is reduced to <=0.	
-			if (getDefinitionByName(getQualifiedClassName(this)) !== MineDrop) { Registry.stage.wave.numberOfEnemies -= 1; }
+			
+			if (_isRelevantEnemy) { 
+				Registry.stage.wave.numberOfEnemies -= 1; 
+			}
 		}
 		
 		override public function update():void

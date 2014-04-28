@@ -23,6 +23,7 @@ package
 		public static var level:int;
 		public static var game:PlayState;
 		public static var enemies:FlxGroup;	
+		public static var otherEnemies:FlxGroup;
 		public static var shopItems:Array = new Array();
 		public static var portals:FlxGroup = new FlxGroup();
 		public static var ui:UI;

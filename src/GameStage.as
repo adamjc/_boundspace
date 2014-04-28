@@ -54,8 +54,7 @@ package
 			if (Registry.stage.wave && Registry.stage.wave.numberOfEnemies <= 0 && !isAnimating)
 			{	
 				if (waveCount <= 1)
-				{	
-					trace("true");
+				{						
 					/*var _pauseInterval:Number = setInterval(function():void {
 						Registry.shopMusic.volume -= 0.05;
 						if (Registry.shopMusic.volume <= 0) {

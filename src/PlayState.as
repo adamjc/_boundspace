@@ -176,6 +176,7 @@ package
 			playerProjectiles = new FlxGroup(100);	
 			credits = new FlxGroup(10);
 			Registry.enemies = new FlxGroup();
+			//Registry.otherEnemies = new FlxGroup();
 			items = new FlxGroup();									
 			
 			FlxG.debug = true;	
@@ -265,6 +266,7 @@ package
 				
 				FlxG.collide(Registry.player, boundingBox); // Ensure the player collides with the boundaries of the game.
 				FlxG.collide(Registry.enemies, boundingBox); // Ensure that enemies collide with the boundaries of the game.	
+				//FlxG.collide(Registry.otherEnemies, boundingBox); // Ensure that enemies collide with the boundaries of the game.	
 				
 				var i:int;
 				for (i = 0; i < Registry.player.weapons.length; i++)
@@ -273,17 +275,18 @@ package
 					FlxG.collide(w.group, boundingBox, playerHit); // Ensure that the player's projectiles collide with the boundaries of the game.
 					FlxG.overlap(w.group, Registry.enemies, playerShotEnemy); // Ensure that the player's projectiles can hit enemies.
 					FlxG.overlap(w.group, otherItems, playerShotEnemy);
+					//FlxG.overlap(w.group, Registry.otherEnemies, playerShotEnemy); // Ensure that the player's projectiles can hit enemies.
 					if (shopKeeper) { FlxG.overlap(w.group, shopKeeper, playerShotShopKeeper); }
 				}
 							
 				FlxG.collide(enemyProjectiles, boundingBox, enemyHit); // Ensure that the enemy's projectiles collide with the boundaries of the game.
-				FlxG.collide(Registry.enemies, Registry.enemies);
+				//FlxG.collide(Registry.enemies, Registry.enemies);
 				FlxG.overlap(enemyProjectiles, Registry.player, enemyShotPlayer); 			
 				
 				FlxG.overlap(Registry.player, items, pickUpItem); // Ensure that the player can pick up any items.
 				FlxG.collide(items, boundingBox); // Ensure that the items collide with the boundingBox.
 				
-				FlxG.collide(Registry.player, Registry.enemies, playerCollideEnemy);
+				//FlxG.collide(Registry.player, Registry.enemies, playerCollideEnemy);
 				FlxG.collide(Registry.player, shopKeeper);
 				
 				FlxG.overlap(Registry.player, Registry.portals, playerEnteredPortal);
@@ -836,6 +839,7 @@ package
 		public function playerCollideEnemy(_player:FlxObject, _enemy:FlxObject):void
 		{
 			player.hit(1);
+			trace("hi there");
 		}
 		
 		/**

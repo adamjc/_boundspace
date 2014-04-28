@@ -3,6 +3,7 @@ package
 	import Enemies.MineDroid.MineDroid;
 	import Enemies.Rotatortron.Rotatortron;
 	import Enemies.Asteroid.Asteroid;
+	import Enemies.Brain.Brain;	
 	
 	import flash.utils.clearInterval;
 	import flash.utils.setInterval;
@@ -18,7 +19,7 @@ package
 	 */
 	public class Wave extends FlxBasic 
 	{
-		public static var stageOneEnemies:Array = new Array([new Asteroid(false, 500, 300)],[]);
+		public static var stageOneEnemies:Array = new Array([new Brain(false, 500, 300)],[]);
 		public static var stageOneMiniBosses:Array = new Array(new SaucerMiniBoss(false));
 		public static var stageOneBosses:Array = new Array(new SpaceInvaderBoss(false));		
 		

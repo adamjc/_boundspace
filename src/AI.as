@@ -66,9 +66,8 @@ package
 			
 			source.velocity.x = Math.cos(a) * speed;
 			source.velocity.y = Math.sin(a) * speed;
-			
-			
-			
 		}
+		
+		
 	}
 }
