@@ -1,9 +1,12 @@
 package  
 {
+	import Enemies.AsteroidShooter.AsteroidShooter;
 	import Enemies.MineDroid.MineDroid;
+	import Enemies.MoonBoss.MoonBoss;
 	import Enemies.Rotatortron.Rotatortron;
 	import Enemies.Asteroid.Asteroid;
 	import Enemies.Brain.Brain;	
+	import Enemies.Spike.Spike;
 	
 	import flash.utils.clearInterval;
 	import flash.utils.setInterval;
@@ -19,9 +22,9 @@ package
 	 */
 	public class Wave extends FlxBasic 
 	{
-		public static var stageOneEnemies:Array = new Array([new Brain(false, 500, 300)],[]);
-		public static var stageOneMiniBosses:Array = new Array(new SaucerMiniBoss(false));
-		public static var stageOneBosses:Array = new Array(new SpaceInvaderBoss(false));		
+		public static var stageOneEnemies:Array = new Array([new AsteroidShooter(false, 500, 300)],[]);
+		public static var stageOneMiniBosses:Array = new Array(new BanditSaucer(false));
+		public static var stageOneBosses:Array = new Array(new MoonBoss(false));		
 		
 		public const MIN:int = 10;
 		public const MAX:int = 15;
@@ -95,17 +98,26 @@ package
 		public function createBoss(stageNumber:int):Array
 		{
 			var units:Array = new Array();
-			var boss:Boss;
+			var boss:Boss;			
+			var arrayToUse:Array;
+			var bossClass:Class;
 			
 			switch (stageNumber)
 			{
 				case 1:
-					boss = new SpaceInvaderBoss();
+					arrayToUse = stageOneBosses;
 					break;
 				default:
-					boss = new SpaceInvaderBoss();
+					arrayToUse = stageOneBosses;
 					break;
 			}
+			
+			var length:int = arrayToUse.length;
+			var random:Number = Math.floor(Math.random());
+			
+			var bossClass:Class = Object(arrayToUse[random]).constructor; // Find the class of the enemy.					
+			
+			var boss:Boss = new bossClass(true, 350, 200);
 			
 			Registry.game.add(boss)
 			Registry.enemies.add(boss);
@@ -123,17 +135,26 @@ package
 		public function createMiniBoss(stageNumber:int):Array
 		{
 			var units:Array = new Array();
-			var miniBoss:MiniBoss;
+			var miniBoss:MiniBoss;									
+			var arrayToUse:Array;
+			var bossClass:Class;
 			
 			switch(stageNumber)
 			{
 				case 1:
-					miniBoss = new BanditSaucer();
+					arrayToUse = stageOneMiniBosses;
 					break;
 				default:
-					miniBoss = new BanditSaucer();
+					arrayToUse = stageOneMiniBosses;
 					break;
 			}
+			
+			var length:int = arrayToUse.length;
+			var random:Number = Math.floor(Math.random() * (length));
+						
+			bossClass = Object(arrayToUse[random]).constructor; // Find the class of the enemy.		
+			
+			miniBoss = new bossClass(true, 350, 200);
 			
 			Registry.game.add(miniBoss)
 			Registry.enemies.add(miniBoss);

@@ -28,7 +28,6 @@ package Drops
 			tween.yoyo(true);
 			tween.repeat( -1);
 			tween.repeatDelay(0.8);
-			trace(tween.yoyo());
 			tween.play();
 			
 			Registry.game.items.add(this);

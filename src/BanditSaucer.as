@@ -42,9 +42,7 @@ package
 			addWeapon("cannon", BULLET_SPEED, WEAPON_COOLDOWN, BULLET_DAMAGE, "xOffsetWeapon", "yOffsetWeapon");
 			Registry.game.enemyProjectiles.add(weapons[0].group);
 			Registry.game.enemyProjectiles.add(weapons[1].group);
-			Registry.game.enemyProjectiles.add(weapons[2].group);
-			
-			
+			Registry.game.enemyProjectiles.add(weapons[2].group);			
 			
 			var graphic:FlxSprite = loadGraphic(banditSprite, true, false, 44, 31);
 			

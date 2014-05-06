@@ -24,7 +24,8 @@ package
 			var _x:Number = Math.abs(Registry.RIGHT_BOUNDS - WIDTH) * Math.random();
 			var _y:Number = ((Registry.BOTTOM_BOUNDS - Registry.TOP_BOUNDS) * Math.random()) + Registry.TOP_BOUNDS;
 			super(_x, _y, WEAPON_COOLDOWN);
-			this.z = 1;
+			//this.z = 1;
+			this.z = Registry.ENEMY_BOSS_Z_LEVEL;
 			
 			image = makeGraphic(7, 7, 0xFF0F0FFF);			
 			

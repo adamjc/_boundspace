@@ -62,6 +62,7 @@ package Enemies.Brain
 		protected var intervalId:Number;
 		protected var numberOfTimes:int;
 		protected var maxNumberOfTimes:int = 3;
+		protected var animId:Number;
 		protected function fire():void
 		{			
 			var _this:BrainAI = this;
@@ -75,10 +76,11 @@ package Enemies.Brain
 					// Create a new BrainMissile
 					var brainMissile:BrainMissile = new BrainMissile(false, _this.unit.x, _this.unit.y);
 					Registry.game.add(brainMissile);
-					Registry.enemies.add(brainMissile);
+					Registry.game.otherItems.add(brainMissile);
 					
-					setTimeout(function():void {
+					animId = setTimeout(function():void {
 						_this.unit.image.frame = 2;
+						Registry.intervals.push(animId);
 					}, 1000);
 				}, 500);												
 				
@@ -91,11 +93,12 @@ package Enemies.Brain
 		{
 			unit = null;
 			this.kill();
-			//clearInterval(_fireIntervalId);
-			//Registry.intervals.splice(_fireIntervalId, 1);
-			//clearInterval(_moveIntervalId);
-			//Registry.intervals.splice(_moveIntervalId, 1);
-			
+			clearInterval(_fireIntervalId);
+			Registry.intervals.splice(_fireIntervalId, 1);
+			clearInterval(_moveIntervalId);
+			Registry.intervals.splice(_moveIntervalId, 1);
+			clearInterval(animId);
+			Registry.intervals.splice(animId, 1);
 		}
 	}
 

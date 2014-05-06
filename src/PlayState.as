@@ -131,6 +131,10 @@ package
 			Registry.player = new Player(343, 250);
 			add(Registry.player);
 			
+			// DEBUG!
+			var asteroidOrb:AsteroidOrb = new AsteroidOrb(200, 400, null, Registry.ENEMY_PROJECTILE_Z_LEVEL, new FlxPoint(10, 10));
+			add(asteroidOrb);
+			
 			PowerCoreManager.initialiseSprites();
 			shopKeeper = null;
 			
@@ -280,19 +284,17 @@ package
 				}
 							
 				FlxG.collide(enemyProjectiles, boundingBox, enemyHit); // Ensure that the enemy's projectiles collide with the boundaries of the game.
-				//FlxG.collide(Registry.enemies, Registry.enemies);
+				FlxG.collide(Registry.enemies, Registry.enemies);
 				FlxG.overlap(enemyProjectiles, Registry.player, enemyShotPlayer); 			
 				
 				FlxG.overlap(Registry.player, items, pickUpItem); // Ensure that the player can pick up any items.
 				FlxG.collide(items, boundingBox); // Ensure that the items collide with the boundingBox.
 				
-				//FlxG.collide(Registry.player, Registry.enemies, playerCollideEnemy);
+				FlxG.collide(Registry.player, Registry.enemies, playerCollideEnemy);
 				FlxG.collide(Registry.player, shopKeeper);
 				
 				FlxG.overlap(Registry.player, Registry.portals, playerEnteredPortal);
-				
-				
-				
+								
 				if (FlxG.keys.justPressed("M"))
 				{ 
 					Registry.player.chargeBarNumber += 1;
@@ -839,7 +841,6 @@ package
 		public function playerCollideEnemy(_player:FlxObject, _enemy:FlxObject):void
 		{
 			player.hit(1);
-			trace("hi there");
 		}
 		
 		/**
