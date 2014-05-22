@@ -90,28 +90,7 @@ package
 			clearInterval(_unflashIntervalId);
 			Registry.intervals.splice(_unflashIntervalId, 1);
 			
-			//var particleEmitter:FlxEmitter = new FlxEmitter(this.x + this.width / 2, this.y + this.height / 2, 10);
-			var particleEmitter:EmitterXL = new EmitterXL(this.x + this.width / 2, this.y + this.height / 2, 10, {"fadeOut": true, "rotation": true, "fadeOutSpeed": 0.01});
-			particleEmitter.z = Registry.ENEMY_Z_LEVEL;
-			
-			for (var i:int = 0; i < 20; i++)
-			{
-				var particle:FlxParticle = new FlxParticle();
-				particle.makeGraphic(4, 4, 0xFFFFFFFF);
-				particle.exists = false;
-				particle.z = 0;
-				particleEmitter.add(particle);
-				particleEmitter.minRotation = 0;
-				particleEmitter.maxRotation = 0;
-			}	
-			
-			particleEmitter.maxParticleSpeed.x = 50;
-			particleEmitter.maxParticleSpeed.y = 50;
-			particleEmitter.minParticleSpeed.x = -50;
-			particleEmitter.minParticleSpeed.y = -50;
-			
-			Registry.game.add(particleEmitter);
-			particleEmitter.start(true, 2, 0.1, 0);
+			Registry.explode(this);
 						
 			Registry.enemies.remove(this); // Remove the unit from the enemies array in PlayState when it has been killed.											
 			if (ai) { ai.removeThis(); }

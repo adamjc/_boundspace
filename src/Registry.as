@@ -1,8 +1,10 @@
 package  
 {
+	import EmitterXL.EmitterXL;
 	import org.flixel.FlxBasic;
 	import org.flixel.FlxGame;
 	import org.flixel.FlxGroup;
+	import org.flixel.FlxParticle;
 	import org.flixel.FlxPoint;
 	import org.flixel.FlxSave;
 	import org.flixel.FlxSound;
@@ -91,7 +93,8 @@ package
 		public static const BACKGROUND_Z_LEVEL:int = 7000;
 		
 		
-		public static const UI_Z_LEVEL_BACKGROUND:int = 7250;
+		//public static const UI_Z_LEVEL_BACKGROUND:int = 7250;
+		public static const UI_Z_LEVEL_BACKGROUND:int = 9048;
 		public static const UI_Z_LEVEL_CHARGE_BAR:int = 9049;
 		
 		public static const PORTAL_Z_LEVEL:int = 8000;
@@ -112,6 +115,30 @@ package
 		public static const ACHIEVEMENT_FOREGROUND:int = 9201;
 		
 		public static var SOUND_VOLUME:int = 0.5;
+				
+		public static function explode(object:Object) {
+			var particleEmitter:EmitterXL = new EmitterXL(object.x + object.width / 2, object.y + object.height / 2, 10, {"fadeOut": true, "rotation": true, "fadeOutSpeed": 0.01});
+			particleEmitter.z = Registry.ENEMY_Z_LEVEL;
+			
+			for (var i:int = 0; i < 20; i++)
+			{
+				var particle:FlxParticle = new FlxParticle();
+				particle.makeGraphic(4, 4, 0xFFFFFFFF);
+				particle.exists = false;
+				particle.z = 0;
+				particleEmitter.add(particle);
+				particleEmitter.minRotation = 0;
+				particleEmitter.maxRotation = 0;
+			}	
+			
+			particleEmitter.maxParticleSpeed.x = 50;
+			particleEmitter.maxParticleSpeed.y = 50;
+			particleEmitter.minParticleSpeed.x = -50;
+			particleEmitter.minParticleSpeed.y = -50;
+			
+			Registry.game.add(particleEmitter);
+			particleEmitter.start(true, 2, 0.1, 0);
+		}
 		
 		public function Registry()
 		{			

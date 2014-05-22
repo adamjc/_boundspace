@@ -8,6 +8,7 @@ package Enemies.MoonBoss
 	import org.flixel.plugin.photonstorm.FlxMath;
 	import org.flixel.plugin.photonstorm.FlxWeapon;
 	import com.greensock.TweenMax;
+	import org.flixel.plugin.photonstorm.FlxVelocity;
 	
 	/**
 	 * ...
@@ -26,6 +27,13 @@ package Enemies.MoonBoss
 		
 		protected var baseVelocity:Number = 50.0;
 		
+		protected var unitMidpoint:FlxPoint;
+		protected var asteroidCoords:Array;
+		protected var asteroids:Array = [];
+		
+		protected const DISTANCE_OFFSET:int = 40;
+		protected const ROUNDING_VALUE:int = 8; // used to make the orbs curve around moon more, too lazy to do it properly.
+		
 		public function MoonBossAI(_unit:Unit) 
 		{
 			super();			
@@ -36,6 +44,22 @@ package Enemies.MoonBoss
 			
 			this.unit.drag.x = 0;
 			this.unit.drag.y = 0;
+			
+			resetAsteroidCoords();
+		}
+		
+		public function resetAsteroidCoords():void {
+			unitMidpoint = new FlxPoint(unit.x + unit.width / 2 - 5, unit.y + unit.height / 2 - 5);
+			asteroidCoords = [
+				new FlxPoint(unitMidpoint.x - DISTANCE_OFFSET + ROUNDING_VALUE, unitMidpoint.y - DISTANCE_OFFSET + ROUNDING_VALUE),
+				new FlxPoint(unitMidpoint.x, unitMidpoint.y - DISTANCE_OFFSET),
+				new FlxPoint(unitMidpoint.x + DISTANCE_OFFSET - ROUNDING_VALUE, unitMidpoint.y - DISTANCE_OFFSET + ROUNDING_VALUE),
+				new FlxPoint(unitMidpoint.x + DISTANCE_OFFSET, unitMidpoint.y),
+				new FlxPoint(unitMidpoint.x + DISTANCE_OFFSET - ROUNDING_VALUE, unitMidpoint.y + DISTANCE_OFFSET - ROUNDING_VALUE),
+				new FlxPoint(unitMidpoint.x, unitMidpoint.y + DISTANCE_OFFSET),
+				new FlxPoint(unitMidpoint.x - DISTANCE_OFFSET + ROUNDING_VALUE, unitMidpoint.y + DISTANCE_OFFSET - ROUNDING_VALUE),
+				new FlxPoint(unitMidpoint.x - DISTANCE_OFFSET, unitMidpoint.y)
+			];
 		}
 		
 		/**
@@ -44,10 +68,24 @@ package Enemies.MoonBoss
 		 */
 		override public function update():void
 		{	
-			if (this.unit.isTouching(UP)) this.unit.velocity.y = baseVelocity;
-			if (this.unit.isTouching(RIGHT)) this.unit.velocity.x = -baseVelocity;
+			if (this.unit.isTouching(UP)) {
+				this.unit.velocity.y = baseVelocity;
+			}
+			if (this.unit.isTouching(RIGHT)) {
+				this.unit.velocity.x = -baseVelocity;
+			}
 			if (this.unit.isTouching(DOWN))	this.unit.velocity.y = -baseVelocity;
 			if (this.unit.isTouching(LEFT))	this.unit.velocity.x = baseVelocity;
+			
+			resetAsteroidCoords()
+			
+			if (asteroids && asteroids.length > 0) {
+				for (var i:int = 0; i < asteroids.length; i++) {
+					asteroids[i].x = asteroidCoords[asteroids[i].asteroidCoordIndex].x;
+					asteroids[i].y = asteroidCoords[asteroids[i].asteroidCoordIndex].y;
+					asteroids[i].angle += Math.random() * 5;
+				}
+			}
 			
 			unit.weaponTimer -= FlxG.elapsed;
 			if (unit.weaponTimer <= 0)
@@ -55,55 +93,42 @@ package Enemies.MoonBoss
 				unit.weaponTimer = unit.weaponCooldown;
 				
 				targetX = Registry.player.x;
-				targetY = Registry.player.y;
+				targetY = Registry.player.y;								
 				
-				numberOfTimes = 0;
-				intervalId = setInterval(fireThreeAngled, 200);
-				Registry.intervals.push(intervalId);
+				if (asteroids && asteroids.length) {
+					// There are asteroids to shoot.
+					fireAsteroid();
+				}
+				else {
+					// There are not, so make more.
+					createAsteroids();
+				}
 			}			
 		}
 		
-		protected var intervalId:Number;
-		protected var numberOfTimes:int;
-		protected var maxNumberOfTimes:int = 3;
-		protected function fireThreeAngled():void
+		protected function fireAsteroid():void {
+			var asteroid:AsteroidOrb = asteroids.shift();
+			FlxVelocity.moveTowardsObject(asteroid, Registry.player, 150);
+		}
+		
+		protected function createAsteroids():void 
 		{
-			if (numberOfTimes > maxNumberOfTimes)
-			{
-				clearInterval(intervalId);
-				Registry.intervals.splice(intervalId, 1);
-				numberOfTimes = 0;
+			for (var i:int = 0; i < asteroidCoords.length; i++) {
+				var asteroid:AsteroidOrb = new AsteroidOrb(asteroidCoords[i].x, asteroidCoords[i].y, null, Registry.ENEMY_PROJECTILE_Z_LEVEL, new FlxPoint(0, 0));
+				asteroid.asteroidCoordIndex = i;
+				Registry.game.add(asteroid);
+				asteroids.push(asteroid);
 			}
-			else
-			{
-				var angle:int = -10;
-				var i:int = 0;
-				var wL:int = unit ? unit.weapons.length : 0;
-				
-				for (i = 0; i < wL; i++)
-				{										
-					if (unit)
-					{
-						FlxG.play(WeaponContainer.cannonSound);
-						unit.weapons[i].fireAtPosition(targetX, targetY);
-						Registry.game.add(unit.weapons[i].currentBullet);									
-						unit.weapons[i].currentBullet.z = Registry.ENEMY_PROJECTILE_Z_LEVEL;	
-							
-						// change the current bullet's trajectory.
-						AI.angleObject(unit.weapons[i].currentBullet, new FlxPoint(targetX, targetY), unit.weapons[i].getBulletSpeed(), 0, angle);		
-						
-						angle = angle + 10;
-					}					
-				}
-				
-				numberOfTimes++;
-			}
-			
 		}
 		
 		override public function removeThis():void
 		{
 			unit = null;
+			
+			for (var i:int = 0; i < asteroids.length; i++) {
+				asteroids[i].kill();
+			}
+			
 			this.kill();
 			//clearInterval(_fireIntervalId);
 			//Registry.intervals.splice(_fireIntervalId, 1);

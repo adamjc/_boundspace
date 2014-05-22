@@ -41,6 +41,12 @@ package
 			setTimeout(kill, 3000);
 		}
 		
+		override public function kill():void {
+			Registry.explode(this);
+			
+			super.kill();
+		}
+		
 		// When collides with an enemy, hurts the enemy, blows up.
 		// Find new velocity, if it's less than SOME_NUMBER then do it, if not, then new velocity = old velocity +/- SOME_NUMBER
 		protected var vx:Number = 0;

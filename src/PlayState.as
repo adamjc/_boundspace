@@ -3,6 +3,7 @@ package
 	import Drops.HealthDrop;
 	import Drops.HealthDropFive;
 	import Drops.ShieldDrop;
+	import Enemies.MoonBoss.MoonBoss;
 	import flash.utils.ByteArray;
 	import flash.utils.clearInterval;
 	import flash.utils.setInterval;
@@ -129,11 +130,7 @@ package
 			
 			// Create the player.
 			Registry.player = new Player(343, 250);
-			add(Registry.player);
-			
-			// DEBUG!
-			var asteroidOrb:AsteroidOrb = new AsteroidOrb(200, 400, null, Registry.ENEMY_PROJECTILE_Z_LEVEL, new FlxPoint(10, 10));
-			add(asteroidOrb);
+			add(Registry.player);		
 			
 			PowerCoreManager.initialiseSprites();
 			shopKeeper = null;
@@ -249,7 +246,7 @@ package
 		[Embed(source = "../assets/explosy.png")] public var test:Class;
 		public var rect:FlxSprite;
 		override public function update():void
-		{				
+		{							
 			Mouse.show();
 			if (!pausedState.isShowing)
 			{

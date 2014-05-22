@@ -1,8 +1,10 @@
 package  
 {
+	import EmitterXL.EmitterXL;
 	import flash.utils.clearInterval;
 	import flash.utils.setInterval;
 	import flash.utils.setTimeout;
+	import org.flixel.FlxParticle;
 	import org.flixel.FlxPoint;
 	import org.flixel.FlxSave;
 	import org.flixel.FlxSprite;
@@ -53,6 +55,12 @@ package
 			setTimeout(function():void { _follow = true; }, 1000);
 			
 			setTimeout(kill, 3000);
+		}
+				
+		override public function kill():void {
+			Registry.explode(this);
+			
+			super.kill();
 		}
 		
 		protected var _target:Unit;
@@ -111,7 +119,7 @@ package
 		protected function missileHit(missile:SwarmMissileShot, enemy:Enemy):void
 		{
 			enemy.enemyHit(this.damage);
-			missile.kill();
+			missile.kill();					
 		}
 	}
 
